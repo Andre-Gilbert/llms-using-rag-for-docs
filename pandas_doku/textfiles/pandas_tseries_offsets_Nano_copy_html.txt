@@ -1,0 +1,16 @@
+
+
+pandas.tseries.offsets.Nano.copy#
+
+
+Nano.copy()#
+Return a copy of the frequency.
+Examples
+>>> freq = pd.DateOffset(1)
+>>> freq_copy = freq.copy()
+>>> freq is freq_copy
+False
+
+
+
+

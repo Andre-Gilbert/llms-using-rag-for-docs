@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.DateOffset.normalize#
+
+
+DateOffset.normalize#
+
+

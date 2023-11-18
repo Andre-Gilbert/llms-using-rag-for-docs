@@ -1,0 +1,48 @@
+
+
+pandas.testing.assert_index_equal#
+
+
+pandas.testing.assert_index_equal(left, right, exact='equiv', check_names=True, check_exact=True, check_categorical=True, check_order=True, rtol=1e-05, atol=1e-08, obj='Index')[source]#
+Check that left and right Index are equal.
+
+Parameters:
+
+leftIndex
+rightIndex
+exactbool or {âequivâ}, default âequivâWhether to check the Index class, dtype and inferred_type
+are identical. If âequivâ, then RangeIndex can be substituted for
+Index with an int64 dtype as well.
+
+check_namesbool, default TrueWhether to check the names attribute.
+
+check_exactbool, default TrueWhether to compare number exactly.
+
+check_categoricalbool, default TrueWhether to compare internal Categorical exactly.
+
+check_orderbool, default TrueWhether to compare the order of index entries as well as their values.
+If True, both indexes must contain the same elements, in the same order.
+If False, both indexes must contain the same elements, but in any order.
+
+New in version 1.2.0.
+
+
+rtolfloat, default 1e-5Relative tolerance. Only used when check_exact is False.
+
+atolfloat, default 1e-8Absolute tolerance. Only used when check_exact is False.
+
+objstr, default âIndexâSpecify object name being compared, internally used to show appropriate
+assertion message.
+
+
+
+
+Examples
+>>> from pandas import testing as tm
+>>> a = pd.Index([1, 2, 3])
+>>> b = pd.Index([1, 2, 3])
+>>> tm.assert_index_equal(a, b)
+
+
+
+

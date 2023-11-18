@@ -1,0 +1,75 @@
+
+
+pandas.core.window.rolling.Rolling.quantile#
+
+
+Rolling.quantile(q, interpolation='linear', numeric_only=False)[source]#
+Calculate the rolling quantile.
+
+Parameters:
+
+quantilefloatQuantile to compute. 0 <= quantile <= 1.
+
+Deprecated since version 2.1.0: This will be renamed to âqâ in a future version.
+
+
+interpolation{âlinearâ, âlowerâ, âhigherâ, âmidpointâ, ânearestâ}This optional parameter specifies the interpolation method to use,
+when the desired quantile lies between two data points i and j:
+
+
+linear: i + (j - i) * fraction, where fraction is the
+fractional part of the index surrounded by i and j.
+lower: i.
+higher: j.
+nearest: i or j whichever is nearest.
+midpoint: (i + j) / 2.
+
+
+
+numeric_onlybool, default FalseInclude only float, int, boolean columns.
+
+New in version 1.5.0.
+
+
+
+
+Returns:
+
+Series or DataFrameReturn type is the same as the original object with np.float64 dtype.
+
+
+
+
+
+See also
+
+pandas.Series.rollingCalling rolling with Series data.
+
+pandas.DataFrame.rollingCalling rolling with DataFrames.
+
+pandas.Series.quantileAggregating quantile for Series.
+
+pandas.DataFrame.quantileAggregating quantile for DataFrame.
+
+
+
+Examples
+>>> s = pd.Series([1, 2, 3, 4])
+>>> s.rolling(2).quantile(.4, interpolation='lower')
+0    NaN
+1    1.0
+2    2.0
+3    3.0
+dtype: float64
+
+
+>>> s.rolling(2).quantile(.4, interpolation='midpoint')
+0    NaN
+1    1.5
+2    2.5
+3    3.5
+dtype: float64
+
+
+
+

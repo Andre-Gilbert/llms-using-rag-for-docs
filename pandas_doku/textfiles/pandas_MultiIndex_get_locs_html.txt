@@ -1,0 +1,49 @@
+
+
+pandas.MultiIndex.get_locs#
+
+
+MultiIndex.get_locs(seq)[source]#
+Get location for a sequence of labels.
+
+Parameters:
+
+seqlabel, slice, list, mask or a sequence of suchYou should use one of the above for each level.
+If a level should not be used, set it to slice(None).
+
+
+
+Returns:
+
+numpy.ndarrayNumPy array of integers suitable for passing to iloc.
+
+
+
+
+
+See also
+
+MultiIndex.get_locGet location for a label or a tuple of labels.
+
+MultiIndex.slice_locsGet slice location given start label(s) and end label(s).
+
+
+
+Examples
+>>> mi = pd.MultiIndex.from_arrays([list('abb'), list('def')])
+
+
+>>> mi.get_locs('b')  
+array([1, 2], dtype=int64)
+
+
+>>> mi.get_locs([slice(None), ['e', 'f']])  
+array([1, 2], dtype=int64)
+
+
+>>> mi.get_locs([[True, False, True], slice('e', 'f')])  
+array([2], dtype=int64)
+
+
+
+

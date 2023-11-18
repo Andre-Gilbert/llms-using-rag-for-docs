@@ -1,0 +1,8 @@
+
+
+pandas.io.formats.style.Styler.loader#
+
+
+Styler.loader = <jinja2.loaders.PackageLoader object>#
+
+

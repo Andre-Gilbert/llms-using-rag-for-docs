@@ -1,0 +1,41 @@
+
+
+pandas.Series.to_period#
+
+
+Series.to_period(freq=None, copy=None)[source]#
+Convert Series from DatetimeIndex to PeriodIndex.
+
+Parameters:
+
+freqstr, default NoneFrequency associated with the PeriodIndex.
+
+copybool, default TrueWhether or not to return a copy.
+
+
+
+Returns:
+
+SeriesSeries with index converted to PeriodIndex.
+
+
+
+
+Examples
+>>> idx = pd.DatetimeIndex(['2023', '2024', '2025'])
+>>> s = pd.Series([1, 2, 3], index=idx)
+>>> s = s.to_period()
+>>> s
+2023    1
+2024    2
+2025    3
+Freq: A-DEC, dtype: int64
+
+
+Viewing the index
+>>> s.index
+PeriodIndex(['2023', '2024', '2025'], dtype='period[A-DEC]')
+
+
+
+

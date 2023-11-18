@@ -1,0 +1,180 @@
+
+
+pandas.Series.interpolate#
+
+
+Series.interpolate(method='linear', *, axis=0, limit=None, inplace=False, limit_direction=None, limit_area=None, downcast=_NoDefault.no_default, **kwargs)[source]#
+Fill NaN values using an interpolation method.
+Please note that only method='linear' is supported for
+DataFrame/Series with a MultiIndex.
+
+Parameters:
+
+methodstr, default âlinearâInterpolation technique to use. One of:
+
+âlinearâ: Ignore the index and treat the values as equally
+spaced. This is the only method supported on MultiIndexes.
+âtimeâ: Works on daily and higher resolution data to interpolate
+given length of interval.
+âindexâ, âvaluesâ: use the actual numerical values of the index.
+âpadâ: Fill in NaNs using existing values.
+ânearestâ, âzeroâ, âslinearâ, âquadraticâ, âcubicâ,
+âbarycentricâ, âpolynomialâ: Passed to
+scipy.interpolate.interp1d, whereas âsplineâ is passed to
+scipy.interpolate.UnivariateSpline. These methods use the numerical
+values of the index. Both âpolynomialâ and âsplineâ require that
+you also specify an order (int), e.g.
+df.interpolate(method='polynomial', order=5). Note that,
+slinear method in Pandas refers to the Scipy first order spline
+instead of Pandas first order spline.
+âkroghâ, âpiecewise_polynomialâ, âsplineâ, âpchipâ, âakimaâ,
+âcubicsplineâ: Wrappers around the SciPy interpolation methods of
+similar names. See Notes.
+âfrom_derivativesâ: Refers to
+scipy.interpolate.BPoly.from_derivatives.
+
+
+axis{{0 or âindexâ, 1 or âcolumnsâ, None}}, default NoneAxis to interpolate along. For Series this parameter is unused
+and defaults to 0.
+
+limitint, optionalMaximum number of consecutive NaNs to fill. Must be greater than
+0.
+
+inplacebool, default FalseUpdate the data in place if possible.
+
+limit_direction{{âforwardâ, âbackwardâ, âbothâ}}, OptionalConsecutive NaNs will be filled in this direction.
+
+If limit is specified:
+If âmethodâ is âpadâ or âffillâ, âlimit_directionâ must be âforwardâ.
+If âmethodâ is âbackfillâ or âbfillâ, âlimit_directionâ must be
+âbackwardsâ.
+
+
+If âlimitâ is not specified:
+If âmethodâ is âbackfillâ or âbfillâ, the default is âbackwardâ
+else the default is âforwardâ
+
+
+raises ValueError if limit_direction is âforwardâ or âbothâ andmethod is âbackfillâ or âbfillâ.
+
+raises ValueError if limit_direction is âbackwardâ or âbothâ andmethod is âpadâ or âffillâ.
+
+
+
+limit_area{{None, âinsideâ, âoutsideâ}}, default NoneIf limit is specified, consecutive NaNs will be filled with this
+restriction.
+
+None: No fill restriction.
+âinsideâ: Only fill NaNs surrounded by valid values
+(interpolate).
+âoutsideâ: Only fill NaNs outside valid values (extrapolate).
+
+
+downcastoptional, âinferâ or None, defaults to NoneDowncast dtypes if possible.
+
+Deprecated since version 2.1.0.
+
+
+``**kwargs``optionalKeyword arguments to pass on to the interpolating function.
+
+
+
+Returns:
+
+Series or DataFrame or NoneReturns the same object type as the caller, interpolated at
+some or all NaN values or None if inplace=True.
+
+
+
+
+
+See also
+
+fillnaFill missing values using different methods.
+
+scipy.interpolate.Akima1DInterpolatorPiecewise cubic polynomials (Akima interpolator).
+
+scipy.interpolate.BPoly.from_derivativesPiecewise polynomial in the Bernstein basis.
+
+scipy.interpolate.interp1dInterpolate a 1-D function.
+
+scipy.interpolate.KroghInterpolatorInterpolate polynomial (Krogh interpolator).
+
+scipy.interpolate.PchipInterpolatorPCHIP 1-d monotonic cubic interpolation.
+
+scipy.interpolate.CubicSplineCubic spline data interpolator.
+
+
+
+Notes
+The âkroghâ, âpiecewise_polynomialâ, âsplineâ, âpchipâ and âakimaâ
+methods are wrappers around the respective SciPy implementations of
+similar names. These use the actual numerical values of the index.
+For more information on their behavior, see the
+SciPy documentation.
+Examples
+Filling in NaN in a Series via linear
+interpolation.
+>>> s = pd.Series([0, 1, np.nan, 3])
+>>> s
+0    0.0
+1    1.0
+2    NaN
+3    3.0
+dtype: float64
+>>> s.interpolate()
+0    0.0
+1    1.0
+2    2.0
+3    3.0
+dtype: float64
+
+
+Filling in NaN in a Series via polynomial interpolation or splines:
+Both âpolynomialâ and âsplineâ methods require that you also specify
+an order (int).
+>>> s = pd.Series([0, 2, np.nan, 8])
+>>> s.interpolate(method='polynomial', order=2)
+0    0.000000
+1    2.000000
+2    4.666667
+3    8.000000
+dtype: float64
+
+
+Fill the DataFrame forward (that is, going down) along each column
+using linear interpolation.
+Note how the last entry in column âaâ is interpolated differently,
+because there is no entry after it to use for interpolation.
+Note how the first entry in column âbâ remains NaN, because there
+is no entry before it to use for interpolation.
+>>> df = pd.DataFrame([(0.0, np.nan, -1.0, 1.0),
+...                    (np.nan, 2.0, np.nan, np.nan),
+...                    (2.0, 3.0, np.nan, 9.0),
+...                    (np.nan, 4.0, -4.0, 16.0)],
+...                   columns=list('abcd'))
+>>> df
+     a    b    c     d
+0  0.0  NaN -1.0   1.0
+1  NaN  2.0  NaN   NaN
+2  2.0  3.0  NaN   9.0
+3  NaN  4.0 -4.0  16.0
+>>> df.interpolate(method='linear', limit_direction='forward', axis=0)
+     a    b    c     d
+0  0.0  NaN -1.0   1.0
+1  1.0  2.0 -2.0   5.0
+2  2.0  3.0 -3.0   9.0
+3  2.0  4.0 -4.0  16.0
+
+
+Using polynomial interpolation.
+>>> df['d'].interpolate(method='polynomial', order=2)
+0     1.0
+1     4.0
+2     9.0
+3    16.0
+Name: d, dtype: float64
+
+
+
+

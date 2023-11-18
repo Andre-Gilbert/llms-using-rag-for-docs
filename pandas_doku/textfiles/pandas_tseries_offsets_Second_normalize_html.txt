@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.Second.normalize#
+
+
+Second.normalize#
+
+

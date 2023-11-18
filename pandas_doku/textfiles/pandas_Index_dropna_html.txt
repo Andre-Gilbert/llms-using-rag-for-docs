@@ -1,0 +1,29 @@
+
+
+pandas.Index.dropna#
+
+
+Index.dropna(how='any')[source]#
+Return Index without NA/NaN values.
+
+Parameters:
+
+how{âanyâ, âallâ}, default âanyâIf the Index is a MultiIndex, drop the value when any or all levels
+are NaN.
+
+
+
+Returns:
+
+Index
+
+
+
+Examples
+>>> idx = pd.Index([1, np.nan, 3])
+>>> idx.dropna()
+Index([1.0, 3.0], dtype='float64')
+
+
+
+

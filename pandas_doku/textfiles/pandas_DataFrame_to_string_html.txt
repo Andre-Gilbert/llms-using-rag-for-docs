@@ -1,0 +1,103 @@
+
+
+pandas.DataFrame.to_string#
+
+
+DataFrame.to_string(buf=None, columns=None, col_space=None, header=True, index=True, na_rep='NaN', formatters=None, float_format=None, sparsify=None, index_names=True, justify=None, max_rows=None, max_cols=None, show_dimensions=False, decimal='.', line_width=None, min_rows=None, max_colwidth=None, encoding=None)[source]#
+Render a DataFrame to a console-friendly tabular output.
+
+Parameters:
+
+bufstr, Path or StringIO-like, optional, default NoneBuffer to write to. If None, the output is returned as a string.
+
+columnsarray-like, optional, default NoneThe subset of columns to write. Writes all columns by default.
+
+col_spaceint, list or dict of int, optionalThe minimum width of each column. If a list of ints is given every integers corresponds with one column. If a dict is given, the key references the column, while the value defines the space to use..
+
+headerbool or list of str, optionalWrite out the column names. If a list of columns is given, it is assumed to be aliases for the column names.
+
+indexbool, optional, default TrueWhether to print index (row) labels.
+
+na_repstr, optional, default âNaNâString representation of NaN to use.
+
+formatterslist, tuple or dict of one-param. functions, optionalFormatter functions to apply to columnsâ elements by position or
+name.
+The result of each function must be a unicode string.
+List/tuple must be of length equal to the number of columns.
+
+float_formatone-parameter function, optional, default NoneFormatter function to apply to columnsâ elements if they are
+floats. This function must return a unicode string and will be
+applied only to the non-NaN elements, with NaN being
+handled by na_rep.
+
+Changed in version 1.2.0.
+
+
+sparsifybool, optional, default TrueSet to False for a DataFrame with a hierarchical index to print
+every multiindex key at each row.
+
+index_namesbool, optional, default TruePrints the names of the indexes.
+
+justifystr, default NoneHow to justify the column labels. If None uses the option from
+the print configuration (controlled by set_option), ârightâ out
+of the box. Valid values are
+
+left
+right
+center
+justify
+justify-all
+start
+end
+inherit
+match-parent
+initial
+unset.
+
+
+max_rowsint, optionalMaximum number of rows to display in the console.
+
+max_colsint, optionalMaximum number of columns to display in the console.
+
+show_dimensionsbool, default FalseDisplay DataFrame dimensions (number of rows by number of columns).
+
+decimalstr, default â.âCharacter recognized as decimal separator, e.g. â,â in Europe.
+
+line_widthint, optionalWidth to wrap a line in characters.
+
+min_rowsint, optionalThe number of rows to display in the console in a truncated repr
+(when number of rows is above max_rows).
+
+max_colwidthint, optionalMax width to truncate each column in characters. By default, no limit.
+
+encodingstr, default âutf-8âSet character encoding.
+
+
+
+Returns:
+
+str or NoneIf buf is None, returns the result as a string. Otherwise returns
+None.
+
+
+
+
+
+See also
+
+to_htmlConvert DataFrame to HTML.
+
+
+
+Examples
+>>> d = {'col1': [1, 2, 3], 'col2': [4, 5, 6]}
+>>> df = pd.DataFrame(d)
+>>> print(df.to_string())
+   col1  col2
+0     1     4
+1     2     5
+2     3     6
+
+
+
+

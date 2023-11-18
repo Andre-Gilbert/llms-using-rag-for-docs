@@ -1,0 +1,63 @@
+
+
+pandas.Index.is_numeric#
+
+
+final Index.is_numeric()[source]#
+Check if the Index only consists of numeric data.
+
+Deprecated since version 2.0.0: Use pandas.api.types.is_numeric_dtype instead.
+
+
+Returns:
+
+boolWhether or not the Index only consists of numeric data.
+
+
+
+
+
+See also
+
+is_booleanCheck if the Index only consists of booleans (deprecated).
+
+is_integerCheck if the Index only consists of integers (deprecated).
+
+is_floatingCheck if the Index is a floating type (deprecated).
+
+is_objectCheck if the Index is of the object dtype. (deprecated).
+
+is_categoricalCheck if the Index holds categorical data (deprecated).
+
+is_intervalCheck if the Index holds Interval objects (deprecated).
+
+
+
+Examples
+>>> idx = pd.Index([1.0, 2.0, 3.0, 4.0])
+>>> idx.is_numeric()  
+True
+
+
+>>> idx = pd.Index([1, 2, 3, 4.0])
+>>> idx.is_numeric()  
+True
+
+
+>>> idx = pd.Index([1, 2, 3, 4])
+>>> idx.is_numeric()  
+True
+
+
+>>> idx = pd.Index([1, 2, 3, 4.0, np.nan])
+>>> idx.is_numeric()  
+True
+
+
+>>> idx = pd.Index([1, 2, 3, 4.0, np.nan, "Apple"])
+>>> idx.is_numeric()  
+False
+
+
+
+

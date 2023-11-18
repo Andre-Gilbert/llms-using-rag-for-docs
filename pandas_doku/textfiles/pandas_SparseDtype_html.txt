@@ -1,0 +1,73 @@
+
+
+pandas.SparseDtype#
+
+
+class pandas.SparseDtype(dtype=<class 'numpy.float64'>, fill_value=None)[source]#
+Dtype for data stored in SparseArray.
+This dtype implements the pandas ExtensionDtype interface.
+
+Parameters:
+
+dtypestr, ExtensionDtype, numpy.dtype, type, default numpy.float64The dtype of the underlying array storing the non-fill value values.
+
+fill_valuescalar, optionalThe scalar value not stored in the SparseArray. By default, this
+depends on dtype.
+
+
+dtype
+na_value
+
+
+
+float
+np.nan
+
+int
+0
+
+bool
+False
+
+datetime64
+pd.NaT
+
+timedelta64
+pd.NaT
+
+
+
+The default value may be overridden by specifying a fill_value.
+
+
+
+
+Examples
+>>> ser = pd.Series([1, 0, 0], dtype=pd.SparseDtype(dtype=int, fill_value=0))
+>>> ser
+0    1
+1    0
+2    0
+dtype: Sparse[int64, 0]
+>>> ser.sparse.density
+0.3333333333333333
+
+
+Attributes
+
+
+None
+
+
+
+
+Methods
+
+
+None
+
+
+
+
+
+

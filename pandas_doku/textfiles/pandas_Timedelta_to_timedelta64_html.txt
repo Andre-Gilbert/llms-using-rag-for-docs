@@ -1,0 +1,17 @@
+
+
+pandas.Timedelta.to_timedelta64#
+
+
+Timedelta.to_timedelta64()#
+Return a numpy.timedelta64 object with ânsâ precision.
+Examples
+>>> td = pd.Timedelta('3D')
+>>> td
+Timedelta('3 days 00:00:00')
+>>> td.to_timedelta64()
+numpy.timedelta64(259200000000000,'ns')
+
+
+
+

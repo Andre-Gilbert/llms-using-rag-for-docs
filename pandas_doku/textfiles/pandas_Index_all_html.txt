@@ -1,0 +1,50 @@
+
+
+pandas.Index.all#
+
+
+Index.all(*args, **kwargs)[source]#
+Return whether all elements are Truthy.
+
+Parameters:
+
+*argsRequired for compatibility with numpy.
+
+**kwargsRequired for compatibility with numpy.
+
+
+
+Returns:
+
+bool or array-like (if axis is specified)A single element array-like may be converted to bool.
+
+
+
+
+
+See also
+
+Index.anyReturn whether any element in an Index is True.
+
+Series.anyReturn whether any element in a Series is True.
+
+Series.allReturn whether all elements in a Series are True.
+
+
+
+Notes
+Not a Number (NaN), positive infinity and negative infinity
+evaluate to True because these are not equal to zero.
+Examples
+True, because nonzero integers are considered True.
+>>> pd.Index([1, 2, 3]).all()
+True
+
+
+False, because 0 is considered False.
+>>> pd.Index([0, 1, 2]).all()
+False
+
+
+
+

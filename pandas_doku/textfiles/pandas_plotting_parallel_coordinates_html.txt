@@ -1,0 +1,56 @@
+
+
+pandas.plotting.parallel_coordinates#
+
+
+pandas.plotting.parallel_coordinates(frame, class_column, cols=None, ax=None, color=None, use_columns=False, xticks=None, colormap=None, axvlines=True, axvlines_kwds=None, sort_labels=False, **kwargs)[source]#
+Parallel coordinates plotting.
+
+Parameters:
+
+frameDataFrame
+class_columnstrColumn name containing class names.
+
+colslist, optionalA list of column names to use.
+
+axmatplotlib.axis, optionalMatplotlib axis object.
+
+colorlist or tuple, optionalColors to use for the different classes.
+
+use_columnsbool, optionalIf true, columns will be used as xticks.
+
+xtickslist or tuple, optionalA list of values to use for xticks.
+
+colormapstr or matplotlib colormap, default NoneColormap to use for line colors.
+
+axvlinesbool, optionalIf true, vertical lines will be added at each xtick.
+
+axvlines_kwdskeywords, optionalOptions to be passed to axvline method for vertical lines.
+
+sort_labelsbool, default FalseSort class_column labels, useful when assigning colors.
+
+**kwargsOptions to pass to matplotlib plotting method.
+
+
+
+Returns:
+
+matplotlib.axes.Axes
+
+
+
+Examples
+>>> df = pd.read_csv(
+...     'https://raw.githubusercontent.com/pandas-dev/'
+...     'pandas/main/pandas/tests/io/data/csv/iris.csv'
+... )
+>>> pd.plotting.parallel_coordinates(
+...     df, 'Name', color=('#556270', '#4ECDC4', '#C7F464')
+... )  
+
+
+
+
+
+
+

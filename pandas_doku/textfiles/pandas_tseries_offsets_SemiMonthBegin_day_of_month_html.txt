@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.SemiMonthBegin.day_of_month#
+
+
+SemiMonthBegin.day_of_month#
+
+

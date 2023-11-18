@@ -1,0 +1,21 @@
+
+
+pandas.tseries.offsets.BQuarterBegin.kwds#
+
+
+BQuarterBegin.kwds#
+Return a dict of extra parameters for the offset.
+Examples
+>>> pd.DateOffset(5).kwds
+{}
+
+
+>>> pd.offsets.FY5253Quarter().kwds
+{'weekday': 0,
+ 'startingMonth': 1,
+ 'qtr_with_extra_week': 1,
+ 'variation': 'nearest'}
+
+
+
+

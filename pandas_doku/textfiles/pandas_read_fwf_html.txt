@@ -1,0 +1,70 @@
+
+
+pandas.read_fwf#
+
+
+pandas.read_fwf(filepath_or_buffer, *, colspecs='infer', widths=None, infer_nrows=100, dtype_backend=_NoDefault.no_default, **kwds)[source]#
+Read a table of fixed-width formatted lines into DataFrame.
+Also supports optionally iterating or breaking of the file
+into chunks.
+Additional help can be found in the online docs for IO Tools.
+
+Parameters:
+
+filepath_or_bufferstr, path object, or file-like objectString, path object (implementing os.PathLike[str]), or file-like
+object implementing a text read() function.The string could be a URL.
+Valid URL schemes include http, ftp, s3, and file. For file URLs, a host is
+expected. A local file could be:
+file://localhost/path/to/table.csv.
+
+colspecslist of tuple (int, int) or âinferâ. optionalA list of tuples giving the extents of the fixed-width
+fields of each line as half-open intervals (i.e., [from, to[ ).
+String value âinferâ can be used to instruct the parser to try
+detecting the column specifications from the first 100 rows of
+the data which are not being skipped via skiprows (default=âinferâ).
+
+widthslist of int, optionalA list of field widths which can be used instead of âcolspecsâ if
+the intervals are contiguous.
+
+infer_nrowsint, default 100The number of rows to consider when letting the parser determine the
+colspecs.
+
+dtype_backend{ânumpy_nullableâ, âpyarrowâ}, default ânumpy_nullableâBack-end data type applied to the resultant DataFrame
+(still experimental). Behaviour is as follows:
+
+"numpy_nullable": returns nullable-dtype-backed DataFrame
+(default).
+"pyarrow": returns pyarrow-backed nullable ArrowDtype
+DataFrame.
+
+
+New in version 2.0.
+
+
+**kwdsoptionalOptional keyword arguments can be passed to TextFileReader.
+
+
+
+Returns:
+
+DataFrame or TextFileReaderA comma-separated values (csv) file is returned as two-dimensional
+data structure with labeled axes.
+
+
+
+
+
+See also
+
+DataFrame.to_csvWrite DataFrame to a comma-separated values (csv) file.
+
+read_csvRead a comma-separated values (csv) file into DataFrame.
+
+
+
+Examples
+>>> pd.read_fwf('data.csv')  
+
+
+
+

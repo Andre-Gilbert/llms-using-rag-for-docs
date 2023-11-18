@@ -1,0 +1,32 @@
+
+
+pandas.Period.minute#
+
+
+Period.minute#
+Get minute of the hour component of the Period.
+
+Returns:
+
+intThe minute as an integer, between 0 and 59.
+
+
+
+
+
+See also
+
+Period.hourGet the hour component of the Period.
+
+Period.secondGet the second component of the Period.
+
+
+
+Examples
+>>> p = pd.Period("2018-03-11 13:03:12.050000")
+>>> p.minute
+3
+
+
+
+

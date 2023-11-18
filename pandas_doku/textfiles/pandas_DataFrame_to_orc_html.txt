@@ -1,0 +1,92 @@
+
+
+pandas.DataFrame.to_orc#
+
+
+DataFrame.to_orc(path=None, *, engine='pyarrow', index=None, engine_kwargs=None)[source]#
+Write a DataFrame to the ORC format.
+
+New in version 1.5.0.
+
+
+Parameters:
+
+pathstr, file-like object or None, default NoneIf a string, it will be used as Root Directory path
+when writing a partitioned dataset. By file-like object,
+we refer to objects with a write() method, such as a file handle
+(e.g. via builtin open function). If path is None,
+a bytes object is returned.
+
+engine{âpyarrowâ}, default âpyarrowâORC library to use. Pyarrow must be >= 7.0.0.
+
+indexbool, optionalIf True, include the dataframeâs index(es) in the file output.
+If False, they will not be written to the file.
+If None, similar to infer the dataframeâs index(es)
+will be saved. However, instead of being saved as values,
+the RangeIndex will be stored as a range in the metadata so it
+doesnât require much space and is faster. Other indexes will
+be included as columns in the file output.
+
+engine_kwargsdict[str, Any] or None, default NoneAdditional keyword arguments passed to pyarrow.orc.write_table().
+
+
+
+Returns:
+
+bytes if no path argument is provided else None
+
+
+Raises:
+
+NotImplementedErrorDtype of one or more columns is category, unsigned integers, interval,
+period or sparse.
+
+ValueErrorengine is not pyarrow.
+
+
+
+
+
+See also
+
+read_orcRead a ORC file.
+
+DataFrame.to_parquetWrite a parquet file.
+
+DataFrame.to_csvWrite a csv file.
+
+DataFrame.to_sqlWrite to a sql table.
+
+DataFrame.to_hdfWrite to hdf.
+
+
+
+Notes
+
+Before using this function you should read the user guide about
+ORC and install optional dependencies.
+This function requires pyarrow
+library.
+For supported dtypes please refer to supported ORC features in Arrow.
+Currently timezones in datetime columns are not preserved when a
+dataframe is converted into ORC files.
+
+Examples
+>>> df = pd.DataFrame(data={'col1': [1, 2], 'col2': [4, 3]})
+>>> df.to_orc('df.orc')  
+>>> pd.read_orc('df.orc')  
+   col1  col2
+0     1     4
+1     2     3
+
+
+If you want to get a buffer to the orc content you can write it to io.BytesIO
+>>> import io
+>>> b = io.BytesIO(df.to_orc())  
+>>> b.seek(0)  
+0
+>>> content = b.read()  
+
+
+
+

@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.QuarterBegin.rule_code#
+
+
+QuarterBegin.rule_code#
+
+

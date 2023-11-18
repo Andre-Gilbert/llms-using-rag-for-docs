@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.FY5253Quarter.get_rule_code_suffix#
+
+
+FY5253Quarter.get_rule_code_suffix()#
+
+

@@ -1,0 +1,35 @@
+
+
+pandas.Timedelta.round#
+
+
+Timedelta.round(freq)#
+Round the Timedelta to the specified resolution.
+
+Parameters:
+
+freqstrFrequency string indicating the rounding resolution.
+
+
+
+Returns:
+
+a new Timedelta rounded to the given resolution of freq
+
+
+Raises:
+
+ValueError if the freq cannot be converted
+
+
+
+Examples
+>>> td = pd.Timedelta('1001ms')
+>>> td
+Timedelta('0 days 00:00:01.001000')
+>>> td.round('s')
+Timedelta('0 days 00:00:01')
+
+
+
+

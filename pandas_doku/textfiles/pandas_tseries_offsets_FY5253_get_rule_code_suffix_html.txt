@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.FY5253.get_rule_code_suffix#
+
+
+FY5253.get_rule_code_suffix()#
+
+

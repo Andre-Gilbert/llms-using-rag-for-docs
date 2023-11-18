@@ -1,0 +1,15 @@
+
+
+pandas.errors.ValueLabelTypeMismatch#
+
+
+exception pandas.errors.ValueLabelTypeMismatch[source]#
+Warning raised by to_stata on a category column that contains non-string values.
+Examples
+>>> df = pd.DataFrame({"categories": pd.Series(["a", 2], dtype="category")})
+>>> df.to_stata('test') 
+... # ValueLabelTypeMismatch: Stata value labels (pandas categories) must be str...
+
+
+
+

@@ -1,0 +1,123 @@
+
+
+pandas.core.groupby.DataFrameGroupBy.value_counts#
+
+
+DataFrameGroupBy.value_counts(subset=None, normalize=False, sort=True, ascending=False, dropna=True)[source]#
+Return a Series or DataFrame containing counts of unique rows.
+
+New in version 1.4.0.
+
+
+Parameters:
+
+subsetlist-like, optionalColumns to use when counting unique combinations.
+
+normalizebool, default FalseReturn proportions rather than frequencies.
+
+sortbool, default TrueSort by frequencies.
+
+ascendingbool, default FalseSort in ascending order.
+
+dropnabool, default TrueDonât include counts of rows that contain NA values.
+
+
+
+Returns:
+
+Series or DataFrameSeries if the groupby as_index is True, otherwise DataFrame.
+
+
+
+
+
+See also
+
+Series.value_countsEquivalent method on Series.
+
+DataFrame.value_countsEquivalent method on DataFrame.
+
+SeriesGroupBy.value_countsEquivalent method on SeriesGroupBy.
+
+
+
+Notes
+
+If the groupby as_index is True then the returned Series will have a
+MultiIndex with one level per input column.
+If the groupby as_index is False then the returned DataFrame will have an
+additional column with the value_counts. The column is labelled âcountâ or
+âproportionâ, depending on the normalize parameter.
+
+By default, rows that contain any NA values are omitted from
+the result.
+By default, the result will be in descending order so that the
+first element of each group is the most frequently-occurring row.
+Examples
+>>> df = pd.DataFrame({
+...    'gender': ['male', 'male', 'female', 'male', 'female', 'male'],
+...    'education': ['low', 'medium', 'high', 'low', 'high', 'low'],
+...    'country': ['US', 'FR', 'US', 'FR', 'FR', 'FR']
+... })
+
+
+>>> df
+        gender  education   country
+0       male    low         US
+1       male    medium      FR
+2       female  high        US
+3       male    low         FR
+4       female  high        FR
+5       male    low         FR
+
+
+>>> df.groupby('gender').value_counts()
+gender  education  country
+female  high       FR         1
+                   US         1
+male    low        FR         2
+                   US         1
+        medium     FR         1
+Name: count, dtype: int64
+
+
+>>> df.groupby('gender').value_counts(ascending=True)
+gender  education  country
+female  high       FR         1
+                   US         1
+male    low        US         1
+        medium     FR         1
+        low        FR         2
+Name: count, dtype: int64
+
+
+>>> df.groupby('gender').value_counts(normalize=True)
+gender  education  country
+female  high       FR         0.50
+                   US         0.50
+male    low        FR         0.50
+                   US         0.25
+        medium     FR         0.25
+Name: proportion, dtype: float64
+
+
+>>> df.groupby('gender', as_index=False).value_counts()
+   gender education country  count
+0  female      high      FR      1
+1  female      high      US      1
+2    male       low      FR      2
+3    male       low      US      1
+4    male    medium      FR      1
+
+
+>>> df.groupby('gender', as_index=False).value_counts(normalize=True)
+   gender education country  proportion
+0  female      high      FR        0.50
+1  female      high      US        0.50
+2    male       low      FR        0.50
+3    male       low      US        0.25
+4    male    medium      FR        0.25
+
+
+
+

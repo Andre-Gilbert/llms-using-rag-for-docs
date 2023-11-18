@@ -1,0 +1,8 @@
+
+
+pandas.Index.names#
+
+
+property Index.names[source]#
+
+

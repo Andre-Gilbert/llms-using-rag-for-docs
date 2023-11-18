@@ -1,0 +1,22 @@
+
+
+pandas.Series.pad#
+
+
+Series.pad(*, axis=None, inplace=False, limit=None, downcast=_NoDefault.no_default)[source]#
+Fill NA/NaN values by propagating the last valid observation to next valid.
+
+Deprecated since version 2.0: Series/DataFrame.pad is deprecated. Use Series/DataFrame.ffill instead.
+
+
+Returns:
+
+Series/DataFrame or NoneObject with missing values filled or None if inplace=True.
+
+
+
+
+Examples
+Please see examples for DataFrame.ffill() or Series.ffill().
+
+

@@ -1,0 +1,31 @@
+
+
+pandas.Series.str.normalize#
+
+
+Series.str.normalize(form)[source]#
+Return the Unicode normal form for the strings in the Series/Index.
+For more information on the forms, see the
+unicodedata.normalize().
+
+Parameters:
+
+form{âNFCâ, âNFKCâ, âNFDâ, âNFKDâ}Unicode form.
+
+
+
+Returns:
+
+Series/Index of objects
+
+
+
+Examples
+>>> ser = pd.Series(['Ã±'])
+>>> ser.str.normalize('NFC') == ser.str.normalize('NFD')
+0   False
+dtype: bool
+
+
+
+

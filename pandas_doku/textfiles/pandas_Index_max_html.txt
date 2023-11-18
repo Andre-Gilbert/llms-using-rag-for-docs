@@ -1,0 +1,55 @@
+
+
+pandas.Index.max#
+
+
+Index.max(axis=None, skipna=True, *args, **kwargs)[source]#
+Return the maximum value of the Index.
+
+Parameters:
+
+axisint, optionalFor compatibility with NumPy. Only 0 or None are allowed.
+
+skipnabool, default TrueExclude NA/null values when showing the result.
+
+*args, **kwargsAdditional arguments and keywords for compatibility with NumPy.
+
+
+
+Returns:
+
+scalarMaximum value.
+
+
+
+
+
+See also
+
+Index.minReturn the minimum value in an Index.
+
+Series.maxReturn the maximum value in a Series.
+
+DataFrame.maxReturn the maximum values in a DataFrame.
+
+
+
+Examples
+>>> idx = pd.Index([3, 2, 1])
+>>> idx.max()
+3
+
+
+>>> idx = pd.Index(['c', 'b', 'a'])
+>>> idx.max()
+'c'
+
+
+For a MultiIndex, the maximum is determined lexicographically.
+>>> idx = pd.MultiIndex.from_product([('a', 'b'), (2, 1)])
+>>> idx.max()
+('b', 2)
+
+
+
+

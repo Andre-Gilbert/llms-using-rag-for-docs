@@ -1,0 +1,14 @@
+
+
+pandas.Period.freqstr#
+
+
+Period.freqstr#
+Return a string representation of the frequency.
+Examples
+>>> pd.Period('2020-01', 'D').freqstr
+'D'
+
+
+
+

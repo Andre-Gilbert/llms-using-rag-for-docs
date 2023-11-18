@@ -1,0 +1,51 @@
+
+
+pandas.Index.is_interval#
+
+
+final Index.is_interval()[source]#
+Check if the Index holds Interval objects.
+
+Deprecated since version 2.0.0: Use isinstance(index.dtype, pd.IntervalDtype) instead.
+
+
+Returns:
+
+boolWhether or not the Index holds Interval objects.
+
+
+
+
+
+See also
+
+IntervalIndexIndex for Interval objects.
+
+is_booleanCheck if the Index only consists of booleans (deprecated).
+
+is_integerCheck if the Index only consists of integers (deprecated).
+
+is_floatingCheck if the Index is a floating type (deprecated).
+
+is_numericCheck if the Index only consists of numeric data (deprecated).
+
+is_objectCheck if the Index is of the object dtype. (deprecated).
+
+is_categoricalCheck if the Index holds categorical data (deprecated).
+
+
+
+Examples
+>>> idx = pd.Index([pd.Interval(left=0, right=5),
+...                 pd.Interval(left=5, right=10)])
+>>> idx.is_interval()  
+True
+
+
+>>> idx = pd.Index([1, 3, 5, 7])
+>>> idx.is_interval()  
+False
+
+
+
+

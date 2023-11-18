@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.BusinessDay.weekmask#
+
+
+BusinessDay.weekmask#
+
+

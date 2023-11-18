@@ -1,0 +1,8 @@
+
+
+pandas.MultiIndex.codes#
+
+
+property MultiIndex.codes[source]#
+
+

@@ -1,0 +1,24 @@
+
+
+pandas.option_context#
+
+
+class pandas.option_context(*args)[source]#
+Context manager to temporarily set options in the with statement context.
+You need to invoke as option_context(pat, val, [(pat, val), ...]).
+Examples
+>>> from pandas import option_context
+>>> with option_context('display.max_rows', 10, 'display.max_columns', 5):
+...     pass
+
+
+Methods
+
+
+__call__(func)
+Call self as a function.
+
+
+
+
+

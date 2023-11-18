@@ -1,0 +1,55 @@
+
+
+pandas.io.formats.style.Styler.use#
+
+
+Styler.use(styles)[source]#
+Set the styles on the current Styler.
+Possibly uses styles from Styler.export.
+
+Parameters:
+
+stylesdict(str, Any)
+List of attributes to add to Styler. Dict keys should contain only:
+âapplyâ: list of styler functions, typically added with apply or
+map.
+âtable_attributesâ: HTML attributes, typically added with
+set_table_attributes.
+âtable_stylesâ: CSS selectors and properties, typically added with
+set_table_styles.
+âhide_indexâ: whether the index is hidden, typically added with
+hide_index, or a boolean list for hidden levels.
+âhide_columnsâ: whether column headers are hidden, typically added with
+hide_columns, or a boolean list for hidden levels.
+âhide_index_namesâ: whether index names are hidden.
+âhide_column_namesâ: whether column header names are hidden.
+âcssâ: the css class names used.
+
+
+
+
+
+
+Returns:
+
+Styler
+
+
+
+
+See also
+
+Styler.exportExport the non data dependent attributes to the current Styler.
+
+
+
+Examples
+>>> styler = pd.DataFrame([[1, 2], [3, 4]]).style
+>>> styler2 = pd.DataFrame([[9, 9, 9]]).style
+>>> styler.hide(axis=0).highlight_max(axis=1)  
+>>> export = styler.export()
+>>> styler2.use(export)  
+
+
+
+

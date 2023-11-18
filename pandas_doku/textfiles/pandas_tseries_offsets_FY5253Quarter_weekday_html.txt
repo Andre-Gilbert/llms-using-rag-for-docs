@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.FY5253Quarter.weekday#
+
+
+FY5253Quarter.weekday#
+
+

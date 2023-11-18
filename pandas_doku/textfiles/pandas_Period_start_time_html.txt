@@ -1,0 +1,43 @@
+
+
+pandas.Period.start_time#
+
+
+Period.start_time#
+Get the Timestamp for the start of the period.
+
+Returns:
+
+Timestamp
+
+
+
+
+See also
+
+Period.end_timeReturn the end Timestamp.
+
+Period.dayofyearReturn the day of year.
+
+Period.daysinmonthReturn the days in that month.
+
+Period.dayofweekReturn the day of the week.
+
+
+
+Examples
+>>> period = pd.Period('2012-1-1', freq='D')
+>>> period
+Period('2012-01-01', 'D')
+
+
+>>> period.start_time
+Timestamp('2012-01-01 00:00:00')
+
+
+>>> period.end_time
+Timestamp('2012-01-01 23:59:59.999999999')
+
+
+
+

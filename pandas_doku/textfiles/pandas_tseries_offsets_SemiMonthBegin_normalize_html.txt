@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.SemiMonthBegin.normalize#
+
+
+SemiMonthBegin.normalize#
+
+

@@ -1,0 +1,25 @@
+
+
+pandas.Timedelta.ceil#
+
+
+Timedelta.ceil(freq)#
+Return a new Timedelta ceiled to this resolution.
+
+Parameters:
+
+freqstrFrequency string indicating the ceiling resolution.
+
+
+
+
+Examples
+>>> td = pd.Timedelta('1001ms')
+>>> td
+Timedelta('0 days 00:00:01.001000')
+>>> td.ceil('s')
+Timedelta('0 days 00:00:02')
+
+
+
+

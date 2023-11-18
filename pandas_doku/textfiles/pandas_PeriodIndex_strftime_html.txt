@@ -1,0 +1,59 @@
+
+
+pandas.PeriodIndex.strftime#
+
+
+PeriodIndex.strftime(*args, **kwargs)[source]#
+Convert to Index using specified date_format.
+Return an Index of formatted strings specified by date_format, which
+supports the same string format as the python standard library. Details
+of the string format can be found in python string format
+doc.
+Formats supported by the C strftime API but not by the python string format
+doc (such as â%Râ, â%râ) are not officially supported and should be
+preferably replaced with their supported equivalents (such as â%H:%Mâ,
+â%I:%M:%S %pâ).
+Note that PeriodIndex support additional directives, detailed in
+Period.strftime.
+
+Parameters:
+
+date_formatstrDate format string (e.g. â%Y-%m-%dâ).
+
+
+
+Returns:
+
+ndarray[object]NumPy ndarray of formatted strings.
+
+
+
+
+
+See also
+
+to_datetimeConvert the given argument to datetime.
+
+DatetimeIndex.normalizeReturn DatetimeIndex with times to midnight.
+
+DatetimeIndex.roundRound the DatetimeIndex to the specified freq.
+
+DatetimeIndex.floorFloor the DatetimeIndex to the specified freq.
+
+Timestamp.strftimeFormat a single Timestamp.
+
+Period.strftimeFormat a single Period.
+
+
+
+Examples
+>>> rng = pd.date_range(pd.Timestamp("2018-03-10 09:00"),
+...                     periods=3, freq='s')
+>>> rng.strftime('%B %d, %Y, %r')
+Index(['March 10, 2018, 09:00:00 AM', 'March 10, 2018, 09:00:01 AM',
+       'March 10, 2018, 09:00:02 AM'],
+      dtype='object')
+
+
+
+

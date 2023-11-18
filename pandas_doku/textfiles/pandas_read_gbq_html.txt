@@ -1,0 +1,127 @@
+
+
+pandas.read_gbq#
+
+
+pandas.read_gbq(query, project_id=None, index_col=None, col_order=None, reauth=False, auth_local_webserver=True, dialect=None, location=None, configuration=None, credentials=None, use_bqstorage_api=None, max_results=None, progress_bar_type=None)[source]#
+Load data from Google BigQuery.
+This function requires the pandas-gbq package.
+See the How to authenticate with Google BigQuery
+guide for authentication instructions.
+
+Parameters:
+
+querystrSQL-Like Query to return data values.
+
+project_idstr, optionalGoogle BigQuery Account project ID. Optional when available from
+the environment.
+
+index_colstr, optionalName of result column to use for index in results DataFrame.
+
+col_orderlist(str), optionalList of BigQuery column names in the desired order for results
+DataFrame.
+
+reauthbool, default FalseForce Google BigQuery to re-authenticate the user. This is useful
+if multiple accounts are used.
+
+auth_local_webserverbool, default TrueUse the local webserver flow instead of the console flow
+when getting user credentials.
+New in version 0.2.0 of pandas-gbq.
+
+Changed in version 1.5.0: Default value is changed to True. Google has deprecated the
+auth_local_webserver = False âout of bandâ (copy-paste)
+flow.
+
+
+dialectstr, default âlegacyâNote: The default value is changing to âstandardâ in a future version.
+SQL syntax dialect to use. Value can be one of:
+
+'legacy'Use BigQueryâs legacy SQL dialect. For more information see
+BigQuery Legacy SQL Reference.
+
+'standard'Use BigQueryâs standard SQL, which is
+compliant with the SQL 2011 standard. For more information
+see BigQuery Standard SQL Reference.
+
+
+
+locationstr, optionalLocation where the query job should run. See the BigQuery locations
+documentation for a
+list of available locations. The location must match that of any
+datasets used in the query.
+New in version 0.5.0 of pandas-gbq.
+
+configurationdict, optionalQuery config parameters for job processing.
+For example:
+
+configuration = {âqueryâ: {âuseQueryCacheâ: False}}
+
+For more information see BigQuery REST API Reference.
+
+credentialsgoogle.auth.credentials.Credentials, optionalCredentials for accessing Google APIs. Use this parameter to override
+default credentials, such as to use Compute Engine
+google.auth.compute_engine.Credentials or Service Account
+google.oauth2.service_account.Credentials directly.
+New in version 0.8.0 of pandas-gbq.
+
+use_bqstorage_apibool, default FalseUse the BigQuery Storage API to
+download query results quickly, but at an increased cost. To use this
+API, first enable it in the Cloud Console.
+You must also have the bigquery.readsessions.create
+permission on the project you are billing queries to.
+This feature requires version 0.10.0 or later of the pandas-gbq
+package. It also requires the google-cloud-bigquery-storage and
+fastavro packages.
+
+max_resultsint, optionalIf set, limit the maximum number of rows to fetch from the query
+results.
+
+progress_bar_typeOptional, strIf set, use the tqdm library to
+display a progress bar while the data downloads. Install the
+tqdm package to use this feature.
+Possible values of progress_bar_type include:
+
+NoneNo progress bar.
+
+'tqdm'Use the tqdm.tqdm() function to print a progress bar
+to sys.stderr.
+
+'tqdm_notebook'Use the tqdm.tqdm_notebook() function to display a
+progress bar as a Jupyter notebook widget.
+
+'tqdm_gui'Use the tqdm.tqdm_gui() function to display a
+progress bar as a graphical dialog box.
+
+
+
+
+
+Returns:
+
+df: DataFrameDataFrame representing results of query.
+
+
+
+
+
+See also
+
+pandas_gbq.read_gbqThis function in the pandas-gbq library.
+
+DataFrame.to_gbqWrite a DataFrame to Google BigQuery.
+
+
+
+Examples
+Example taken from Google BigQuery documentation
+>>> sql = "SELECT name FROM table_name WHERE state = 'TX' LIMIT 100;"
+>>> df = pd.read_gbq(sql, dialect="standard")  
+>>> project_id = "your-project-id"  
+>>> df = pd.read_gbq(sql,
+...                  project_id=project_id,
+...                  dialect="standard"
+...                  )  
+
+
+
+

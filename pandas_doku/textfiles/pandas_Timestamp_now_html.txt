@@ -1,0 +1,27 @@
+
+
+pandas.Timestamp.now#
+
+
+classmethod Timestamp.now(tz=None)#
+Return new Timestamp object representing current time local to tz.
+
+Parameters:
+
+tzstr or timezone object, default NoneTimezone to localize to.
+
+
+
+
+Examples
+>>> pd.Timestamp.now()  
+Timestamp('2020-11-16 22:06:16.378782')
+
+
+Analogous for pd.NaT:
+>>> pd.NaT.now()
+NaT
+
+
+
+

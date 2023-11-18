@@ -1,0 +1,8 @@
+
+
+pandas.ExcelFile.sheet_names#
+
+
+property ExcelFile.sheet_names[source]#
+
+

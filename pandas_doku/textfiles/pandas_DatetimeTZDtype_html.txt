@@ -1,0 +1,56 @@
+
+
+pandas.DatetimeTZDtype#
+
+
+class pandas.DatetimeTZDtype(unit='ns', tz=None)[source]#
+An ExtensionDtype for timezone-aware datetime data.
+This is not an actual numpy dtype, but a duck type.
+
+Parameters:
+
+unitstr, default ânsâThe precision of the datetime data. Currently limited
+to "ns".
+
+tzstr, int, or datetime.tzinfoThe timezone.
+
+
+
+Raises:
+
+ZoneInfoNotFoundErrorWhen the requested timezone cannot be found.
+
+
+
+
+Examples
+>>> from zoneinfo import ZoneInfo
+>>> pd.DatetimeTZDtype(tz=ZoneInfo('UTC'))
+datetime64[ns, UTC]
+
+
+>>> pd.DatetimeTZDtype(tz=ZoneInfo('Europe/Paris'))
+datetime64[ns, Europe/Paris]
+
+
+Attributes
+
+
+unit
+The precision of the datetime data.
+
+tz
+The timezone.
+
+
+
+Methods
+
+
+None
+
+
+
+
+
+

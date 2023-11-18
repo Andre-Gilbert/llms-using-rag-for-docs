@@ -1,0 +1,8 @@
+
+
+pandas.PeriodIndex.qyear#
+
+
+property PeriodIndex.qyear[source]#
+
+

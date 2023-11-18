@@ -1,0 +1,16 @@
+
+
+pandas.tseries.offsets.SemiMonthBegin.is_anchored#
+
+
+SemiMonthBegin.is_anchored()#
+Return boolean whether the frequency is a unit frequency (n=1).
+Examples
+>>> pd.DateOffset().is_anchored()
+True
+>>> pd.DateOffset(2).is_anchored()
+False
+
+
+
+

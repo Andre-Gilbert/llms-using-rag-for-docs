@@ -1,0 +1,37 @@
+
+
+pandas.plotting.autocorrelation_plot#
+
+
+pandas.plotting.autocorrelation_plot(series, ax=None, **kwargs)[source]#
+Autocorrelation plot for time series.
+
+Parameters:
+
+seriesSeriesThe time series to visualize.
+
+axMatplotlib axis object, optionalThe matplotlib axis object to use.
+
+**kwargsOptions to pass to matplotlib plotting method.
+
+
+
+Returns:
+
+matplotlib.axes.Axes
+
+
+
+Examples
+The horizontal lines in the plot correspond to 95% and 99% confidence bands.
+The dashed line is 99% confidence band.
+>>> spacing = np.linspace(-9 * np.pi, 9 * np.pi, num=1000)
+>>> s = pd.Series(0.7 * np.random.rand(1000) + 0.3 * np.sin(spacing))
+>>> pd.plotting.autocorrelation_plot(s)  
+
+
+
+
+
+
+

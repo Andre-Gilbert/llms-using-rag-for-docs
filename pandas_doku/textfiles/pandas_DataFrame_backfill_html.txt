@@ -1,0 +1,22 @@
+
+
+pandas.DataFrame.backfill#
+
+
+DataFrame.backfill(*, axis=None, inplace=False, limit=None, downcast=_NoDefault.no_default)[source]#
+Fill NA/NaN values by using the next valid observation to fill the gap.
+
+Deprecated since version 2.0: Series/DataFrame.backfill is deprecated. Use Series/DataFrame.bfill instead.
+
+
+Returns:
+
+Series/DataFrame or NoneObject with missing values filled or None if inplace=True.
+
+
+
+
+Examples
+Please see examples for DataFrame.bfill() or Series.bfill().
+
+

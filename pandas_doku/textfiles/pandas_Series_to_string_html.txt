@@ -1,0 +1,50 @@
+
+
+pandas.Series.to_string#
+
+
+Series.to_string(buf=None, na_rep='NaN', float_format=None, header=True, index=True, length=False, dtype=False, name=False, max_rows=None, min_rows=None)[source]#
+Render a string representation of the Series.
+
+Parameters:
+
+bufStringIO-like, optionalBuffer to write to.
+
+na_repstr, optionalString representation of NaN to use, default âNaNâ.
+
+float_formatone-parameter function, optionalFormatter function to apply to columnsâ elements if they are
+floats, default None.
+
+headerbool, default TrueAdd the Series header (index name).
+
+indexbool, optionalAdd index (row) labels, default True.
+
+lengthbool, default FalseAdd the Series length.
+
+dtypebool, default FalseAdd the Series dtype.
+
+namebool, default FalseAdd the Series name if not None.
+
+max_rowsint, optionalMaximum number of rows to show before truncating. If None, show
+all.
+
+min_rowsint, optionalThe number of rows to display in a truncated repr (when number
+of rows is above max_rows).
+
+
+
+Returns:
+
+str or NoneString representation of Series if buf=None, otherwise None.
+
+
+
+
+Examples
+>>> ser = pd.Series([1, 2, 3]).to_string()
+>>> ser
+'0    1\n1    2\n2    3'
+
+
+
+

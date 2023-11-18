@@ -1,0 +1,50 @@
+
+
+pandas.Series.str.match#
+
+
+Series.str.match(pat, case=True, flags=0, na=None)[source]#
+Determine if each string starts with a match of a regular expression.
+
+Parameters:
+
+patstrCharacter sequence or regular expression.
+
+casebool, default TrueIf True, case sensitive.
+
+flagsint, default 0 (no flags)Regex module flags, e.g. re.IGNORECASE.
+
+nascalar, optionalFill value for missing values. The default depends on dtype of the
+array. For object-dtype, numpy.nan is used. For StringDtype,
+pandas.NA is used.
+
+
+
+Returns:
+
+Series/Index/array of boolean values
+
+
+
+
+See also
+
+fullmatchStricter matching that requires the entire string to match.
+
+containsAnalogous, but less strict, relying on re.search instead of re.match.
+
+extractExtract matched groups.
+
+
+
+Examples
+>>> ser = pd.Series(["horse", "eagle", "donkey"])
+>>> ser.str.match("e")
+0   False
+1   True
+2   False
+dtype: bool
+
+
+
+

@@ -1,0 +1,64 @@
+
+
+pandas.core.groupby.SeriesGroupBy.all#
+
+
+SeriesGroupBy.all(skipna=True)[source]#
+Return True if all values in the group are truthful, else False.
+
+Parameters:
+
+skipnabool, default TrueFlag to ignore nan values during truth testing.
+
+
+
+Returns:
+
+Series or DataFrameDataFrame or Series of boolean values, where a value is True if all elements
+are True within its respective group, False otherwise.
+
+
+
+
+
+See also
+
+Series.groupbyApply a function groupby to a Series.
+
+DataFrame.groupbyApply a function groupby to each row or column of a DataFrame.
+
+
+
+Examples
+For SeriesGroupBy:
+>>> lst = ['a', 'a', 'b']
+>>> ser = pd.Series([1, 2, 0], index=lst)
+>>> ser
+a    1
+a    2
+b    0
+dtype: int64
+>>> ser.groupby(level=0).all()
+a     True
+b    False
+dtype: bool
+
+
+For DataFrameGroupBy:
+>>> data = [[1, 0, 3], [1, 5, 6], [7, 8, 9]]
+>>> df = pd.DataFrame(data, columns=["a", "b", "c"],
+...                   index=["ostrich", "penguin", "parrot"])
+>>> df
+         a  b  c
+ostrich  1  0  3
+penguin  1  5  6
+parrot   7  8  9
+>>> df.groupby(by=["a"]).all()
+       b      c
+a
+1  False   True
+7   True   True
+
+
+
+

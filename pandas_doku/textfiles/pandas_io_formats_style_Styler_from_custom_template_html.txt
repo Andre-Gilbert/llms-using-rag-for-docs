@@ -1,0 +1,49 @@
+
+
+pandas.io.formats.style.Styler.from_custom_template#
+
+
+classmethod Styler.from_custom_template(searchpath, html_table=None, html_style=None)[source]#
+Factory function for creating a subclass of Styler.
+Uses custom templates and Jinja environment.
+
+Changed in version 1.3.0.
+
+
+Parameters:
+
+searchpathstr or listPath or paths of directories containing the templates.
+
+html_tablestrName of your custom template to replace the html_table template.
+
+New in version 1.3.0.
+
+
+html_stylestrName of your custom template to replace the html_style template.
+
+New in version 1.3.0.
+
+
+
+
+Returns:
+
+MyStylersubclass of StylerHas the correct env,``template_html``, template_html_table and
+template_html_style class attributes set.
+
+
+
+
+Examples
+>>> from pandas.io.formats.style import Styler
+>>> EasyStyler = Styler.from_custom_template("path/to/template",
+...                                          "template.tpl",
+...                                          )  
+>>> df = pd.DataFrame({"A": [1, 2]})
+>>> EasyStyler(df)  
+
+
+Please see:
+Table Visualization for more examples.
+
+

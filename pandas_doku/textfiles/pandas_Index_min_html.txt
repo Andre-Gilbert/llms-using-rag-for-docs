@@ -1,0 +1,55 @@
+
+
+pandas.Index.min#
+
+
+Index.min(axis=None, skipna=True, *args, **kwargs)[source]#
+Return the minimum value of the Index.
+
+Parameters:
+
+axis{None}Dummy argument for consistency with Series.
+
+skipnabool, default TrueExclude NA/null values when showing the result.
+
+*args, **kwargsAdditional arguments and keywords for compatibility with NumPy.
+
+
+
+Returns:
+
+scalarMinimum value.
+
+
+
+
+
+See also
+
+Index.maxReturn the maximum value of the object.
+
+Series.minReturn the minimum value in a Series.
+
+DataFrame.minReturn the minimum values in a DataFrame.
+
+
+
+Examples
+>>> idx = pd.Index([3, 2, 1])
+>>> idx.min()
+1
+
+
+>>> idx = pd.Index(['c', 'b', 'a'])
+>>> idx.min()
+'a'
+
+
+For a MultiIndex, the minimum is determined lexicographically.
+>>> idx = pd.MultiIndex.from_product([('a', 'b'), (2, 1)])
+>>> idx.min()
+('a', 1)
+
+
+
+

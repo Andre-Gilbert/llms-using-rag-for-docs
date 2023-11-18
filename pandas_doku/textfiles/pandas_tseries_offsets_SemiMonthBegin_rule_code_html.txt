@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.SemiMonthBegin.rule_code#
+
+
+SemiMonthBegin.rule_code#
+
+

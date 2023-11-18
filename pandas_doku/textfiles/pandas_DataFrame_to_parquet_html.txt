@@ -1,0 +1,102 @@
+
+
+pandas.DataFrame.to_parquet#
+
+
+DataFrame.to_parquet(path=None, engine='auto', compression='snappy', index=None, partition_cols=None, storage_options=None, **kwargs)[source]#
+Write a DataFrame to the binary parquet format.
+This function writes the dataframe as a parquet file. You can choose different parquet
+backends, and have the option of compression. See
+the user guide for more details.
+
+Parameters:
+
+pathstr, path object, file-like object, or None, default NoneString, path object (implementing os.PathLike[str]), or file-like
+object implementing a binary write() function. If None, the result is
+returned as bytes. If a string or path, it will be used as Root Directory
+path when writing a partitioned dataset.
+
+Changed in version 1.2.0.
+
+Previously this was âfnameâ
+
+engine{âautoâ, âpyarrowâ, âfastparquetâ}, default âautoâParquet library to use. If âautoâ, then the option
+io.parquet.engine is used. The default io.parquet.engine
+behavior is to try âpyarrowâ, falling back to âfastparquetâ if
+âpyarrowâ is unavailable.
+
+compressionstr or None, default âsnappyâName of the compression to use. Use None for no compression.
+Supported options: âsnappyâ, âgzipâ, âbrotliâ, âlz4â, âzstdâ.
+
+indexbool, default NoneIf True, include the dataframeâs index(es) in the file output.
+If False, they will not be written to the file.
+If None, similar to True the dataframeâs index(es)
+will be saved. However, instead of being saved as values,
+the RangeIndex will be stored as a range in the metadata so it
+doesnât require much space and is faster. Other indexes will
+be included as columns in the file output.
+
+partition_colslist, optional, default NoneColumn names by which to partition the dataset.
+Columns are partitioned in the order they are given.
+Must be None if path is not a string.
+
+storage_optionsdict, optionalExtra options that make sense for a particular storage connection, e.g.
+host, port, username, password, etc. For HTTP(S) URLs the key-value pairs
+are forwarded to urllib.request.Request as header options. For other
+URLs (e.g. starting with âs3://â, and âgcs://â) the key-value pairs are
+forwarded to fsspec.open. Please see fsspec and urllib for more
+details, and for more examples on storage options refer here.
+
+New in version 1.2.0.
+
+
+**kwargsAdditional arguments passed to the parquet library. See
+pandas io for more details.
+
+
+
+Returns:
+
+bytes if no path argument is provided else None
+
+
+
+
+See also
+
+read_parquetRead a parquet file.
+
+DataFrame.to_orcWrite an orc file.
+
+DataFrame.to_csvWrite a csv file.
+
+DataFrame.to_sqlWrite to a sql table.
+
+DataFrame.to_hdfWrite to hdf.
+
+
+
+Notes
+This function requires either the fastparquet or pyarrow library.
+Examples
+>>> df = pd.DataFrame(data={'col1': [1, 2], 'col2': [3, 4]})
+>>> df.to_parquet('df.parquet.gzip',
+...               compression='gzip')  
+>>> pd.read_parquet('df.parquet.gzip')  
+   col1  col2
+0     1     3
+1     2     4
+
+
+If you want to get a buffer to the parquet content you can use a io.BytesIO
+object, as long as you donât use partition_cols, which creates multiple files.
+>>> import io
+>>> f = io.BytesIO()
+>>> df.to_parquet(f)
+>>> f.seek(0)
+0
+>>> content = f.read()
+
+
+
+

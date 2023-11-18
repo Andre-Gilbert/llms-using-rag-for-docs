@@ -1,0 +1,119 @@
+
+
+pandas.DataFrame.rename#
+
+
+DataFrame.rename(mapper=None, *, index=None, columns=None, axis=None, copy=None, inplace=False, level=None, errors='ignore')[source]#
+Rename columns or index labels.
+Function / dict values must be unique (1-to-1). Labels not contained in
+a dict / Series will be left as-is. Extra labels listed donât throw an
+error.
+See the user guide for more.
+
+Parameters:
+
+mapperdict-like or functionDict-like or function transformations to apply to
+that axisâ values. Use either mapper and axis to
+specify the axis to target with mapper, or index and
+columns.
+
+indexdict-like or functionAlternative to specifying axis (mapper, axis=0
+is equivalent to index=mapper).
+
+columnsdict-like or functionAlternative to specifying axis (mapper, axis=1
+is equivalent to columns=mapper).
+
+axis{0 or âindexâ, 1 or âcolumnsâ}, default 0Axis to target with mapper. Can be either the axis name
+(âindexâ, âcolumnsâ) or number (0, 1). The default is âindexâ.
+
+copybool, default TrueAlso copy underlying data.
+
+inplacebool, default FalseWhether to modify the DataFrame rather than creating a new one.
+If True then value of copy is ignored.
+
+levelint or level name, default NoneIn case of a MultiIndex, only rename labels in the specified
+level.
+
+errors{âignoreâ, âraiseâ}, default âignoreâIf âraiseâ, raise a KeyError when a dict-like mapper, index,
+or columns contains labels that are not present in the Index
+being transformed.
+If âignoreâ, existing keys will be renamed and extra keys will be
+ignored.
+
+
+
+Returns:
+
+DataFrame or NoneDataFrame with the renamed axis labels or None if inplace=True.
+
+
+
+Raises:
+
+KeyErrorIf any of the labels is not found in the selected axis and
+âerrors=âraiseââ.
+
+
+
+
+
+See also
+
+DataFrame.rename_axisSet the name of the axis.
+
+
+
+Examples
+DataFrame.rename supports two calling conventions
+
+(index=index_mapper, columns=columns_mapper, ...)
+(mapper, axis={'index', 'columns'}, ...)
+
+We highly recommend using keyword arguments to clarify your
+intent.
+Rename columns using a mapping:
+>>> df = pd.DataFrame({"A": [1, 2, 3], "B": [4, 5, 6]})
+>>> df.rename(columns={"A": "a", "B": "c"})
+   a  c
+0  1  4
+1  2  5
+2  3  6
+
+
+Rename index using a mapping:
+>>> df.rename(index={0: "x", 1: "y", 2: "z"})
+   A  B
+x  1  4
+y  2  5
+z  3  6
+
+
+Cast index labels to a different type:
+>>> df.index
+RangeIndex(start=0, stop=3, step=1)
+>>> df.rename(index=str).index
+Index(['0', '1', '2'], dtype='object')
+
+
+>>> df.rename(columns={"A": "a", "B": "b", "C": "c"}, errors="raise")
+Traceback (most recent call last):
+KeyError: ['C'] not found in axis
+
+
+Using axis-style parameters:
+>>> df.rename(str.lower, axis='columns')
+   a  b
+0  1  4
+1  2  5
+2  3  6
+
+
+>>> df.rename({1: 2, 2: 4}, axis='index')
+   A  B
+0  1  4
+2  2  5
+4  3  6
+
+
+
+

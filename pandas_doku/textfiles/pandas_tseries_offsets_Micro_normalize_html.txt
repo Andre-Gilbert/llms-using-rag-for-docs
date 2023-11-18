@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.Micro.normalize#
+
+
+Micro.normalize#
+
+

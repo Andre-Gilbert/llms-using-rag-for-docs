@@ -1,0 +1,48 @@
+
+
+pandas.plotting.lag_plot#
+
+
+pandas.plotting.lag_plot(series, lag=1, ax=None, **kwds)[source]#
+Lag plot for time series.
+
+Parameters:
+
+seriesSeriesThe time series to visualize.
+
+lagint, default 1Lag length of the scatter plot.
+
+axMatplotlib axis object, optionalThe matplotlib axis object to use.
+
+**kwdsMatplotlib scatter method keyword arguments.
+
+
+
+Returns:
+
+matplotlib.axes.Axes
+
+
+
+Examples
+Lag plots are most commonly used to look for patterns in time series data.
+Given the following time series
+>>> np.random.seed(5)
+>>> x = np.cumsum(np.random.normal(loc=1, scale=5, size=50))
+>>> s = pd.Series(x)
+>>> s.plot()  
+
+
+
+
+
+A lag plot with lag=1 returns
+>>> pd.plotting.lag_plot(s, lag=1)
+<Axes: xlabel='y(t)', ylabel='y(t + 1)'>
+
+
+
+
+
+
+

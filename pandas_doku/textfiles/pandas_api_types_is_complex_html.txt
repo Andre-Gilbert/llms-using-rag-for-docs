@@ -1,0 +1,25 @@
+
+
+pandas.api.types.is_complex#
+
+
+pandas.api.types.is_complex()#
+Return True if given object is complex.
+
+Returns:
+
+bool
+
+
+
+Examples
+>>> pd.api.types.is_complex(1 + 1j)
+True
+
+
+>>> pd.api.types.is_complex(1)
+False
+
+
+
+

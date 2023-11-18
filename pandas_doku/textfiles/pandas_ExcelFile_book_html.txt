@@ -1,0 +1,8 @@
+
+
+pandas.ExcelFile.book#
+
+
+property ExcelFile.book[source]#
+
+

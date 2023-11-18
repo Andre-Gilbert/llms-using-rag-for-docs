@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.MonthBegin.rule_code#
+
+
+MonthBegin.rule_code#
+
+

@@ -1,0 +1,8 @@
+
+
+pandas.io.formats.style.Styler.template_html#
+
+
+Styler.template_html = <Template 'html.tpl'>#
+
+

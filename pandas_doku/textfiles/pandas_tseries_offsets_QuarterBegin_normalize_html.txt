@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.QuarterBegin.normalize#
+
+
+QuarterBegin.normalize#
+
+

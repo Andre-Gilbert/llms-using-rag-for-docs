@@ -1,0 +1,127 @@
+
+
+pandas.DataFrame.to_html#
+
+
+DataFrame.to_html(buf=None, columns=None, col_space=None, header=True, index=True, na_rep='NaN', formatters=None, float_format=None, sparsify=None, index_names=True, justify=None, max_rows=None, max_cols=None, show_dimensions=False, decimal='.', bold_rows=True, classes=None, escape=True, notebook=False, border=None, table_id=None, render_links=False, encoding=None)[source]#
+Render a DataFrame as an HTML table.
+
+Parameters:
+
+bufstr, Path or StringIO-like, optional, default NoneBuffer to write to. If None, the output is returned as a string.
+
+columnsarray-like, optional, default NoneThe subset of columns to write. Writes all columns by default.
+
+col_spacestr or int, list or dict of int or str, optionalThe minimum width of each column in CSS length units. An int is assumed to be px units..
+
+headerbool, optionalWhether to print column labels, default True.
+
+indexbool, optional, default TrueWhether to print index (row) labels.
+
+na_repstr, optional, default âNaNâString representation of NaN to use.
+
+formatterslist, tuple or dict of one-param. functions, optionalFormatter functions to apply to columnsâ elements by position or
+name.
+The result of each function must be a unicode string.
+List/tuple must be of length equal to the number of columns.
+
+float_formatone-parameter function, optional, default NoneFormatter function to apply to columnsâ elements if they are
+floats. This function must return a unicode string and will be
+applied only to the non-NaN elements, with NaN being
+handled by na_rep.
+
+Changed in version 1.2.0.
+
+
+sparsifybool, optional, default TrueSet to False for a DataFrame with a hierarchical index to print
+every multiindex key at each row.
+
+index_namesbool, optional, default TruePrints the names of the indexes.
+
+justifystr, default NoneHow to justify the column labels. If None uses the option from
+the print configuration (controlled by set_option), ârightâ out
+of the box. Valid values are
+
+left
+right
+center
+justify
+justify-all
+start
+end
+inherit
+match-parent
+initial
+unset.
+
+
+max_rowsint, optionalMaximum number of rows to display in the console.
+
+max_colsint, optionalMaximum number of columns to display in the console.
+
+show_dimensionsbool, default FalseDisplay DataFrame dimensions (number of rows by number of columns).
+
+decimalstr, default â.âCharacter recognized as decimal separator, e.g. â,â in Europe.
+
+bold_rowsbool, default TrueMake the row labels bold in the output.
+
+classesstr or list or tuple, default NoneCSS class(es) to apply to the resulting html table.
+
+escapebool, default TrueConvert the characters <, >, and & to HTML-safe sequences.
+
+notebook{True, False}, default FalseWhether the generated HTML is for IPython Notebook.
+
+borderintA border=border attribute is included in the opening
+<table> tag. Default pd.options.display.html.border.
+
+table_idstr, optionalA css id is included in the opening <table> tag if specified.
+
+render_linksbool, default FalseConvert URLs to HTML links.
+
+encodingstr, default âutf-8âSet character encoding.
+
+
+
+Returns:
+
+str or NoneIf buf is None, returns the result as a string. Otherwise returns
+None.
+
+
+
+
+
+See also
+
+to_stringConvert DataFrame to a string.
+
+
+
+Examples
+>>> df = pd.DataFrame(data={'col1': [1, 2], 'col2': [4, 3]})
+>>> html_string = '''<table border="1" class="dataframe">
+...   <thead>
+...     <tr style="text-align: right;">
+...       <th></th>
+...       <th>col1</th>
+...       <th>col2</th>
+...     </tr>
+...   </thead>
+...   <tbody>
+...     <tr>
+...       <th>0</th>
+...       <td>1</td>
+...       <td>4</td>
+...     </tr>
+...     <tr>
+...       <th>1</th>
+...       <td>2</td>
+...       <td>3</td>
+...     </tr>
+...   </tbody>
+... </table>'''
+>>> assert html_string == df.to_html()
+
+
+
+

@@ -1,0 +1,9 @@
+
+
+pandas.tseries.offsets.CBMonthEnd#
+
+
+pandas.tseries.offsets.CBMonthEnd#
+alias of CustomBusinessMonthEnd
+
+

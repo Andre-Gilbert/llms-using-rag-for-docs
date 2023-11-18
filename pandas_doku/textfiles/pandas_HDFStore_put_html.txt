@@ -1,0 +1,48 @@
+
+
+pandas.HDFStore.put#
+
+
+HDFStore.put(key, value, format=None, index=True, append=False, complib=None, complevel=None, min_itemsize=None, nan_rep=None, data_columns=None, encoding=None, errors='strict', track_times=True, dropna=False)[source]#
+Store object in HDFStore.
+
+Parameters:
+
+keystr
+value{Series, DataFrame}
+formatâfixed(f)|table(t)â, default is âfixedâFormat to use when storing object in HDFStore. Value can be one of:
+
+'fixed'Fixed format. Fast writing/reading. Not-appendable, nor searchable.
+
+'table'Table format. Write as a PyTables Table structure which may perform
+worse but allow more flexible operations like searching / selecting
+subsets of the data.
+
+
+
+indexbool, default TrueWrite DataFrame index as a column.
+
+appendbool, default FalseThis will force Table format, append the input data to the existing.
+
+data_columnslist of columns or True, default NoneList of columns to create as data columns, or True to use all columns.
+See here.
+
+encodingstr, default NoneProvide an encoding for strings.
+
+track_timesbool, default TrueParameter is propagated to âcreate_tableâ method of âPyTablesâ.
+If set to False it enables to have the same h5 files (same hashes)
+independent on creation time.
+
+dropnabool, default False, optionalRemove missing values.
+
+
+
+
+Examples
+>>> df = pd.DataFrame([[1, 2], [3, 4]], columns=['A', 'B'])
+>>> store = pd.HDFStore("store.h5", 'w')  
+>>> store.put('data', df)  
+
+
+
+

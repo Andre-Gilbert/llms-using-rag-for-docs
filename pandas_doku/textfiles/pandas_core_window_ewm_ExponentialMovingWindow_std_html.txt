@@ -1,0 +1,51 @@
+
+
+pandas.core.window.ewm.ExponentialMovingWindow.std#
+
+
+ExponentialMovingWindow.std(bias=False, numeric_only=False)[source]#
+Calculate the ewm (exponential weighted moment) standard deviation.
+
+Parameters:
+
+biasbool, default FalseUse a standard estimation bias correction.
+
+numeric_onlybool, default FalseInclude only float, int, boolean columns.
+
+New in version 1.5.0.
+
+
+
+
+Returns:
+
+Series or DataFrameReturn type is the same as the original object with np.float64 dtype.
+
+
+
+
+
+See also
+
+pandas.Series.ewmCalling ewm with Series data.
+
+pandas.DataFrame.ewmCalling ewm with DataFrames.
+
+pandas.Series.stdAggregating std for Series.
+
+pandas.DataFrame.stdAggregating std for DataFrame.
+
+
+
+Examples
+>>> ser = pd.Series([1, 2, 3, 4])
+>>> ser.ewm(alpha=.2).std()
+0         NaN
+1    0.707107
+2    0.995893
+3    1.277320
+dtype: float64
+
+
+
+

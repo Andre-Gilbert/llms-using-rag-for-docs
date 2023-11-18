@@ -1,0 +1,25 @@
+
+
+pandas.Timestamp.strftime#
+
+
+Timestamp.strftime(format)#
+Return a formatted string of the Timestamp.
+
+Parameters:
+
+formatstrFormat string to convert Timestamp to string.
+See strftime documentation for more information on the format string:
+https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior.
+
+
+
+
+Examples
+>>> ts = pd.Timestamp('2020-03-14T15:32:52.192548651')
+>>> ts.strftime('%Y-%m-%d %X')
+'2020-03-14 15:32:52'
+
+
+
+

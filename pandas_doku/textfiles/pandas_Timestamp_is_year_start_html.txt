@@ -1,0 +1,34 @@
+
+
+pandas.Timestamp.is_year_start#
+
+
+Timestamp.is_year_start#
+Return True if date is first day of the year.
+
+Returns:
+
+bool
+
+
+
+
+See also
+
+Timestamp.is_year_endSimilar property indicating the end of the year.
+
+
+
+Examples
+>>> ts = pd.Timestamp(2020, 3, 14)
+>>> ts.is_year_start
+False
+
+
+>>> ts = pd.Timestamp(2020, 1, 1)
+>>> ts.is_year_start
+True
+
+
+
+

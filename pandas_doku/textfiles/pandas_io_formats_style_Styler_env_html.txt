@@ -1,0 +1,8 @@
+
+
+pandas.io.formats.style.Styler.env#
+
+
+Styler.env = <jinja2.environment.Environment object>#
+
+

@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.Day.delta#
+
+
+Day.delta#
+
+

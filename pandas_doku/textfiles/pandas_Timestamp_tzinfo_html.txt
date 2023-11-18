@@ -1,0 +1,8 @@
+
+
+pandas.Timestamp.tzinfo#
+
+
+Timestamp.tzinfo#
+
+

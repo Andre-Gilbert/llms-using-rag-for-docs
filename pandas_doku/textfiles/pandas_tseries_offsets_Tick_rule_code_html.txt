@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.Tick.rule_code#
+
+
+Tick.rule_code#
+
+

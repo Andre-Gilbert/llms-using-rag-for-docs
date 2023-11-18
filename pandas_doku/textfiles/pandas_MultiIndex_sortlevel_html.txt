@@ -1,0 +1,70 @@
+
+
+pandas.MultiIndex.sortlevel#
+
+
+MultiIndex.sortlevel(level=0, ascending=True, sort_remaining=True, na_position='first')[source]#
+Sort MultiIndex at the requested level.
+The result will respect the original ordering of the associated
+factor at that level.
+
+Parameters:
+
+levellist-like, int or str, default 0If a string is given, must be a name of the level.
+If list-like must be names or ints of levels.
+
+ascendingbool, default TrueFalse to sort in descending order.
+Can also be a list to specify a directed ordering.
+
+sort_remainingsort by the remaining levels after level
+na_position{âfirstâ or âlastâ}, default âfirstâArgument âfirstâ puts NaNs at the beginning, âlastâ puts NaNs at
+the end.
+
+New in version 2.1.0.
+
+
+
+
+Returns:
+
+sorted_indexpd.MultiIndexResulting index.
+
+indexernp.ndarray[np.intp]Indices of output values in original index.
+
+
+
+
+Examples
+>>> mi = pd.MultiIndex.from_arrays([[0, 0], [2, 1]])
+>>> mi
+MultiIndex([(0, 2),
+            (0, 1)],
+           )
+
+
+>>> mi.sortlevel()
+(MultiIndex([(0, 1),
+            (0, 2)],
+           ), array([1, 0]))
+
+
+>>> mi.sortlevel(sort_remaining=False)
+(MultiIndex([(0, 2),
+            (0, 1)],
+           ), array([0, 1]))
+
+
+>>> mi.sortlevel(1)
+(MultiIndex([(0, 1),
+            (0, 2)],
+           ), array([1, 0]))
+
+
+>>> mi.sortlevel(1, ascending=False)
+(MultiIndex([(0, 2),
+            (0, 1)],
+           ), array([0, 1]))
+
+
+
+

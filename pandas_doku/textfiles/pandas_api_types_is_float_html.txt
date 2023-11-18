@@ -1,0 +1,25 @@
+
+
+pandas.api.types.is_float#
+
+
+pandas.api.types.is_float()#
+Return True if given object is float.
+
+Returns:
+
+bool
+
+
+
+Examples
+>>> pd.api.types.is_float(1.0)
+True
+
+
+>>> pd.api.types.is_float(1)
+False
+
+
+
+

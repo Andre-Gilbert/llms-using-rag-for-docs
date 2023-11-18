@@ -1,0 +1,27 @@
+
+
+pandas.test#
+
+
+pandas.test(extra_args=None, run_doctests=False)[source]#
+Run the pandas test suite using pytest.
+By default, runs with the marks -m ânot slow and not network and not dbâ
+
+Parameters:
+
+extra_argslist[str], default NoneExtra marks to run the tests.
+
+run_doctestsbool, default FalseWhether to only run the Python and Cython doctests. If you would like to run
+both doctests/regular tests, just append ââdoctest-modulesâ/ââdoctest-cythonâ
+to extra_args.
+
+
+
+
+Examples
+>>> pd.test()  
+running: pytest...
+
+
+
+

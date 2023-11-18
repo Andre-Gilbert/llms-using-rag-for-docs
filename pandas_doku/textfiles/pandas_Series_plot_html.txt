@@ -1,0 +1,208 @@
+
+
+pandas.Series.plot#
+
+
+Series.plot(*args, **kwargs)[source]#
+Make plots of Series or DataFrame.
+Uses the backend specified by the
+option plotting.backend. By default, matplotlib is used.
+
+Parameters:
+
+dataSeries or DataFrameThe object for which the method is called.
+
+xlabel or position, default NoneOnly used if data is a DataFrame.
+
+ylabel, position or list of label, positions, default NoneAllows plotting of one column versus another. Only used if data is a
+DataFrame.
+
+kindstrThe kind of plot to produce:
+
+âlineâ : line plot (default)
+âbarâ : vertical bar plot
+âbarhâ : horizontal bar plot
+âhistâ : histogram
+âboxâ : boxplot
+âkdeâ : Kernel Density Estimation plot
+âdensityâ : same as âkdeâ
+âareaâ : area plot
+âpieâ : pie plot
+âscatterâ : scatter plot (DataFrame only)
+âhexbinâ : hexbin plot (DataFrame only)
+
+
+axmatplotlib axes object, default NoneAn axes of the current figure.
+
+subplotsbool or sequence of iterables, default FalseWhether to group columns into subplots:
+
+False : No subplots will be used
+True : Make separate subplots for each column.
+sequence of iterables of column labels: Create a subplot for each
+group of columns. For example [(âaâ, âcâ), (âbâ, âdâ)] will
+create 2 subplots: one with columns âaâ and âcâ, and one
+with columns âbâ and âdâ. Remaining columns that arenât specified
+will be plotted in additional subplots (one per column).
+
+New in version 1.5.0.
+
+
+
+
+sharexbool, default True if ax is None else FalseIn case subplots=True, share x axis and set some x axis labels
+to invisible; defaults to True if ax is None otherwise False if
+an ax is passed in; Be aware, that passing in both an ax and
+sharex=True will alter all x axis labels for all axis in a figure.
+
+shareybool, default FalseIn case subplots=True, share y axis and set some y axis labels to invisible.
+
+layouttuple, optional(rows, columns) for the layout of subplots.
+
+figsizea tuple (width, height) in inchesSize of a figure object.
+
+use_indexbool, default TrueUse index as ticks for x axis.
+
+titlestr or listTitle to use for the plot. If a string is passed, print the string
+at the top of the figure. If a list is passed and subplots is
+True, print each item in the list above the corresponding subplot.
+
+gridbool, default None (matlab style default)Axis grid lines.
+
+legendbool or {âreverseâ}Place legend on axis subplots.
+
+stylelist or dictThe matplotlib line style per column.
+
+logxbool or âsymâ, default FalseUse log scaling or symlog scaling on x axis.
+
+logybool or âsymâ default FalseUse log scaling or symlog scaling on y axis.
+
+loglogbool or âsymâ, default FalseUse log scaling or symlog scaling on both x and y axes.
+
+xtickssequenceValues to use for the xticks.
+
+ytickssequenceValues to use for the yticks.
+
+xlim2-tuple/listSet the x limits of the current axes.
+
+ylim2-tuple/listSet the y limits of the current axes.
+
+xlabellabel, optionalName to use for the xlabel on x-axis. Default uses index name as xlabel, or the
+x-column name for planar plots.
+
+Changed in version 1.2.0: Now applicable to planar plots (scatter, hexbin).
+
+
+Changed in version 2.0.0: Now applicable to histograms.
+
+
+ylabellabel, optionalName to use for the ylabel on y-axis. Default will show no ylabel, or the
+y-column name for planar plots.
+
+Changed in version 1.2.0: Now applicable to planar plots (scatter, hexbin).
+
+
+Changed in version 2.0.0: Now applicable to histograms.
+
+
+rotfloat, default NoneRotation for ticks (xticks for vertical, yticks for horizontal
+plots).
+
+fontsizefloat, default NoneFont size for xticks and yticks.
+
+colormapstr or matplotlib colormap object, default NoneColormap to select colors from. If string, load colormap with that
+name from matplotlib.
+
+colorbarbool, optionalIf True, plot colorbar (only relevant for âscatterâ and âhexbinâ
+plots).
+
+positionfloatSpecify relative alignments for bar plot layout.
+From 0 (left/bottom-end) to 1 (right/top-end). Default is 0.5
+(center).
+
+tablebool, Series or DataFrame, default FalseIf True, draw a table using the data in the DataFrame and the data
+will be transposed to meet matplotlibâs default layout.
+If a Series or DataFrame is passed, use passed data to draw a
+table.
+
+yerrDataFrame, Series, array-like, dict and strSee Plotting with Error Bars for
+detail.
+
+xerrDataFrame, Series, array-like, dict and strEquivalent to yerr.
+
+stackedbool, default False in line and bar plots, and True in area plotIf True, create stacked plot.
+
+secondary_ybool or sequence, default FalseWhether to plot on the secondary y-axis if a list/tuple, which
+columns to plot on secondary y-axis.
+
+mark_rightbool, default TrueWhen using a secondary_y axis, automatically mark the column
+labels with â(right)â in the legend.
+
+include_boolbool, default is FalseIf True, boolean values can be plotted.
+
+backendstr, default NoneBackend to use instead of the backend specified in the option
+plotting.backend. For instance, âmatplotlibâ. Alternatively, to
+specify the plotting.backend for the whole session, set
+pd.options.plotting.backend.
+
+**kwargsOptions to pass to matplotlib plotting method.
+
+
+
+Returns:
+
+matplotlib.axes.Axes or numpy.ndarray of themIf the backend is not the default matplotlib one, the return value
+will be the object returned by the backend.
+
+
+
+
+Notes
+
+See matplotlib documentation online for more on this subject
+If kind = âbarâ or âbarhâ, you can specify relative alignments
+for bar plot layout by position keyword.
+From 0 (left/bottom-end) to 1 (right/top-end). Default is 0.5
+(center)
+
+Examples
+For Series:
+>>> ser = pd.Series([1, 2, 3, 3])
+>>> plot = ser.plot(kind='hist', title="My plot")
+
+
+
+
+
+For DataFrame:
+>>> df = pd.DataFrame({'length': [1.5, 0.5, 1.2, 0.9, 3],
+...                   'width': [0.7, 0.2, 0.15, 0.2, 1.1]},
+...                   index=['pig', 'rabbit', 'duck', 'chicken', 'horse'])
+>>> plot = df.plot(title="DataFrame Plot")
+
+
+
+
+
+For SeriesGroupBy:
+>>> lst = [-1, -2, -3, 1, 2, 3]
+>>> ser = pd.Series([1, 2, 2, 4, 6, 6], index=lst)
+>>> plot = ser.groupby(lambda x: x > 0).plot(title="SeriesGroupBy Plot")
+
+
+
+
+
+For DataFrameGroupBy:
+>>> df = pd.DataFrame({"col1" : [1, 2, 3, 4],
+...                   "col2" : ["A", "B", "A", "B"]})
+>>> plot = df.groupby("col2").plot(kind="bar", title="DataFrameGroupBy Plot")
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,65 @@
+
+
+pandas.bdate_range#
+
+
+pandas.bdate_range(start=None, end=None, periods=None, freq='B', tz=None, normalize=True, name=None, weekmask=None, holidays=None, inclusive='both', **kwargs)[source]#
+Return a fixed frequency DatetimeIndex with business day as the default.
+
+Parameters:
+
+startstr or datetime-like, default NoneLeft bound for generating dates.
+
+endstr or datetime-like, default NoneRight bound for generating dates.
+
+periodsint, default NoneNumber of periods to generate.
+
+freqstr, Timedelta, datetime.timedelta, or DateOffset, default âBâFrequency strings can have multiples, e.g. â5Hâ. The default is
+business daily (âBâ).
+
+tzstr or NoneTime zone name for returning localized DatetimeIndex, for example
+Asia/Beijing.
+
+normalizebool, default FalseNormalize start/end dates to midnight before generating date range.
+
+namestr, default NoneName of the resulting DatetimeIndex.
+
+weekmaskstr or None, default NoneWeekmask of valid business days, passed to numpy.busdaycalendar,
+only used when custom frequency strings are passed. The default
+value None is equivalent to âMon Tue Wed Thu Friâ.
+
+holidayslist-like or None, default NoneDates to exclude from the set of valid business days, passed to
+numpy.busdaycalendar, only used when custom frequency strings
+are passed.
+
+inclusive{âbothâ, âneitherâ, âleftâ, ârightâ}, default âbothâInclude boundaries; Whether to set each bound as closed or open.
+
+New in version 1.4.0.
+
+
+**kwargsFor compatibility. Has no effect on the result.
+
+
+
+Returns:
+
+DatetimeIndex
+
+
+
+Notes
+Of the four parameters: start, end, periods, and freq,
+exactly three must be specified. Specifying freq is a requirement
+for bdate_range. Use date_range if specifying freq is not
+desired.
+To learn more about the frequency strings, please see this link.
+Examples
+Note how the two weekend days are skipped in the result.
+>>> pd.bdate_range(start='1/1/2018', end='1/08/2018')
+DatetimeIndex(['2018-01-01', '2018-01-02', '2018-01-03', '2018-01-04',
+           '2018-01-05', '2018-01-08'],
+          dtype='datetime64[ns]', freq='B')
+
+
+
+

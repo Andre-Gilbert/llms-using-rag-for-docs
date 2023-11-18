@@ -1,0 +1,59 @@
+
+
+pandas.CategoricalIndex.add_categories#
+
+
+CategoricalIndex.add_categories(*args, **kwargs)[source]#
+Add new categories.
+new_categories will be included at the last/highest place in the
+categories and will be unused directly after this call.
+
+Parameters:
+
+new_categoriescategory or list-like of categoryThe new categories to be included.
+
+
+
+Returns:
+
+CategoricalCategorical with new categories added.
+
+
+
+Raises:
+
+ValueErrorIf the new categories include old categories or do not validate as
+categories
+
+
+
+
+
+See also
+
+rename_categoriesRename categories.
+
+reorder_categoriesReorder categories.
+
+remove_categoriesRemove the specified categories.
+
+remove_unused_categoriesRemove categories which are not used.
+
+set_categoriesSet the categories to the specified ones.
+
+
+
+Examples
+>>> c = pd.Categorical(['c', 'b', 'c'])
+>>> c
+['c', 'b', 'c']
+Categories (2, object): ['b', 'c']
+
+
+>>> c.add_categories(['d', 'a'])
+['c', 'b', 'c']
+Categories (4, object): ['b', 'c', 'd', 'a']
+
+
+
+

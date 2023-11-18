@@ -1,0 +1,8 @@
+
+
+pandas.Period.freq#
+
+
+Period.freq#
+
+

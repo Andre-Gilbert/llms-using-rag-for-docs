@@ -1,0 +1,49 @@
+
+
+pandas.Index.repeat#
+
+
+Index.repeat(repeats, axis=None)[source]#
+Repeat elements of a Index.
+Returns a new Index where each element of the current Index
+is repeated consecutively a given number of times.
+
+Parameters:
+
+repeatsint or array of intsThe number of repetitions for each element. This should be a
+non-negative integer. Repeating 0 times will return an empty
+Index.
+
+axisNoneMust be None. Has no effect but is accepted for compatibility
+with numpy.
+
+
+
+Returns:
+
+IndexNewly created Index with repeated elements.
+
+
+
+
+
+See also
+
+Series.repeatEquivalent function for Series.
+
+numpy.repeatSimilar method for numpy.ndarray.
+
+
+
+Examples
+>>> idx = pd.Index(['a', 'b', 'c'])
+>>> idx
+Index(['a', 'b', 'c'], dtype='object')
+>>> idx.repeat(2)
+Index(['a', 'a', 'b', 'b', 'c', 'c'], dtype='object')
+>>> idx.repeat([1, 2, 3])
+Index(['a', 'b', 'b', 'c', 'c', 'c'], dtype='object')
+
+
+
+

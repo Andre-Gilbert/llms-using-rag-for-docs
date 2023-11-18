@@ -1,0 +1,8 @@
+
+
+pandas.Timedelta.microseconds#
+
+
+Timedelta.microseconds#
+
+

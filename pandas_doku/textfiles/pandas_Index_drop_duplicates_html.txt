@@ -1,0 +1,60 @@
+
+
+pandas.Index.drop_duplicates#
+
+
+Index.drop_duplicates(*, keep='first')[source]#
+Return Index with duplicate values removed.
+
+Parameters:
+
+keep{âfirstâ, âlastâ, False}, default âfirstâ
+âfirstâ : Drop duplicates except for the first occurrence.
+âlastâ : Drop duplicates except for the last occurrence.
+False : Drop all duplicates.
+
+
+
+
+Returns:
+
+Index
+
+
+
+
+See also
+
+Series.drop_duplicatesEquivalent method on Series.
+
+DataFrame.drop_duplicatesEquivalent method on DataFrame.
+
+Index.duplicatedRelated method on Index, indicating duplicate Index values.
+
+
+
+Examples
+Generate an pandas.Index with duplicate values.
+>>> idx = pd.Index(['lama', 'cow', 'lama', 'beetle', 'lama', 'hippo'])
+
+
+The keep parameter controls which duplicate values are removed.
+The value âfirstâ keeps the first occurrence for each
+set of duplicated entries. The default value of keep is âfirstâ.
+>>> idx.drop_duplicates(keep='first')
+Index(['lama', 'cow', 'beetle', 'hippo'], dtype='object')
+
+
+The value âlastâ keeps the last occurrence for each set of duplicated
+entries.
+>>> idx.drop_duplicates(keep='last')
+Index(['cow', 'beetle', 'lama', 'hippo'], dtype='object')
+
+
+The value False discards all sets of duplicated entries.
+>>> idx.drop_duplicates(keep=False)
+Index(['cow', 'beetle', 'hippo'], dtype='object')
+
+
+
+

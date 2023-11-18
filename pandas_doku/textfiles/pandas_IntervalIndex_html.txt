@@ -1,0 +1,122 @@
+
+
+pandas.IntervalIndex#
+
+
+class pandas.IntervalIndex(data, closed=None, dtype=None, copy=False, name=None, verify_integrity=True)[source]#
+Immutable index of intervals that are closed on the same side.
+
+Parameters:
+
+dataarray-like (1-dimensional)Array-like (ndarray, DateTimeArray, TimeDeltaArray) containing
+Interval objects from which to build the IntervalIndex.
+
+closed{âleftâ, ârightâ, âbothâ, âneitherâ}, default ârightâWhether the intervals are closed on the left-side, right-side, both or
+neither.
+
+dtypedtype or None, default NoneIf None, dtype will be inferred.
+
+copybool, default FalseCopy the input data.
+
+nameobject, optionalName to be stored in the index.
+
+verify_integritybool, default TrueVerify that the IntervalIndex is valid.
+
+
+
+
+
+See also
+
+IndexThe base pandas Index type.
+
+IntervalA bounded slice-like interval; the elements of an IntervalIndex.
+
+interval_rangeFunction to create a fixed frequency IntervalIndex.
+
+cutBin values into discrete Intervals.
+
+qcutBin values into equal-sized Intervals based on rank or sample quantiles.
+
+
+
+Notes
+See the user guide
+for more.
+Examples
+A new IntervalIndex is typically constructed using
+interval_range():
+>>> pd.interval_range(start=0, end=5)
+IntervalIndex([(0, 1], (1, 2], (2, 3], (3, 4], (4, 5]],
+              dtype='interval[int64, right]')
+
+
+It may also be constructed using one of the constructor
+methods: IntervalIndex.from_arrays(),
+IntervalIndex.from_breaks(), and IntervalIndex.from_tuples().
+See further examples in the doc strings of interval_range and the
+mentioned constructor methods.
+Attributes
+
+
+closed
+String describing the inclusive side the intervals.
+
+is_empty
+Indicates if an interval is empty, meaning it contains no points.
+
+is_non_overlapping_monotonic
+Return a boolean whether the IntervalArray is non-overlapping and monotonic.
+
+is_overlapping
+Return True if the IntervalIndex has overlapping intervals, else False.
+
+values
+Return an array representing the data in the Index.
+
+
+
+
+
+left
+
+
+right
+
+
+mid
+
+
+length
+
+
+
+
+Methods
+
+
+from_arrays(left,Â right[,Â closed,Â name,Â ...])
+Construct from two arrays defining the left and right bounds.
+
+from_tuples(data[,Â closed,Â name,Â copy,Â dtype])
+Construct an IntervalIndex from an array-like of tuples.
+
+from_breaks(breaks[,Â closed,Â name,Â copy,Â dtype])
+Construct an IntervalIndex from an array of splits.
+
+contains(*args,Â **kwargs)
+Check elementwise if the Intervals contain the value.
+
+overlaps(*args,Â **kwargs)
+Check elementwise if an Interval overlaps the values in the IntervalArray.
+
+set_closed(*args,Â **kwargs)
+Return an identical IntervalArray closed on the specified side.
+
+to_tuples(*args,Â **kwargs)
+Return an ndarray (if self is IntervalArray) or Index (if self is IntervalIndex) of tuples of the form (left, right).
+
+
+
+
+

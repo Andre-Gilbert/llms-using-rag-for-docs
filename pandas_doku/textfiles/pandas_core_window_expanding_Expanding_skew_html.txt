@@ -1,0 +1,54 @@
+
+
+pandas.core.window.expanding.Expanding.skew#
+
+
+Expanding.skew(numeric_only=False)[source]#
+Calculate the expanding unbiased skewness.
+
+Parameters:
+
+numeric_onlybool, default FalseInclude only float, int, boolean columns.
+
+New in version 1.5.0.
+
+
+
+
+Returns:
+
+Series or DataFrameReturn type is the same as the original object with np.float64 dtype.
+
+
+
+
+
+See also
+
+scipy.stats.skewThird moment of a probability density.
+
+pandas.Series.expandingCalling expanding with Series data.
+
+pandas.DataFrame.expandingCalling expanding with DataFrames.
+
+pandas.Series.skewAggregating skew for Series.
+
+pandas.DataFrame.skewAggregating skew for DataFrame.
+
+
+
+Notes
+A minimum of three periods is required for the rolling calculation.
+Examples
+>>> ser = pd.Series([-1, 0, 2, -1, 2], index=['a', 'b', 'c', 'd', 'e'])
+>>> ser.expanding().skew()
+a         NaN
+b         NaN
+c    0.935220
+d    1.414214
+e    0.315356
+dtype: float64
+
+
+
+

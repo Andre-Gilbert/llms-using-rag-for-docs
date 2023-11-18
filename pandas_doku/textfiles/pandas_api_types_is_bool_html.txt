@@ -1,0 +1,25 @@
+
+
+pandas.api.types.is_bool#
+
+
+pandas.api.types.is_bool()#
+Return True if given object is boolean.
+
+Returns:
+
+bool
+
+
+
+Examples
+>>> pd.api.types.is_bool(True)
+True
+
+
+>>> pd.api.types.is_bool(1)
+False
+
+
+
+

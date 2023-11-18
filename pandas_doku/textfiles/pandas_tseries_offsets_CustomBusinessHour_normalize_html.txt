@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.CustomBusinessHour.normalize#
+
+
+CustomBusinessHour.normalize#
+
+

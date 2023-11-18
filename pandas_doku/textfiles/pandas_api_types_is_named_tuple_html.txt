@@ -1,0 +1,34 @@
+
+
+pandas.api.types.is_named_tuple#
+
+
+pandas.api.types.is_named_tuple(obj)[source]#
+Check if the object is a named tuple.
+
+Parameters:
+
+objThe object to check
+
+
+Returns:
+
+boolWhether obj is a named tuple.
+
+
+
+
+Examples
+>>> from collections import namedtuple
+>>> from pandas.api.types import is_named_tuple
+>>> Point = namedtuple("Point", ["x", "y"])
+>>> p = Point(1, 2)
+>>>
+>>> is_named_tuple(p)
+True
+>>> is_named_tuple((1, 2))
+False
+
+
+
+

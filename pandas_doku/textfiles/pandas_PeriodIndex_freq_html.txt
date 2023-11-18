@@ -1,0 +1,8 @@
+
+
+pandas.PeriodIndex.freq#
+
+
+property PeriodIndex.freq[source]#
+
+

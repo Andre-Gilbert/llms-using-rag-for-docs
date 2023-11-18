@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.LastWeekOfMonth.rule_code#
+
+
+LastWeekOfMonth.rule_code#
+
+

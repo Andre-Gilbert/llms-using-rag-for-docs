@@ -1,0 +1,47 @@
+
+
+pandas.StringDtype#
+
+
+class pandas.StringDtype(storage=None)[source]#
+Extension dtype for string data.
+
+Warning
+StringDtype is considered experimental. The implementation and
+parts of the API may change without warning.
+
+
+Parameters:
+
+storage{âpythonâ, âpyarrowâ, âpyarrow_numpyâ}, optionalIf not given, the value of pd.options.mode.string_storage.
+
+
+
+
+Examples
+>>> pd.StringDtype()
+string[python]
+
+
+>>> pd.StringDtype(storage="pyarrow")
+string[pyarrow]
+
+
+Attributes
+
+
+None
+
+
+
+
+Methods
+
+
+None
+
+
+
+
+
+

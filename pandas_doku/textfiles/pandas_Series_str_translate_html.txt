@@ -1,0 +1,35 @@
+
+
+pandas.Series.str.translate#
+
+
+Series.str.translate(table)[source]#
+Map all characters in the string through the given mapping table.
+Equivalent to standard str.translate().
+
+Parameters:
+
+tabledictTable is a mapping of Unicode ordinals to Unicode ordinals, strings, or
+None. Unmapped characters are left untouched.
+Characters mapped to None are deleted. str.maketrans() is a
+helper function for making translation tables.
+
+
+
+Returns:
+
+Series or Index
+
+
+
+Examples
+>>> ser = pd.Series(["El niÃ±o", "FranÃ§oise"])
+>>> mytable = str.maketrans({'Ã±': 'n', 'Ã§': 'c'})
+>>> ser.str.translate(mytable)
+0   El nino
+1   Francoise
+dtype: object
+
+
+
+

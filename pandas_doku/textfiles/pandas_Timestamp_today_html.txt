@@ -1,0 +1,29 @@
+
+
+pandas.Timestamp.today#
+
+
+classmethod Timestamp.today(tz=None)#
+Return the current time in the local timezone.
+This differs from datetime.today() in that it can be localized to a
+passed timezone.
+
+Parameters:
+
+tzstr or timezone object, default NoneTimezone to localize to.
+
+
+
+
+Examples
+>>> pd.Timestamp.today()    
+Timestamp('2020-11-16 22:37:39.969883')
+
+
+Analogous for pd.NaT:
+>>> pd.NaT.today()
+NaT
+
+
+
+

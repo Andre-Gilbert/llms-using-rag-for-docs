@@ -1,0 +1,31 @@
+
+
+pandas.Timedelta.as_unit#
+
+
+Timedelta.as_unit()#
+Convert the underlying int64 representation to the given unit.
+
+Parameters:
+
+unit{ânsâ, âusâ, âmsâ, âsâ}
+round_okbool, default TrueIf False and the conversion requires rounding, raise.
+
+
+
+Returns:
+
+Timedelta
+
+
+
+Examples
+>>> td = pd.Timedelta('1001ms')
+>>> td
+Timedelta('0 days 00:00:01.001000')
+>>> td.as_unit('s')
+Timedelta('0 days 00:00:01')
+
+
+
+

@@ -1,0 +1,16 @@
+
+
+pandas.errors.OutOfBoundsDatetime#
+
+
+exception pandas.errors.OutOfBoundsDatetime#
+Raised when the datetime is outside the range that can be represented.
+Examples
+>>> pd.to_datetime("08335394550")
+Traceback (most recent call last):
+OutOfBoundsDatetime: Parsing "08335394550" to datetime overflows,
+at position 0
+
+
+
+

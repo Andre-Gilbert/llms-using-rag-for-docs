@@ -1,0 +1,15 @@
+
+
+pandas.Period.month#
+
+
+Period.month#
+Return the month this Period falls on.
+Examples
+>>> period = pd.Period('2022-01', 'M')
+>>> period.month
+1
+
+
+
+

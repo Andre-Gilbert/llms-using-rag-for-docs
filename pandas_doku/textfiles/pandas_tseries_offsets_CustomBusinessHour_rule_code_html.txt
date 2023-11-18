@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.CustomBusinessHour.rule_code#
+
+
+CustomBusinessHour.rule_code#
+
+

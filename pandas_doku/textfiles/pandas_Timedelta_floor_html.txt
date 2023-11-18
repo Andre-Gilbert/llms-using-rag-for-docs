@@ -1,0 +1,25 @@
+
+
+pandas.Timedelta.floor#
+
+
+Timedelta.floor(freq)#
+Return a new Timedelta floored to this resolution.
+
+Parameters:
+
+freqstrFrequency string indicating the flooring resolution.
+
+
+
+
+Examples
+>>> td = pd.Timedelta('1001ms')
+>>> td
+Timedelta('0 days 00:00:01.001000')
+>>> td.floor('s')
+Timedelta('0 days 00:00:01')
+
+
+
+

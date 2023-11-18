@@ -1,0 +1,8 @@
+
+
+pandas.Series.dt.qyear#
+
+
+Series.dt.qyear[source]#
+
+

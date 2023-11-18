@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.Week.nanos#
+
+
+Week.nanos#
+
+

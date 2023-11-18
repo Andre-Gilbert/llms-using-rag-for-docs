@@ -1,0 +1,260 @@
+
+
+pandas.io.formats.style.Styler#
+
+
+class pandas.io.formats.style.Styler(data, precision=None, table_styles=None, uuid=None, caption=None, table_attributes=None, cell_ids=True, na_rep=None, uuid_len=5, decimal=None, thousands=None, escape=None, formatter=None)[source]#
+Helps style a DataFrame or Series according to the data with HTML and CSS.
+
+Parameters:
+
+dataSeries or DataFrameData to be styled - either a Series or DataFrame.
+
+precisionint, optionalPrecision to round floats to. If not given defaults to
+pandas.options.styler.format.precision.
+
+Changed in version 1.4.0.
+
+
+table_styleslist-like, default NoneList of {selector: (attr, value)} dicts; see Notes.
+
+uuidstr, default NoneA unique identifier to avoid CSS collisions; generated automatically.
+
+captionstr, tuple, default NoneString caption to attach to the table. Tuple only used for LaTeX dual captions.
+
+table_attributesstr, default NoneItems that show up in the opening <table> tag
+in addition to automatic (by default) id.
+
+cell_idsbool, default TrueIf True, each cell will have an id attribute in their HTML tag.
+The id takes the form T_<uuid>_row<num_row>_col<num_col>
+where <uuid> is the unique identifier, <num_row> is the row
+number and <num_col> is the column number.
+
+na_repstr, optionalRepresentation for missing values.
+If na_rep is None, no special formatting is applied, and falls back to
+pandas.options.styler.format.na_rep.
+
+uuid_lenint, default 5If uuid is not specified, the length of the uuid to randomly generate
+expressed in hex characters, in range [0, 32].
+
+New in version 1.2.0.
+
+
+decimalstr, optionalCharacter used as decimal separator for floats, complex and integers. If not
+given uses pandas.options.styler.format.decimal.
+
+New in version 1.3.0.
+
+
+thousandsstr, optional, default NoneCharacter used as thousands separator for floats, complex and integers. If not
+given uses pandas.options.styler.format.thousands.
+
+New in version 1.3.0.
+
+
+escapestr, optionalUse âhtmlâ to replace the characters &, <, >, ', and "
+in cell display string with HTML-safe sequences.
+Use âlatexâ to replace the characters &, %, $, #, _,
+{, }, ~, ^, and \ in the cell display string with
+LaTeX-safe sequences. Use âlatex-mathâ to replace the characters
+the same way as in âlatexâ mode, except for math substrings,
+which either are surrounded by two characters $ or start with
+the character \( and end with \).
+If not given uses pandas.options.styler.format.escape.
+
+New in version 1.3.0.
+
+
+formatterstr, callable, dict, optionalObject to define how values are displayed. See Styler.format. If not given
+uses pandas.options.styler.format.formatter.
+
+New in version 1.4.0.
+
+
+
+
+
+
+See also
+
+DataFrame.styleReturn a Styler object containing methods for building a styled HTML representation for the DataFrame.
+
+
+
+Notes
+Most styling will be done by passing style functions into
+Styler.apply or Styler.map. Style functions should
+return values with strings containing CSS 'attr: value' that will
+be applied to the indicated cells.
+If using in the Jupyter notebook, Styler has defined a _repr_html_
+to automatically render itself. Otherwise call Styler.to_html to get
+the generated HTML.
+CSS classes are attached to the generated HTML
+
+Index and Column names include index_name and level<k>
+where k is its level in a MultiIndex
+Index label cells include
+
+row_heading
+row<n> where n is the numeric position of the row
+level<k> where k is the level in a MultiIndex
+
+
+Column label cells include
+* col_heading
+* col<n> where n is the numeric position of the column
+* level<k> where k is the level in a MultiIndex
+Blank cells include blank
+Data cells include data
+Trimmed cells include col_trim or row_trim.
+
+Any, or all, or these classes can be renamed by using the css_class_names
+argument in Styler.set_table_classes, giving a value such as
+{ârowâ: âMY_ROW_CLASSâ, âcol_trimâ: ââ, ârow_trimâ: ââ}.
+Examples
+>>> df = pd.DataFrame([[1.0, 2.0, 3.0], [4, 5, 6]], index=['a', 'b'],
+...                   columns=['A', 'B', 'C'])
+>>> pd.io.formats.style.Styler(df, precision=2,
+...                            caption="My table")  
+
+
+Please see:
+Table Visualization for more examples.
+Attributes
+
+
+env
+(Jinja2 jinja2.Environment)
+
+template_html
+(Jinja2 Template)
+
+template_html_table
+(Jinja2 Template)
+
+template_html_style
+(Jinja2 Template)
+
+template_latex
+(Jinja2 Template)
+
+loader
+(Jinja2 Loader)
+
+
+
+Methods
+
+
+apply(func[,Â axis,Â subset])
+Apply a CSS-styling function column-wise, row-wise, or table-wise.
+
+apply_index(func[,Â axis,Â level])
+Apply a CSS-styling function to the index or column headers, level-wise.
+
+applymap(func[,Â subset])
+(DEPRECATED) Apply a CSS-styling function elementwise.
+
+applymap_index(func[,Â axis,Â level])
+(DEPRECATED) Apply a CSS-styling function to the index or column headers, elementwise.
+
+background_gradient([cmap,Â low,Â high,Â axis,Â ...])
+Color the background in a gradient style.
+
+bar([subset,Â axis,Â color,Â cmap,Â width,Â ...])
+Draw bar chart in the cell backgrounds.
+
+clear()
+Reset the Styler, removing any previously applied styles.
+
+concat(other)
+Append another Styler to combine the output into a single table.
+
+export()
+Export the styles applied to the current Styler.
+
+format([formatter,Â subset,Â na_rep,Â ...])
+Format the text display value of cells.
+
+format_index([formatter,Â axis,Â level,Â ...])
+Format the text display value of index labels or column headers.
+
+from_custom_template(searchpath[,Â ...])
+Factory function for creating a subclass of Styler.
+
+hide([subset,Â axis,Â level,Â names])
+Hide the entire index / column headers, or specific rows / columns from display.
+
+highlight_between([subset,Â color,Â axis,Â ...])
+Highlight a defined range with a style.
+
+highlight_max([subset,Â color,Â axis,Â props])
+Highlight the maximum with a style.
+
+highlight_min([subset,Â color,Â axis,Â props])
+Highlight the minimum with a style.
+
+highlight_null([color,Â subset,Â props])
+Highlight missing values with a style.
+
+highlight_quantile([subset,Â color,Â axis,Â ...])
+Highlight values defined by a quantile with a style.
+
+map(func[,Â subset])
+Apply a CSS-styling function elementwise.
+
+map_index(func[,Â axis,Â level])
+Apply a CSS-styling function to the index or column headers, elementwise.
+
+pipe(func,Â *args,Â **kwargs)
+Apply func(self, *args, **kwargs), and return the result.
+
+relabel_index(labels[,Â axis,Â level])
+Relabel the index, or column header, keys to display a set of specified values.
+
+set_caption(caption)
+Set the text added to a <caption> HTML element.
+
+set_properties([subset])
+Set defined CSS-properties to each <td> HTML element for the given subset.
+
+set_sticky([axis,Â pixel_size,Â levels])
+Add CSS to permanently display the index or column headers in a scrolling frame.
+
+set_table_attributes(attributes)
+Set the table attributes added to the <table> HTML element.
+
+set_table_styles([table_styles,Â axis,Â ...])
+Set the table styles included within the <style> HTML element.
+
+set_td_classes(classes)
+Set the class attribute of <td> HTML elements.
+
+set_tooltips(ttips[,Â props,Â css_class])
+Set the DataFrame of strings on Styler generating :hover tooltips.
+
+set_uuid(uuid)
+Set the uuid applied to id attributes of HTML elements.
+
+text_gradient([cmap,Â low,Â high,Â axis,Â ...])
+Color the text in a gradient style.
+
+to_excel(excel_writer[,Â sheet_name,Â na_rep,Â ...])
+Write Styler to an Excel sheet.
+
+to_html([buf,Â table_uuid,Â table_attributes,Â ...])
+Write Styler to a file, buffer or string in HTML-CSS format.
+
+to_latex([buf,Â column_format,Â position,Â ...])
+Write Styler to a file, buffer or string in LaTeX format.
+
+to_string([buf,Â encoding,Â sparse_index,Â ...])
+Write Styler to a file, buffer or string in text format.
+
+use(styles)
+Set the styles on the current Styler.
+
+
+
+
+

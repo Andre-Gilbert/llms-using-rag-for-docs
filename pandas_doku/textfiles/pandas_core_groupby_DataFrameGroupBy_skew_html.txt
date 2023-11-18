@@ -1,0 +1,76 @@
+
+
+pandas.core.groupby.DataFrameGroupBy.skew#
+
+
+DataFrameGroupBy.skew(axis=_NoDefault.no_default, skipna=True, numeric_only=False, **kwargs)[source]#
+Return unbiased skew within groups.
+Normalized by N-1.
+
+Parameters:
+
+axis{0 or âindexâ, 1 or âcolumnsâ, None}, default 0Axis for the function to be applied on.
+Specifying axis=None will apply the aggregation across both axes.
+
+New in version 2.0.0.
+
+
+Deprecated since version 2.1.0: For axis=1, operate on the underlying object instead. Otherwise
+the axis keyword is not necessary.
+
+
+skipnabool, default TrueExclude NA/null values when computing the result.
+
+numeric_onlybool, default FalseInclude only float, int, boolean columns.
+
+**kwargsAdditional keyword arguments to be passed to the function.
+
+
+
+Returns:
+
+DataFrame
+
+
+
+
+See also
+
+DataFrame.skewReturn unbiased skew over requested axis.
+
+
+
+Examples
+>>> arrays = [['falcon', 'parrot', 'cockatoo', 'kiwi',
+...            'lion', 'monkey', 'rabbit'],
+...           ['bird', 'bird', 'bird', 'bird',
+...            'mammal', 'mammal', 'mammal']]
+>>> index = pd.MultiIndex.from_arrays(arrays, names=('name', 'class'))
+>>> df = pd.DataFrame({'max_speed': [389.0, 24.0, 70.0, np.nan,
+...                                  80.5, 21.5, 15.0]},
+...                   index=index)
+>>> df
+                max_speed
+name     class
+falcon   bird        389.0
+parrot   bird         24.0
+cockatoo bird         70.0
+kiwi     bird          NaN
+lion     mammal       80.5
+monkey   mammal       21.5
+rabbit   mammal       15.0
+>>> gb = df.groupby(["class"])
+>>> gb.skew()
+        max_speed
+class
+bird     1.628296
+mammal   1.669046
+>>> gb.skew(skipna=False)
+        max_speed
+class
+bird          NaN
+mammal   1.669046
+
+
+
+

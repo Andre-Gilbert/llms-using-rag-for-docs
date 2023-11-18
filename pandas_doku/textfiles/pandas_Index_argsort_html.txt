@@ -1,0 +1,50 @@
+
+
+pandas.Index.argsort#
+
+
+Index.argsort(*args, **kwargs)[source]#
+Return the integer indices that would sort the index.
+
+Parameters:
+
+*argsPassed to numpy.ndarray.argsort.
+
+**kwargsPassed to numpy.ndarray.argsort.
+
+
+
+Returns:
+
+np.ndarray[np.intp]Integer indices that would sort the index if used as
+an indexer.
+
+
+
+
+
+See also
+
+numpy.argsortSimilar method for NumPy arrays.
+
+Index.sort_valuesReturn sorted copy of Index.
+
+
+
+Examples
+>>> idx = pd.Index(['b', 'a', 'd', 'c'])
+>>> idx
+Index(['b', 'a', 'd', 'c'], dtype='object')
+
+
+>>> order = idx.argsort()
+>>> order
+array([1, 0, 3, 2])
+
+
+>>> idx[order]
+Index(['a', 'b', 'c', 'd'], dtype='object')
+
+
+
+

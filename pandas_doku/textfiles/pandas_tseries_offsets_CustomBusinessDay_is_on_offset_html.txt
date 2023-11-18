@@ -1,0 +1,32 @@
+
+
+pandas.tseries.offsets.CustomBusinessDay.is_on_offset#
+
+
+CustomBusinessDay.is_on_offset()#
+Return boolean whether a timestamp intersects with this frequency.
+
+Parameters:
+
+dtdatetime.datetimeTimestamp to check intersections with frequency.
+
+
+
+
+Examples
+>>> ts = pd.Timestamp(2022, 1, 1)
+>>> freq = pd.offsets.Day(1)
+>>> freq.is_on_offset(ts)
+True
+
+
+>>> ts = pd.Timestamp(2022, 8, 6)
+>>> ts.day_name()
+'Saturday'
+>>> freq = pd.offsets.BusinessDay(1)
+>>> freq.is_on_offset(ts)
+False
+
+
+
+

@@ -1,0 +1,22 @@
+
+
+pandas.Period.now#
+
+
+Period.now()#
+Return the period of nowâs date.
+
+Parameters:
+
+freqstr, BaseOffsetFrequency to use for the returned period.
+
+
+
+
+Examples
+>>> pd.Period.now('H')  
+Period('2023-06-12 11:00', 'H')
+
+
+
+

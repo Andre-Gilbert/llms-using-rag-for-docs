@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.Micro.rule_code#
+
+
+Micro.rule_code#
+
+

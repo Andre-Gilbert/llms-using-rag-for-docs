@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.Tick.normalize#
+
+
+Tick.normalize#
+
+

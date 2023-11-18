@@ -1,0 +1,34 @@
+
+
+pandas.Timestamp.is_year_end#
+
+
+Timestamp.is_year_end#
+Return True if date is last day of the year.
+
+Returns:
+
+bool
+
+
+
+
+See also
+
+Timestamp.is_year_startSimilar property indicating the start of the year.
+
+
+
+Examples
+>>> ts = pd.Timestamp(2020, 3, 14)
+>>> ts.is_year_end
+False
+
+
+>>> ts = pd.Timestamp(2020, 12, 31)
+>>> ts.is_year_end
+True
+
+
+
+

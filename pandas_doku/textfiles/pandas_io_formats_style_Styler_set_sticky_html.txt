@@ -1,0 +1,46 @@
+
+
+pandas.io.formats.style.Styler.set_sticky#
+
+
+Styler.set_sticky(axis=0, pixel_size=None, levels=None)[source]#
+Add CSS to permanently display the index or column headers in a scrolling frame.
+
+Parameters:
+
+axis{0 or âindexâ, 1 or âcolumnsâ}, default 0Whether to make the index or column headers sticky.
+
+pixel_sizeint, optionalRequired to configure the width of index cells or the height of column
+header cells when sticking a MultiIndex (or with a named Index).
+Defaults to 75 and 25 respectively.
+
+levelsint, str, list, optionalIf axis is a MultiIndex the specific levels to stick. If None will
+stick all levels.
+
+
+
+Returns:
+
+Styler
+
+
+
+Notes
+This method uses the CSS âposition: sticky;â property to display. It is
+designed to work with visible axes, therefore both:
+
+
+styler.set_sticky(axis=âindexâ).hide(axis=âindexâ)
+styler.set_sticky(axis=âcolumnsâ).hide(axis=âcolumnsâ)
+
+
+may produce strange behaviour due to CSS controls with missing elements.
+Examples
+>>> df = pd.DataFrame({'A': [1, 2], 'B': [3, 4]})
+>>> df.style.set_sticky(axis="index")  
+
+
+Please see:
+Table Visualization for more examples.
+
+

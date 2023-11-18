@@ -1,0 +1,18 @@
+
+
+pandas.errors.DataError#
+
+
+exception pandas.errors.DataError[source]#
+Exceptionn raised when performing an operation on non-numerical data.
+For example, calling ohlc on a non-numerical column or a function
+on a rolling window.
+Examples
+>>> ser = pd.Series(['a', 'b', 'c'])
+>>> ser.rolling(2).sum()
+Traceback (most recent call last):
+DataError: No numeric types to aggregate
+
+
+
+

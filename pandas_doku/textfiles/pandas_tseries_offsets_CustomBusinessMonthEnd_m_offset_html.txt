@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.CustomBusinessMonthEnd.m_offset#
+
+
+CustomBusinessMonthEnd.m_offset#
+
+

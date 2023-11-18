@@ -1,0 +1,22 @@
+
+
+pandas.tseries.offsets.Second.nanos#
+
+
+Second.nanos#
+Return an integer of the total number of nanoseconds.
+
+Raises:
+
+ValueErrorIf the frequency is non-fixed.
+
+
+
+
+Examples
+>>> pd.offsets.Hour(5).nanos
+18000000000000
+
+
+
+

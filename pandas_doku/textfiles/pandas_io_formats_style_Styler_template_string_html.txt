@@ -1,0 +1,8 @@
+
+
+pandas.io.formats.style.Styler.template_string#
+
+
+Styler.template_string = <Template 'string.tpl'>#
+
+

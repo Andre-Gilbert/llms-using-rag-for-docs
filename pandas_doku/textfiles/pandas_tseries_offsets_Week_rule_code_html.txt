@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.Week.rule_code#
+
+
+Week.rule_code#
+
+

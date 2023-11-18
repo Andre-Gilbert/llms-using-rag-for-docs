@@ -1,0 +1,31 @@
+
+
+pandas.Period.asfreq#
+
+
+Period.asfreq()#
+Convert Period to desired frequency, at the start or end of the interval.
+
+Parameters:
+
+freqstr, BaseOffsetThe desired frequency. If passing a str, it needs to be a
+valid period alias.
+
+how{âEâ, âSâ, âendâ, âstartâ}, default âendâStart or end of the timespan.
+
+
+
+Returns:
+
+resampledPeriod
+
+
+
+Examples
+>>> period = pd.Period('2023-1-1', freq='D')
+>>> period.asfreq('H')
+Period('2023-01-01 23:00', 'H')
+
+
+
+

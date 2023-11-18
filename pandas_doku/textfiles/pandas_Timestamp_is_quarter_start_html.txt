@@ -1,0 +1,37 @@
+
+
+pandas.Timestamp.is_quarter_start#
+
+
+Timestamp.is_quarter_start#
+Check if the date is the first day of the quarter.
+
+Returns:
+
+boolTrue if date is first day of the quarter.
+
+
+
+
+
+See also
+
+Timestamp.is_quarter_endSimilar property indicating the quarter end.
+
+Timestamp.quarterReturn the quarter of the date.
+
+
+
+Examples
+>>> ts = pd.Timestamp(2020, 3, 14)
+>>> ts.is_quarter_start
+False
+
+
+>>> ts = pd.Timestamp(2020, 4, 1)
+>>> ts.is_quarter_start
+True
+
+
+
+

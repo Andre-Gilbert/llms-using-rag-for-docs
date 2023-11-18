@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.YearBegin.rule_code#
+
+
+YearBegin.rule_code#
+
+

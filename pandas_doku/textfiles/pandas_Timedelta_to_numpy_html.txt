@@ -1,0 +1,34 @@
+
+
+pandas.Timedelta.to_numpy#
+
+
+Timedelta.to_numpy()#
+Convert the Timedelta to a NumPy timedelta64.
+This is an alias method for Timedelta.to_timedelta64(). The dtype and
+copy parameters are available here only for compatibility. Their values
+will not affect the return value.
+
+Returns:
+
+numpy.timedelta64
+
+
+
+
+See also
+
+Series.to_numpySimilar method for Series.
+
+
+
+Examples
+>>> td = pd.Timedelta('3D')
+>>> td
+Timedelta('3 days 00:00:00')
+>>> td.to_numpy()
+numpy.timedelta64(259200000000000,'ns')
+
+
+
+

@@ -1,0 +1,25 @@
+
+
+pandas.Timedelta.view#
+
+
+Timedelta.view()#
+Array view compatibility.
+
+Parameters:
+
+dtypestr or dtypeThe dtype to view the underlying data as.
+
+
+
+
+Examples
+>>> td = pd.Timedelta('3D')
+>>> td
+Timedelta('3 days 00:00:00')
+>>> td.view(int)
+259200000000000
+
+
+
+

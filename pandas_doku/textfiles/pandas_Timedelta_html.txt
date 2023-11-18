@@ -1,0 +1,127 @@
+
+
+pandas.Timedelta#
+
+
+class pandas.Timedelta(value=<object object>, unit=None, **kwargs)#
+Represents a duration, the difference between two dates or times.
+Timedelta is the pandas equivalent of pythonâs datetime.timedelta
+and is interchangeable with it in most cases.
+
+Parameters:
+
+valueTimedelta, timedelta, np.timedelta64, str, or int
+unitstr, default ânsâDenote the unit of the input, if input is an integer.
+Possible values:
+
+âWâ, âDâ, âTâ, âSâ, âLâ, âUâ, or âNâ
+âdaysâ or âdayâ
+âhoursâ, âhourâ, âhrâ, or âhâ
+âminutesâ, âminuteâ, âminâ, or âmâ
+âsecondsâ, âsecondâ, or âsecâ
+âmillisecondsâ, âmillisecondâ, âmillisâ, or âmilliâ
+âmicrosecondsâ, âmicrosecondâ, âmicrosâ, or âmicroâ
+ânanosecondsâ, ânanosecondâ, ânanosâ, ânanoâ, or ânsâ.
+
+
+**kwargsAvailable kwargs: {days, seconds, microseconds,
+milliseconds, minutes, hours, weeks}.
+Values for construction in compat with datetime.timedelta.
+Numpy ints and floats will be coerced to python ints and floats.
+
+
+
+
+Notes
+The constructor may take in either both values of value and unit or
+kwargs as above. Either one of them must be used during initialization
+The .value attribute is always in ns.
+If the precision is higher than nanoseconds, the precision of the duration is
+truncated to nanoseconds.
+Examples
+Here we initialize Timedelta object with both value and unit
+>>> td = pd.Timedelta(1, "d")
+>>> td
+Timedelta('1 days 00:00:00')
+
+
+Here we initialize the Timedelta object with kwargs
+>>> td2 = pd.Timedelta(days=1)
+>>> td2
+Timedelta('1 days 00:00:00')
+
+
+We see that either way we get the same result
+Attributes
+
+
+asm8
+Return a numpy timedelta64 array scalar view.
+
+components
+Return a components namedtuple-like.
+
+days
+Returns the days of the timedelta.
+
+microseconds
+
+
+nanoseconds
+Return the number of nanoseconds (n), where 0 <= n < 1 microsecond.
+
+resolution_string
+Return a string representing the lowest timedelta resolution.
+
+seconds
+Return the total hours, minutes, and seconds of the timedelta as seconds.
+
+
+
+
+
+unit
+
+
+value
+
+
+
+
+Methods
+
+
+as_unit
+Convert the underlying int64 representation to the given unit.
+
+ceil(freq)
+Return a new Timedelta ceiled to this resolution.
+
+floor(freq)
+Return a new Timedelta floored to this resolution.
+
+isoformat
+Format the Timedelta as ISO 8601 Duration.
+
+round(freq)
+Round the Timedelta to the specified resolution.
+
+to_numpy
+Convert the Timedelta to a NumPy timedelta64.
+
+to_pytimedelta
+Convert a pandas Timedelta object into a python datetime.timedelta object.
+
+to_timedelta64
+Return a numpy.timedelta64 object with 'ns' precision.
+
+total_seconds
+Total seconds in the duration.
+
+view
+Array view compatibility.
+
+
+
+
+

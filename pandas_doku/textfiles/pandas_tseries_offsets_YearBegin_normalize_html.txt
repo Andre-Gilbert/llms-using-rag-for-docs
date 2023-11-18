@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.YearBegin.normalize#
+
+
+YearBegin.normalize#
+
+

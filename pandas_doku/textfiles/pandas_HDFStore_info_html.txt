@@ -1,0 +1,27 @@
+
+
+pandas.HDFStore.info#
+
+
+HDFStore.info()[source]#
+Print detailed information on the store.
+
+Returns:
+
+str
+
+
+
+Examples
+>>> df = pd.DataFrame([[1, 2], [3, 4]], columns=['A', 'B'])
+>>> store = pd.HDFStore("store.h5", 'w')  
+>>> store.put('data', df)  
+>>> print(store.info())  
+>>> store.close()  
+<class 'pandas.io.pytables.HDFStore'>
+File path: store.h5
+/data    frame    (shape->[2,2])
+
+
+
+

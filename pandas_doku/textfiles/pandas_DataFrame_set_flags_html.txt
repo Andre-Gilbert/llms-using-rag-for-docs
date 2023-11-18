@@ -1,0 +1,51 @@
+
+
+pandas.DataFrame.set_flags#
+
+
+DataFrame.set_flags(*, copy=False, allows_duplicate_labels=None)[source]#
+Return a new object with updated flags.
+
+Parameters:
+
+copybool, default FalseSpecify if a copy of the object should be made.
+
+allows_duplicate_labelsbool, optionalWhether the returned object allows duplicate labels.
+
+
+
+Returns:
+
+Series or DataFrameThe same type as the caller.
+
+
+
+
+
+See also
+
+DataFrame.attrsGlobal metadata applying to this dataset.
+
+DataFrame.flagsGlobal flags applying to this object.
+
+
+
+Notes
+This method returns a new object thatâs a view on the same data
+as the input. Mutating the input or the output values will be reflected
+in the other.
+This method is intended to be used in method chains.
+âFlagsâ differ from âmetadataâ. Flags reflect properties of the
+pandas object (the Series or DataFrame). Metadata refer to properties
+of the dataset, and should be stored in DataFrame.attrs.
+Examples
+>>> df = pd.DataFrame({"A": [1, 2]})
+>>> df.flags.allows_duplicate_labels
+True
+>>> df2 = df.set_flags(allows_duplicate_labels=False)
+>>> df2.flags.allows_duplicate_labels
+False
+
+
+
+

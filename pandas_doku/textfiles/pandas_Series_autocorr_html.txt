@@ -1,0 +1,54 @@
+
+
+pandas.Series.autocorr#
+
+
+Series.autocorr(lag=1)[source]#
+Compute the lag-N autocorrelation.
+This method computes the Pearson correlation between
+the Series and its shifted self.
+
+Parameters:
+
+lagint, default 1Number of lags to apply before performing autocorrelation.
+
+
+
+Returns:
+
+floatThe Pearson correlation between self and self.shift(lag).
+
+
+
+
+
+See also
+
+Series.corrCompute the correlation between two Series.
+
+Series.shiftShift index by desired number of periods.
+
+DataFrame.corrCompute pairwise correlation of columns.
+
+DataFrame.corrwithCompute pairwise correlation between rows or columns of two DataFrame objects.
+
+
+
+Notes
+If the Pearson correlation is not well defined return âNaNâ.
+Examples
+>>> s = pd.Series([0.25, 0.5, 0.2, -0.05])
+>>> s.autocorr()  
+0.10355...
+>>> s.autocorr(lag=2)  
+-0.99999...
+
+
+If the Pearson correlation is not well defined, then âNaNâ is returned.
+>>> s = pd.Series([1, 0, 0, 0])
+>>> s.autocorr()
+nan
+
+
+
+

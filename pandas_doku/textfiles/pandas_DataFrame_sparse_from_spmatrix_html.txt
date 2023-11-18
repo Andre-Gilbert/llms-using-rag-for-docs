@@ -1,0 +1,37 @@
+
+
+pandas.DataFrame.sparse.from_spmatrix#
+
+
+classmethod DataFrame.sparse.from_spmatrix(data, index=None, columns=None)[source]#
+Create a new DataFrame from a scipy sparse matrix.
+
+Parameters:
+
+datascipy.sparse.spmatrixMust be convertible to csc format.
+
+index, columnsIndex, optionalRow and column labels to use for the resulting DataFrame.
+Defaults to a RangeIndex.
+
+
+
+Returns:
+
+DataFrameEach column of the DataFrame is stored as a
+arrays.SparseArray.
+
+
+
+
+Examples
+>>> import scipy.sparse
+>>> mat = scipy.sparse.eye(3)
+>>> pd.DataFrame.sparse.from_spmatrix(mat)
+     0    1    2
+0  1.0  0.0  0.0
+1  0.0  1.0  0.0
+2  0.0  0.0  1.0
+
+
+
+

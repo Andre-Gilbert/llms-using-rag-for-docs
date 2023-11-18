@@ -1,0 +1,37 @@
+
+
+pandas.infer_freq#
+
+
+pandas.infer_freq(index)[source]#
+Infer the most likely frequency given the input index.
+
+Parameters:
+
+indexDatetimeIndex, TimedeltaIndex, Series or array-likeIf passed a Series will use the values of the series (NOT THE INDEX).
+
+
+
+Returns:
+
+str or NoneNone if no discernible frequency.
+
+
+
+Raises:
+
+TypeErrorIf the index is not datetime-like.
+
+ValueErrorIf there are fewer than three values.
+
+
+
+
+Examples
+>>> idx = pd.date_range(start='2020/12/01', end='2020/12/30', periods=30)
+>>> pd.infer_freq(idx)
+'D'
+
+
+
+

@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.CustomBusinessMonthBegin.normalize#
+
+
+CustomBusinessMonthBegin.normalize#
+
+

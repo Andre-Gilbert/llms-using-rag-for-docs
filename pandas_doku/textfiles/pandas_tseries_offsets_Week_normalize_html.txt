@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.Week.normalize#
+
+
+Week.normalize#
+
+

@@ -1,0 +1,73 @@
+
+
+pandas.Index.reindex#
+
+
+Index.reindex(target, method=None, level=None, limit=None, tolerance=None)[source]#
+Create index with targetâs values.
+
+Parameters:
+
+targetan iterable
+method{None, âpadâ/âffillâ, âbackfillâ/âbfillâ, ânearestâ}, optional
+default: exact matches only.
+pad / ffill: find the PREVIOUS index value if no exact match.
+backfill / bfill: use NEXT index value if no exact match
+nearest: use the NEAREST index value if no exact match. Tied
+distances are broken by preferring the larger index value.
+
+
+levelint, optionalLevel of multiindex.
+
+limitint, optionalMaximum number of consecutive labels in target to match for
+inexact matches.
+
+toleranceint or float, optionalMaximum distance between original and new labels for inexact
+matches. The values of the index at the matching locations must
+satisfy the equation abs(index[indexer] - target) <= tolerance.
+Tolerance may be a scalar value, which applies the same tolerance
+to all values, or list-like, which applies variable tolerance per
+element. List-like includes list, tuple, array, Series, and must be
+the same size as the index and its dtype must exactly match the
+indexâs type.
+
+
+
+Returns:
+
+new_indexpd.IndexResulting index.
+
+indexernp.ndarray[np.intp] or NoneIndices of output values in original index.
+
+
+
+Raises:
+
+TypeErrorIf method passed along with level.
+
+ValueErrorIf non-unique multi-index
+
+ValueErrorIf non-unique index and method or limit passed.
+
+
+
+
+
+See also
+
+Series.reindexConform Series to new index with optional filling logic.
+
+DataFrame.reindexConform DataFrame to new index with optional filling logic.
+
+
+
+Examples
+>>> idx = pd.Index(['car', 'bike', 'train', 'tractor'])
+>>> idx
+Index(['car', 'bike', 'train', 'tractor'], dtype='object')
+>>> idx.reindex(['car', 'bike'])
+(Index(['car', 'bike'], dtype='object'), array([0, 1]))
+
+
+
+

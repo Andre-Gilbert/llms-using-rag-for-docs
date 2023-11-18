@@ -1,0 +1,60 @@
+
+
+pandas.read_clipboard#
+
+
+pandas.read_clipboard(sep='\\s+', dtype_backend=_NoDefault.no_default, **kwargs)[source]#
+Read text from clipboard and pass to read_csv().
+Parses clipboard contents similar to how CSV files are parsed
+using read_csv().
+
+Parameters:
+
+sepstr, default â\s+âA string or regex delimiter. The default of '\\s+' denotes
+one or more whitespace characters.
+
+dtype_backend{ânumpy_nullableâ, âpyarrowâ}, default ânumpy_nullableâBack-end data type applied to the resultant DataFrame
+(still experimental). Behaviour is as follows:
+
+"numpy_nullable": returns nullable-dtype-backed DataFrame
+(default).
+"pyarrow": returns pyarrow-backed nullable ArrowDtype
+DataFrame.
+
+
+New in version 2.0.
+
+
+**kwargsSee read_csv() for the full argument list.
+
+
+
+Returns:
+
+DataFrameA parsed DataFrame object.
+
+
+
+
+
+See also
+
+DataFrame.to_clipboardCopy object to the system clipboard.
+
+read_csvRead a comma-separated values (csv) file into DataFrame.
+
+read_fwfRead a table of fixed-width formatted lines into DataFrame.
+
+
+
+Examples
+>>> df = pd.DataFrame([[1, 2, 3], [4, 5, 6]], columns=['A', 'B', 'C'])
+>>> df.to_clipboard()  
+>>> pd.read_clipboard()  
+     A  B  C
+0    1  2  3
+1    4  5  6
+
+
+
+

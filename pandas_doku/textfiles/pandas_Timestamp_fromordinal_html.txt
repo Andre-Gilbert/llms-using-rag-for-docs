@@ -1,0 +1,26 @@
+
+
+pandas.Timestamp.fromordinal#
+
+
+classmethod Timestamp.fromordinal(ordinal, tz=None)#
+Construct a timestamp from a a proleptic Gregorian ordinal.
+
+Parameters:
+
+ordinalintDate corresponding to a proleptic Gregorian ordinal.
+
+tzstr, pytz.timezone, dateutil.tz.tzfile or NoneTime zone for the Timestamp.
+
+
+
+
+Notes
+By definition there cannot be any tz info on the ordinal itself.
+Examples
+>>> pd.Timestamp.fromordinal(737425)
+Timestamp('2020-01-01 00:00:00')
+
+
+
+

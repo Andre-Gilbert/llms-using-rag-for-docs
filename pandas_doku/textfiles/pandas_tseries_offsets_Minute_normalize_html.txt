@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.Minute.normalize#
+
+
+Minute.normalize#
+
+

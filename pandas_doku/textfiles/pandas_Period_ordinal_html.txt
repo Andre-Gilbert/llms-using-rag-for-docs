@@ -1,0 +1,8 @@
+
+
+pandas.Period.ordinal#
+
+
+Period.ordinal#
+
+

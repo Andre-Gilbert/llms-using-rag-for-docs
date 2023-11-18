@@ -1,0 +1,34 @@
+
+
+pandas.Series.str.decode#
+
+
+Series.str.decode(encoding, errors='strict')[source]#
+Decode character string in the Series/Index using indicated encoding.
+Equivalent to str.decode() in python2 and bytes.decode() in
+python3.
+
+Parameters:
+
+encodingstr
+errorsstr, optional
+
+
+Returns:
+
+Series or Index
+
+
+
+Examples
+For Series:
+>>> ser = pd.Series([b'cow', b'123', b'()'])
+>>> ser.str.decode('ascii')
+0   cow
+1   123
+2   ()
+dtype: object
+
+
+
+

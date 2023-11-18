@@ -1,0 +1,39 @@
+
+
+pandas.Timestamp.isoformat#
+
+
+Timestamp.isoformat()#
+Return the time formatted according to ISO 8601.
+The full format looks like âYYYY-MM-DD HH:MM:SS.mmmmmmnnnâ.
+By default, the fractional part is omitted if self.microsecond == 0
+and self.nanosecond == 0.
+If self.tzinfo is not None, the UTC offset is also attached, giving
+giving a full format of âYYYY-MM-DD HH:MM:SS.mmmmmmnnn+HH:MMâ.
+
+Parameters:
+
+sepstr, default âTâString used as the separator between the date and time.
+
+timespecstr, default âautoâSpecifies the number of additional terms of the time to include.
+The valid values are âautoâ, âhoursâ, âminutesâ, âsecondsâ,
+âmillisecondsâ, âmicrosecondsâ, and ânanosecondsâ.
+
+
+
+Returns:
+
+str
+
+
+
+Examples
+>>> ts = pd.Timestamp('2020-03-14T15:32:52.192548651')
+>>> ts.isoformat()
+'2020-03-14T15:32:52.192548651'
+>>> ts.isoformat(timespec='microseconds')
+'2020-03-14T15:32:52.192548'
+
+
+
+

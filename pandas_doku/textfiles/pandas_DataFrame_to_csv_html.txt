@@ -1,0 +1,171 @@
+
+
+pandas.DataFrame.to_csv#
+
+
+DataFrame.to_csv(path_or_buf=None, sep=',', na_rep='', float_format=None, columns=None, header=True, index=True, index_label=None, mode='w', encoding=None, compression='infer', quoting=None, quotechar='"', lineterminator=None, chunksize=None, date_format=None, doublequote=True, escapechar=None, decimal='.', errors='strict', storage_options=None)[source]#
+Write object to a comma-separated values (csv) file.
+
+Parameters:
+
+path_or_bufstr, path object, file-like object, or None, default NoneString, path object (implementing os.PathLike[str]), or file-like
+object implementing a write() function. If None, the result is
+returned as a string. If a non-binary file object is passed, it should
+be opened with newline=ââ, disabling universal newlines. If a binary
+file object is passed, mode might need to contain a âbâ.
+
+Changed in version 1.2.0: Support for binary file objects was introduced.
+
+
+sepstr, default â,âString of length 1. Field delimiter for the output file.
+
+na_repstr, default ââMissing data representation.
+
+float_formatstr, Callable, default NoneFormat string for floating point numbers. If a Callable is given, it takes
+precedence over other numeric formatting parameters, like decimal.
+
+columnssequence, optionalColumns to write.
+
+headerbool or list of str, default TrueWrite out the column names. If a list of strings is given it is
+assumed to be aliases for the column names.
+
+indexbool, default TrueWrite row names (index).
+
+index_labelstr or sequence, or False, default NoneColumn label for index column(s) if desired. If None is given, and
+header and index are True, then the index names are used. A
+sequence should be given if the object uses MultiIndex. If
+False do not print fields for index names. Use index_label=False
+for easier importing in R.
+
+mode{âwâ, âxâ, âaâ}, default âwâForwarded to either open(mode=) or fsspec.open(mode=) to control
+the file opening. Typical values include:
+
+âwâ, truncate the file first.
+âxâ, exclusive creation, failing if the file already exists.
+âaâ, append to the end of file if it exists.
+
+
+encodingstr, optionalA string representing the encoding to use in the output file,
+defaults to âutf-8â. encoding is not supported if path_or_buf
+is a non-binary file object.
+
+compressionstr or dict, default âinferâFor on-the-fly compression of the output data. If âinferâ and âpath_or_bufâ is
+path-like, then detect compression from the following extensions: â.gzâ,
+â.bz2â, â.zipâ, â.xzâ, â.zstâ, â.tarâ, â.tar.gzâ, â.tar.xzâ or â.tar.bz2â
+(otherwise no compression).
+Set to None for no compression.
+Can also be a dict with key 'method' set
+to one of {'zip', 'gzip', 'bz2', 'zstd', 'xz', 'tar'} and
+other key-value pairs are forwarded to
+zipfile.ZipFile, gzip.GzipFile,
+bz2.BZ2File, zstandard.ZstdCompressor, lzma.LZMAFile or
+tarfile.TarFile, respectively.
+As an example, the following could be passed for faster compression and to create
+a reproducible gzip archive:
+compression={'method': 'gzip', 'compresslevel': 1, 'mtime': 1}.
+
+New in version 1.5.0: Added support for .tar files.
+May be a dict with key âmethodâ as compression mode
+and other entries as additional compression options if
+compression mode is âzipâ.
+Passing compression options as keys in dict is
+supported for compression modes âgzipâ, âbz2â, âzstdâ, and âzipâ.
+
+
+Changed in version 1.2.0: Compression is supported for binary file objects.
+
+
+Changed in version 1.2.0: Previous versions forwarded dict entries for âgzipâ to
+gzip.open instead of gzip.GzipFile which prevented
+setting mtime.
+
+
+quotingoptional constant from csv moduleDefaults to csv.QUOTE_MINIMAL. If you have set a float_format
+then floats are converted to strings and thus csv.QUOTE_NONNUMERIC
+will treat them as non-numeric.
+
+quotecharstr, default â"âString of length 1. Character used to quote fields.
+
+lineterminatorstr, optionalThe newline character or character sequence to use in the output
+file. Defaults to os.linesep, which depends on the OS in which
+this method is called (â\nâ for linux, â\r\nâ for Windows, i.e.).
+
+Changed in version 1.5.0: Previously was line_terminator, changed for consistency with
+read_csv and the standard library âcsvâ module.
+
+
+chunksizeint or NoneRows to write at a time.
+
+date_formatstr, default NoneFormat string for datetime objects.
+
+doublequotebool, default TrueControl quoting of quotechar inside a field.
+
+escapecharstr, default NoneString of length 1. Character used to escape sep and quotechar
+when appropriate.
+
+decimalstr, default â.âCharacter recognized as decimal separator. E.g. use â,â for
+European data.
+
+errorsstr, default âstrictâSpecifies how encoding and decoding errors are to be handled.
+See the errors argument for open() for a full list
+of options.
+
+storage_optionsdict, optionalExtra options that make sense for a particular storage connection, e.g.
+host, port, username, password, etc. For HTTP(S) URLs the key-value pairs
+are forwarded to urllib.request.Request as header options. For other
+URLs (e.g. starting with âs3://â, and âgcs://â) the key-value pairs are
+forwarded to fsspec.open. Please see fsspec and urllib for more
+details, and for more examples on storage options refer here.
+
+New in version 1.2.0.
+
+
+
+
+Returns:
+
+None or strIf path_or_buf is None, returns the resulting csv format as a
+string. Otherwise returns None.
+
+
+
+
+
+See also
+
+read_csvLoad a CSV file into a DataFrame.
+
+to_excelWrite DataFrame to an Excel file.
+
+
+
+Examples
+>>> df = pd.DataFrame({'name': ['Raphael', 'Donatello'],
+...                    'mask': ['red', 'purple'],
+...                    'weapon': ['sai', 'bo staff']})
+>>> df.to_csv(index=False)
+'name,mask,weapon\nRaphael,red,sai\nDonatello,purple,bo staff\n'
+
+
+Create âout.zipâ containing âout.csvâ
+>>> compression_opts = dict(method='zip',
+...                         archive_name='out.csv')  
+>>> df.to_csv('out.zip', index=False,
+...           compression=compression_opts)  
+
+
+To write a csv file to a new folder or nested folder you will first
+need to create it using either Pathlib or os:
+>>> from pathlib import Path  
+>>> filepath = Path('folder/subfolder/out.csv')  
+>>> filepath.parent.mkdir(parents=True, exist_ok=True)  
+>>> df.to_csv(filepath)  
+
+
+>>> import os  
+>>> os.makedirs('folder/subfolder', exist_ok=True)  
+>>> df.to_csv('folder/subfolder/out.csv')  
+
+
+
+

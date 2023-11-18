@@ -1,0 +1,24 @@
+
+
+pandas.io.formats.style.Styler.clear#
+
+
+Styler.clear()[source]#
+Reset the Styler, removing any previously applied styles.
+Returns None.
+Examples
+>>> df = pd.DataFrame({'A': [1, 2], 'B': [3, np.nan]})
+
+
+After any added style:
+>>> df.style.highlight_null(color='yellow')  
+
+
+Remove it with:
+>>> df.style.clear()  
+
+
+Please see:
+Table Visualization for more examples.
+
+

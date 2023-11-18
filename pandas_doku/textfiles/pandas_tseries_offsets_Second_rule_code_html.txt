@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.Second.rule_code#
+
+
+Second.rule_code#
+
+

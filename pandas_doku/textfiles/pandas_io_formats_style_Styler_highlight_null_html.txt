@@ -1,0 +1,59 @@
+
+
+pandas.io.formats.style.Styler.highlight_null#
+
+
+Styler.highlight_null(color='red', subset=None, props=None)[source]#
+Highlight missing values with a style.
+
+Parameters:
+
+colorstr, default âredâBackground color to use for highlighting.
+
+
+New in version 1.5.0.
+
+
+
+subsetlabel, array-like, IndexSlice, optionalA valid 2d input to DataFrame.loc[<subset>], or, in the case of a 1d input
+or single key, to DataFrame.loc[:, <subset>] where the columns are
+prioritised, to limit data to before applying the function.
+
+propsstr, default NoneCSS properties to use for highlighting. If props is given, color
+is not used.
+
+
+New in version 1.3.0.
+
+
+
+
+
+Returns:
+
+Styler
+
+
+
+
+See also
+
+Styler.highlight_maxHighlight the maximum with a style.
+
+Styler.highlight_minHighlight the minimum with a style.
+
+Styler.highlight_betweenHighlight a defined range with a style.
+
+Styler.highlight_quantileHighlight values defined by a quantile with a style.
+
+
+
+Examples
+>>> df = pd.DataFrame({'A': [1, 2], 'B': [3, np.nan]})
+>>> df.style.highlight_null(color='yellow')  
+
+
+Please see:
+Table Visualization for more examples.
+
+

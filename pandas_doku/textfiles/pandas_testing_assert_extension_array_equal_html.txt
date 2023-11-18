@@ -1,0 +1,44 @@
+
+
+pandas.testing.assert_extension_array_equal#
+
+
+pandas.testing.assert_extension_array_equal(left, right, check_dtype=True, index_values=None, check_exact=False, rtol=1e-05, atol=1e-08, obj='ExtensionArray')[source]#
+Check that left and right ExtensionArrays are equal.
+
+Parameters:
+
+left, rightExtensionArrayThe two arrays to compare.
+
+check_dtypebool, default TrueWhether to check if the ExtensionArray dtypes are identical.
+
+index_valuesnumpy.ndarray, default NoneOptional index (shared by both left and right), used in output.
+
+check_exactbool, default FalseWhether to compare number exactly.
+
+rtolfloat, default 1e-5Relative tolerance. Only used when check_exact is False.
+
+atolfloat, default 1e-8Absolute tolerance. Only used when check_exact is False.
+
+objstr, default âExtensionArrayâSpecify object name being compared, internally used to show appropriate
+assertion message.
+
+New in version 2.0.0.
+
+
+
+
+
+Notes
+Missing values are checked separately from valid values.
+A mask of missing values is computed for each and checked to match.
+The remaining all-valid values are cast to object dtype and checked.
+Examples
+>>> from pandas import testing as tm
+>>> a = pd.Series([1, 2, 3, 4])
+>>> b, c = a.array, a.array
+>>> tm.assert_extension_array_equal(b, c)
+
+
+
+

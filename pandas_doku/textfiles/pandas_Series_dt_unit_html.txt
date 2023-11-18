@@ -1,0 +1,8 @@
+
+
+pandas.Series.dt.unit#
+
+
+Series.dt.unit[source]#
+
+

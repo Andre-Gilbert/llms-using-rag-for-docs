@@ -1,0 +1,8 @@
+
+
+pandas.Series.dt.as_unit#
+
+
+Series.dt.as_unit(*args, **kwargs)[source]#
+
+

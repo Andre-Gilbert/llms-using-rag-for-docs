@@ -1,0 +1,35 @@
+
+
+pandas.Timestamp.is_month_end#
+
+
+Timestamp.is_month_end#
+Check if the date is the last day of the month.
+
+Returns:
+
+boolTrue if the date is the last day of the month.
+
+
+
+
+
+See also
+
+Timestamp.is_month_startSimilar property indicating month start.
+
+
+
+Examples
+>>> ts = pd.Timestamp(2020, 3, 14)
+>>> ts.is_month_end
+False
+
+
+>>> ts = pd.Timestamp(2020, 12, 31)
+>>> ts.is_month_end
+True
+
+
+
+

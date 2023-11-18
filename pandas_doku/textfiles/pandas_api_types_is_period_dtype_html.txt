@@ -1,0 +1,37 @@
+
+
+pandas.api.types.is_period_dtype#
+
+
+pandas.api.types.is_period_dtype(arr_or_dtype)[source]#
+Check whether an array-like or dtype is of the Period dtype.
+
+Parameters:
+
+arr_or_dtypearray-like or dtypeThe array-like or dtype to check.
+
+
+
+Returns:
+
+booleanWhether or not the array-like or dtype is of the Period dtype.
+
+
+
+
+Examples
+>>> from pandas.core.dtypes.common import is_period_dtype
+>>> is_period_dtype(object)
+False
+>>> is_period_dtype(pd.PeriodDtype(freq="D"))
+True
+>>> is_period_dtype([1, 2, 3])
+False
+>>> is_period_dtype(pd.Period("2017-01-01"))
+False
+>>> is_period_dtype(pd.PeriodIndex([], freq="A"))
+True
+
+
+
+

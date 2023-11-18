@@ -1,0 +1,8 @@
+
+
+pandas.IntervalIndex.length#
+
+
+property IntervalIndex.length[source]#
+
+

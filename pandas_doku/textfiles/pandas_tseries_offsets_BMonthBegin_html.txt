@@ -1,0 +1,9 @@
+
+
+pandas.tseries.offsets.BMonthBegin#
+
+
+pandas.tseries.offsets.BMonthBegin#
+alias of BusinessMonthBegin
+
+

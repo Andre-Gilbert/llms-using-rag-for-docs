@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.Minute.rule_code#
+
+
+Minute.rule_code#
+
+

@@ -1,0 +1,31 @@
+
+
+pandas.api.types.pandas_dtype#
+
+
+pandas.api.types.pandas_dtype(dtype)[source]#
+Convert input into a pandas only dtype object or a numpy dtype object.
+
+Parameters:
+
+dtypeobject to be converted
+
+
+Returns:
+
+np.dtype or a pandas dtype
+
+
+Raises:
+
+TypeError if not a dtype
+
+
+
+Examples
+>>> pd.api.types.pandas_dtype(int)
+dtype('int64')
+
+
+
+

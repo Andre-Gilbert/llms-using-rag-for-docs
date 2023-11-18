@@ -1,0 +1,8 @@
+
+
+pandas.io.formats.style.Styler.template_latex#
+
+
+Styler.template_latex = <Template 'latex.tpl'>#
+
+

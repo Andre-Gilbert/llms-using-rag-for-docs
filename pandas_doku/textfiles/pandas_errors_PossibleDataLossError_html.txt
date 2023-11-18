@@ -1,0 +1,15 @@
+
+
+pandas.errors.PossibleDataLossError#
+
+
+exception pandas.errors.PossibleDataLossError[source]#
+Exception raised when trying to open a HDFStore file when already opened.
+Examples
+>>> store = pd.HDFStore('my-store', 'a') 
+>>> store.open("w") 
+... # PossibleDataLossError: Re-opening the file [my-store] with mode [a]...
+
+
+
+

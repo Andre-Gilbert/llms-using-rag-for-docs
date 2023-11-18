@@ -1,0 +1,48 @@
+
+
+pandas.api.types.is_bool_dtype#
+
+
+pandas.api.types.is_bool_dtype(arr_or_dtype)[source]#
+Check whether the provided array or dtype is of a boolean dtype.
+
+Parameters:
+
+arr_or_dtypearray-like or dtypeThe array or dtype to check.
+
+
+
+Returns:
+
+booleanWhether or not the array or dtype is of a boolean dtype.
+
+
+
+
+Notes
+An ExtensionArray is considered boolean when the _is_boolean
+attribute is set to True.
+Examples
+>>> from pandas.api.types import is_bool_dtype
+>>> is_bool_dtype(str)
+False
+>>> is_bool_dtype(int)
+False
+>>> is_bool_dtype(bool)
+True
+>>> is_bool_dtype(np.bool_)
+True
+>>> is_bool_dtype(np.array(['a', 'b']))
+False
+>>> is_bool_dtype(pd.Series([1, 2]))
+False
+>>> is_bool_dtype(np.array([True, False]))
+True
+>>> is_bool_dtype(pd.Categorical([True, False]))
+True
+>>> is_bool_dtype(pd.arrays.SparseArray([True, False]))
+True
+
+
+
+

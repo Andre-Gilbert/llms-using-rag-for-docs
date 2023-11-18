@@ -1,0 +1,48 @@
+
+
+pandas.Series.str.fullmatch#
+
+
+Series.str.fullmatch(pat, case=True, flags=0, na=None)[source]#
+Determine if each string entirely matches a regular expression.
+
+Parameters:
+
+patstrCharacter sequence or regular expression.
+
+casebool, default TrueIf True, case sensitive.
+
+flagsint, default 0 (no flags)Regex module flags, e.g. re.IGNORECASE.
+
+nascalar, optionalFill value for missing values. The default depends on dtype of the
+array. For object-dtype, numpy.nan is used. For StringDtype,
+pandas.NA is used.
+
+
+
+Returns:
+
+Series/Index/array of boolean values
+
+
+
+
+See also
+
+matchSimilar, but also returns True when only a prefix of the string matches the regular expression.
+
+extractExtract matched groups.
+
+
+
+Examples
+>>> ser = pd.Series(["cat", "duck", "dove"])
+>>> ser.str.fullmatch(r'd.+')
+0   False
+1    True
+2    True
+dtype: bool
+
+
+
+

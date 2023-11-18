@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.BQuarterEnd.rule_code#
+
+
+BQuarterEnd.rule_code#
+
+

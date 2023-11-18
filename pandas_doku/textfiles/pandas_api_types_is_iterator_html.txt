@@ -1,0 +1,38 @@
+
+
+pandas.api.types.is_iterator#
+
+
+pandas.api.types.is_iterator()#
+Check if the object is an iterator.
+This is intended for generators, not list-like objects.
+
+Parameters:
+
+objThe object to check
+
+
+Returns:
+
+is_iterboolWhether obj is an iterator.
+
+
+
+
+Examples
+>>> import datetime
+>>> from pandas.api.types import is_iterator
+>>> is_iterator((x for x in []))
+True
+>>> is_iterator([1, 2, 3])
+False
+>>> is_iterator(datetime.datetime(2017, 1, 1))
+False
+>>> is_iterator("foo")
+False
+>>> is_iterator(1)
+False
+
+
+
+

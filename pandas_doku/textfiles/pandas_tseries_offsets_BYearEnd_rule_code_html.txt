@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.BYearEnd.rule_code#
+
+
+BYearEnd.rule_code#
+
+

@@ -1,0 +1,53 @@
+
+
+pandas.Index.is_boolean#
+
+
+final Index.is_boolean()[source]#
+Check if the Index only consists of booleans.
+
+Deprecated since version 2.0.0: Use pandas.api.types.is_bool_dtype instead.
+
+
+Returns:
+
+boolWhether or not the Index only consists of booleans.
+
+
+
+
+
+See also
+
+is_integerCheck if the Index only consists of integers (deprecated).
+
+is_floatingCheck if the Index is a floating type (deprecated).
+
+is_numericCheck if the Index only consists of numeric data (deprecated).
+
+is_objectCheck if the Index is of the object dtype (deprecated).
+
+is_categoricalCheck if the Index holds categorical data.
+
+is_intervalCheck if the Index holds Interval objects (deprecated).
+
+
+
+Examples
+>>> idx = pd.Index([True, False, True])
+>>> idx.is_boolean()  
+True
+
+
+>>> idx = pd.Index(["True", "False", "True"])
+>>> idx.is_boolean()  
+False
+
+
+>>> idx = pd.Index([True, False, "True"])
+>>> idx.is_boolean()  
+False
+
+
+
+

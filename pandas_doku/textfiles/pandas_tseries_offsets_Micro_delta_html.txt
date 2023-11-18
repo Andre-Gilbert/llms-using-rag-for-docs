@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.Micro.delta#
+
+
+Micro.delta#
+
+

@@ -1,0 +1,8 @@
+
+
+pandas.Timestamp.min#
+
+
+Timestamp.min = Timestamp('1677-09-21 00:12:43.145224193')#
+
+

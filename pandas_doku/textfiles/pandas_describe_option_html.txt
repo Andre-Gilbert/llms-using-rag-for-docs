@@ -1,0 +1,384 @@
+
+
+pandas.describe_option#
+
+
+pandas.describe_option(pat, _print_desc=False) = <pandas._config.config.CallableDynamicDoc object>#
+Prints the description for one or more registered options.
+Call with no arguments to get a listing for all registered options.
+Available options:
+
+compute.[use_bottleneck, use_numba, use_numexpr]
+display.[chop_threshold, colheader_justify, date_dayfirst, date_yearfirst,
+encoding, expand_frame_repr, float_format]
+display.html.[border, table_schema, use_mathjax]
+display.[large_repr, max_categories, max_columns, max_colwidth, max_dir_items,
+max_info_columns, max_info_rows, max_rows, max_seq_items, memory_usage,
+min_rows, multi_sparse, notebook_repr_html, pprint_nest_depth, precision,
+show_dimensions]
+display.unicode.[ambiguous_as_wide, east_asian_width]
+display.[width]
+future.[infer_string]
+io.excel.ods.[reader, writer]
+io.excel.xls.[reader]
+io.excel.xlsb.[reader]
+io.excel.xlsm.[reader, writer]
+io.excel.xlsx.[reader, writer]
+io.hdf.[default_format, dropna_table]
+io.parquet.[engine]
+io.sql.[engine]
+mode.[chained_assignment, copy_on_write, data_manager, sim_interactive,
+string_storage, use_inf_as_na]
+plotting.[backend]
+plotting.matplotlib.[register_converters]
+styler.format.[decimal, escape, formatter, na_rep, precision, thousands]
+styler.html.[mathjax]
+styler.latex.[environment, hrules, multicol_align, multirow_align]
+styler.render.[encoding, max_columns, max_elements, max_rows, repr]
+styler.sparse.[columns, index]
+
+
+Parameters:
+
+patstrRegexp pattern. All matching keys will have their description displayed.
+
+_print_descbool, default TrueIf True (default) the description(s) will be printed to stdout.
+Otherwise, the description(s) will be returned as a unicode string
+(for testing).
+
+
+
+Returns:
+
+None by default, the description(s) as a unicode string if _print_desc
+is False
+
+
+
+Notes
+Please reference the User Guide for more information.
+The available options with its descriptions:
+
+compute.use_bottleneckboolUse the bottleneck library to accelerate if it is installed,
+the default is True
+Valid values: False,True
+[default: True] [currently: True]
+
+compute.use_numbaboolUse the numba engine option for select operations if it is installed,
+the default is False
+Valid values: False,True
+[default: False] [currently: False]
+
+compute.use_numexprboolUse the numexpr library to accelerate computation if it is installed,
+the default is True
+Valid values: False,True
+[default: True] [currently: True]
+
+display.chop_thresholdfloat or Noneif set to a float value, all float values smaller than the given threshold
+will be displayed as exactly 0 by repr and friends.
+[default: None] [currently: None]
+
+display.colheader_justifyâleftâ/ârightâControls the justification of column headers. used by DataFrameFormatter.
+[default: right] [currently: right]
+
+display.date_dayfirstbooleanWhen True, prints and parses dates with the day first, eg 20/01/2005
+[default: False] [currently: False]
+
+display.date_yearfirstbooleanWhen True, prints and parses dates with the year first, eg 2005/01/20
+[default: False] [currently: False]
+
+display.encodingstr/unicodeDefaults to the detected encoding of the console.
+Specifies the encoding to be used for strings returned by to_string,
+these are generally strings meant to be displayed on the console.
+[default: utf-8] [currently: utf-8]
+
+display.expand_frame_reprbooleanWhether to print out the full DataFrame repr for wide DataFrames across
+multiple lines, max_columns is still respected, but the output will
+wrap-around across multiple âpagesâ if its width exceeds display.width.
+[default: True] [currently: True]
+
+display.float_formatcallableThe callable should accept a floating point number and return
+a string with the desired format of the number. This is used
+in some places like SeriesFormatter.
+See formats.format.EngFormatter for an example.
+[default: None] [currently: None]
+
+display.html.borderintA border=value attribute is inserted in the <table> tag
+for the DataFrame HTML repr.
+[default: 1] [currently: 1]
+
+display.html.table_schemabooleanWhether to publish a Table Schema representation for frontends
+that support it.
+(default: False)
+[default: False] [currently: False]
+
+display.html.use_mathjaxbooleanWhen True, Jupyter notebook will process table contents using MathJax,
+rendering mathematical expressions enclosed by the dollar symbol.
+(default: True)
+[default: True] [currently: True]
+
+display.large_reprâtruncateâ/âinfoâFor DataFrames exceeding max_rows/max_cols, the repr (and HTML repr) can
+show a truncated table, or switch to the view from
+df.info() (the behaviour in earlier versions of pandas).
+[default: truncate] [currently: truncate]
+
+display.max_categoriesintThis sets the maximum number of categories pandas should output when
+printing out a Categorical or a Series of dtype âcategoryâ.
+[default: 8] [currently: 8]
+
+display.max_columnsintIf max_cols is exceeded, switch to truncate view. Depending on
+large_repr, objects are either centrally truncated or printed as
+a summary view. âNoneâ value means unlimited.
+In case python/IPython is running in a terminal and large_repr
+equals âtruncateâ this can be set to 0 or None and pandas will auto-detect
+the width of the terminal and print a truncated object which fits
+the screen width. The IPython notebook, IPython qtconsole, or IDLE
+do not run in a terminal and hence it is not possible to do
+correct auto-detection and defaults to 20.
+[default: 0] [currently: 0]
+
+display.max_colwidthint or NoneThe maximum width in characters of a column in the repr of
+a pandas data structure. When the column overflows, a ââ¦â
+placeholder is embedded in the output. A âNoneâ value means unlimited.
+[default: 50] [currently: 50]
+
+display.max_dir_itemsintThe number of items that will be added to dir(â¦). âNoneâ value means
+unlimited. Because dir is cached, changing this option will not immediately
+affect already existing dataframes until a column is deleted or added.
+This is for instance used to suggest columns from a dataframe to tab
+completion.
+[default: 100] [currently: 100]
+
+display.max_info_columnsintmax_info_columns is used in DataFrame.info method to decide if
+per column information will be printed.
+[default: 100] [currently: 100]
+
+display.max_info_rowsint or Nonedf.info() will usually show null-counts for each column.
+For large frames this can be quite slow. max_info_rows and max_info_cols
+limit this null check only to frames with smaller dimensions than
+specified.
+[default: 1690785] [currently: 1690785]
+
+display.max_rowsintIf max_rows is exceeded, switch to truncate view. Depending on
+large_repr, objects are either centrally truncated or printed as
+a summary view. âNoneâ value means unlimited.
+In case python/IPython is running in a terminal and large_repr
+equals âtruncateâ this can be set to 0 and pandas will auto-detect
+the height of the terminal and print a truncated object which fits
+the screen height. The IPython notebook, IPython qtconsole, or
+IDLE do not run in a terminal and hence it is not possible to do
+correct auto-detection.
+[default: 60] [currently: 60]
+
+display.max_seq_itemsint or NoneWhen pretty-printing a long sequence, no more then max_seq_items
+will be printed. If items are omitted, they will be denoted by the
+addition of ââ¦â to the resulting string.
+If set to None, the number of items to be printed is unlimited.
+[default: 100] [currently: 100]
+
+display.memory_usagebool, string or NoneThis specifies if the memory usage of a DataFrame should be displayed when
+df.info() is called. Valid values True,False,âdeepâ
+[default: True] [currently: True]
+
+display.min_rowsintThe numbers of rows to show in a truncated view (when max_rows is
+exceeded). Ignored when max_rows is set to None or 0. When set to
+None, follows the value of max_rows.
+[default: 10] [currently: 10]
+
+display.multi_sparsebooleanâsparsifyâ MultiIndex display (donât display repeated
+elements in outer levels within groups)
+[default: True] [currently: True]
+
+display.notebook_repr_htmlbooleanWhen True, IPython notebook will use html representation for
+pandas objects (if it is available).
+[default: True] [currently: True]
+
+display.pprint_nest_depthintControls the number of nested levels to process when pretty-printing
+[default: 3] [currently: 3]
+
+display.precisionintFloating point output precision in terms of number of places after the
+decimal, for regular formatting as well as scientific notation. Similar
+to precision in numpy.set_printoptions().
+[default: 6] [currently: 6]
+
+display.show_dimensionsboolean or âtruncateâWhether to print out dimensions at the end of DataFrame repr.
+If âtruncateâ is specified, only print out the dimensions if the
+frame is truncated (e.g. not display all rows and/or columns)
+[default: truncate] [currently: truncate]
+
+display.unicode.ambiguous_as_widebooleanWhether to use the Unicode East Asian Width to calculate the display text
+width.
+Enabling this may affect to the performance (default: False)
+[default: False] [currently: False]
+
+display.unicode.east_asian_widthbooleanWhether to use the Unicode East Asian Width to calculate the display text
+width.
+Enabling this may affect to the performance (default: False)
+[default: False] [currently: False]
+
+display.widthintWidth of the display in characters. In case python/IPython is running in
+a terminal this can be set to None and pandas will correctly auto-detect
+the width.
+Note that the IPython notebook, IPython qtconsole, or IDLE do not run in a
+terminal and hence it is not possible to correctly detect the width.
+[default: 80] [currently: 80]
+
+future.infer_string Whether to infer sequence of str objects as pyarrow string dtype, which will be the default in pandas 3.0 (at which point this option will be deprecated).[default: False] [currently: False]
+
+io.excel.ods.readerstringThe default Excel reader engine for âodsâ files. Available options:
+auto, odf.
+[default: auto] [currently: auto]
+
+io.excel.ods.writerstringThe default Excel writer engine for âodsâ files. Available options:
+auto, odf.
+[default: auto] [currently: auto]
+
+io.excel.xls.readerstringThe default Excel reader engine for âxlsâ files. Available options:
+auto, xlrd.
+[default: auto] [currently: auto]
+
+io.excel.xlsb.readerstringThe default Excel reader engine for âxlsbâ files. Available options:
+auto, pyxlsb.
+[default: auto] [currently: auto]
+
+io.excel.xlsm.readerstringThe default Excel reader engine for âxlsmâ files. Available options:
+auto, xlrd, openpyxl.
+[default: auto] [currently: auto]
+
+io.excel.xlsm.writerstringThe default Excel writer engine for âxlsmâ files. Available options:
+auto, openpyxl.
+[default: auto] [currently: auto]
+
+io.excel.xlsx.readerstringThe default Excel reader engine for âxlsxâ files. Available options:
+auto, xlrd, openpyxl.
+[default: auto] [currently: auto]
+
+io.excel.xlsx.writerstringThe default Excel writer engine for âxlsxâ files. Available options:
+auto, openpyxl, xlsxwriter.
+[default: auto] [currently: auto]
+
+io.hdf.default_formatformatdefault format writing format, if None, then
+put will default to âfixedâ and append will default to âtableâ
+[default: None] [currently: None]
+
+io.hdf.dropna_tablebooleandrop ALL nan rows when appending to a table
+[default: False] [currently: False]
+
+io.parquet.enginestringThe default parquet reader/writer engine. Available options:
+âautoâ, âpyarrowâ, âfastparquetâ, the default is âautoâ
+[default: auto] [currently: auto]
+
+io.sql.enginestringThe default sql reader/writer engine. Available options:
+âautoâ, âsqlalchemyâ, the default is âautoâ
+[default: auto] [currently: auto]
+
+mode.chained_assignmentstringRaise an exception, warn, or no action if trying to use chained assignment,
+The default is warn
+[default: warn] [currently: warn]
+
+mode.copy_on_writeboolUse new copy-view behaviour using Copy-on-Write. Defaults to False,
+unless overridden by the âPANDAS_COPY_ON_WRITEâ environment variable
+(if set to â1â for True, needs to be set before pandas is imported).
+[default: False] [currently: False]
+
+mode.data_managerstringInternal data manager type; can be âblockâ or âarrayâ. Defaults to âblockâ,
+unless overridden by the âPANDAS_DATA_MANAGERâ environment variable (needs
+to be set before pandas is imported).
+[default: block] [currently: block]
+
+mode.sim_interactivebooleanWhether to simulate interactive mode for purposes of testing
+[default: False] [currently: False]
+
+mode.string_storagestringThe default storage for StringDtype. This option is ignored if
+future.infer_string is set to True.
+[default: python] [currently: python]
+
+mode.use_inf_as_nabooleanTrue means treat None, NaN, INF, -INF as NA (old way),
+False means None and NaN are null, but INF, -INF are not NA
+(new way).
+This option is deprecated in pandas 2.1.0 and will be removed in 3.0.
+[default: False] [currently: False]
+(Deprecated, use `` instead.)
+
+plotting.backendstrThe plotting backend to use. The default value is âmatplotlibâ, the
+backend provided with pandas. Other backends can be specified by
+providing the name of the module that implements the backend.
+[default: matplotlib] [currently: matplotlib]
+
+plotting.matplotlib.register_convertersbool or âautoâ.Whether to register converters with matplotlibâs units registry for
+dates, times, datetimes, and Periods. Toggling to False will remove
+the converters, restoring any converters that pandas overwrote.
+[default: auto] [currently: auto]
+
+styler.format.decimalstrThe character representation for the decimal separator for floats and complex.
+[default: .] [currently: .]
+
+styler.format.escapestr, optionalWhether to escape certain characters according to the given context; html or latex.
+[default: None] [currently: None]
+
+styler.format.formatterstr, callable, dict, optionalA formatter object to be used as default within Styler.format.
+[default: None] [currently: None]
+
+styler.format.na_repstr, optionalThe string representation for values identified as missing.
+[default: None] [currently: None]
+
+styler.format.precisionintThe precision for floats and complex numbers.
+[default: 6] [currently: 6]
+
+styler.format.thousandsstr, optionalThe character representation for thousands separator for floats, int and complex.
+[default: None] [currently: None]
+
+styler.html.mathjaxboolIf False will render special CSS classes to table attributes that indicate Mathjax
+will not be used in Jupyter Notebook.
+[default: True] [currently: True]
+
+styler.latex.environmentstrThe environment to replace \begin{table}. If âlongtableâ is used results
+in a specific longtable environment format.
+[default: None] [currently: None]
+
+styler.latex.hrulesboolWhether to add horizontal rules on top and bottom and below the headers.
+[default: False] [currently: False]
+
+styler.latex.multicol_align{ârâ, âcâ, âlâ, ânaive-lâ, ânaive-râ}The specifier for horizontal alignment of sparsified LaTeX multicolumns. Pipe
+decorators can also be added to non-naive values to draw vertical
+rules, e.g. â|râ will draw a rule on the left side of right aligned merged cells.
+[default: r] [currently: r]
+
+styler.latex.multirow_align{âcâ, âtâ, âbâ}The specifier for vertical alignment of sparsified LaTeX multirows.
+[default: c] [currently: c]
+
+styler.render.encodingstrThe encoding used for output HTML and LaTeX files.
+[default: utf-8] [currently: utf-8]
+
+styler.render.max_columnsint, optionalThe maximum number of columns that will be rendered. May still be reduced to
+satisfy max_elements, which takes precedence.
+[default: None] [currently: None]
+
+styler.render.max_elementsintThe maximum number of data-cell (<td>) elements that will be rendered before
+trimming will occur over columns, rows or both if needed.
+[default: 262144] [currently: 262144]
+
+styler.render.max_rowsint, optionalThe maximum number of rows that will be rendered. May still be reduced to
+satisfy max_elements, which takes precedence.
+[default: None] [currently: None]
+
+styler.render.reprstrDetermine which output to use in Jupyter Notebook in {âhtmlâ, âlatexâ}.
+[default: html] [currently: html]
+
+styler.sparse.columnsboolWhether to sparsify the display of hierarchical columns. Setting to False will
+display each explicit level element in a hierarchical key for each column.
+[default: True] [currently: True]
+
+styler.sparse.indexboolWhether to sparsify the display of a hierarchical index. Setting to False will
+display each explicit level element in a hierarchical key for each row.
+[default: True] [currently: True]
+
+
+Examples
+>>> pd.describe_option('display.max_columns')  
+display.max_columns : int
+    If max_cols is exceeded, switch to truncate view...
+
+
+
+

@@ -1,0 +1,87 @@
+
+
+pandas.core.groupby.SeriesGroupBy.fillna#
+
+
+SeriesGroupBy.fillna(value=None, method=None, axis=_NoDefault.no_default, inplace=False, limit=None, downcast=_NoDefault.no_default)[source]#
+Fill NA/NaN values using the specified method within groups.
+
+Parameters:
+
+valuescalar, dict, Series, or DataFrameValue to use to fill holes (e.g. 0), alternately a
+dict/Series/DataFrame of values specifying which value to use for
+each index (for a Series) or column (for a DataFrame). Values not
+in the dict/Series/DataFrame will not be filled. This value cannot
+be a list. Users wanting to use the value argument and not method
+should prefer Series.fillna() as this
+will produce the same result and be more performant.
+
+method{{âbfillâ, âffillâ, None}}, default NoneMethod to use for filling holes. 'ffill' will propagate
+the last valid observation forward within a group.
+'bfill' will use next valid observation to fill the gap.
+
+Deprecated since version 2.1.0: Use obj.ffill or obj.bfill instead.
+
+
+axis{0 or âindexâ, 1 or âcolumnsâ}Unused, only for compatibility with DataFrameGroupBy.fillna().
+
+Deprecated since version 2.1.0: For axis=1, operate on the underlying object instead. Otherwise
+the axis keyword is not necessary.
+
+
+inplacebool, default FalseBroken. Do not set to True.
+
+limitint, default NoneIf method is specified, this is the maximum number of consecutive
+NaN values to forward/backward fill within a group. In other words,
+if there is a gap with more than this number of consecutive NaNs,
+it will only be partially filled. If method is not specified, this is the
+maximum number of entries along the entire axis where NaNs will be
+filled. Must be greater than 0 if not None.
+
+downcastdict, default is NoneA dict of item->dtype of what to downcast if possible,
+or the string âinferâ which will try to downcast to an appropriate
+equal type (e.g. float64 to int64 if possible).
+
+Deprecated since version 2.1.0.
+
+
+
+
+Returns:
+
+SeriesObject with missing values filled within groups.
+
+
+
+
+
+See also
+
+ffillForward fill values within a group.
+
+bfillBackward fill values within a group.
+
+
+
+Examples
+For SeriesGroupBy:
+>>> lst = ['cat', 'cat', 'cat', 'mouse', 'mouse']
+>>> ser = pd.Series([1, None, None, 2, None], index=lst)
+>>> ser
+cat    1.0
+cat    NaN
+cat    NaN
+mouse  2.0
+mouse  NaN
+dtype: float64
+>>> ser.groupby(level=0).fillna(0, limit=1)
+cat    1.0
+cat    0.0
+cat    NaN
+mouse  2.0
+mouse  0.0
+dtype: float64
+
+
+
+

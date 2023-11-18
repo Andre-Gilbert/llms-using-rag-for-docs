@@ -1,0 +1,59 @@
+
+
+pandas.PeriodIndex.asfreq#
+
+
+PeriodIndex.asfreq(freq=None, how='E')[source]#
+Convert the PeriodArray to the specified frequency freq.
+Equivalent to applying pandas.Period.asfreq() with the given arguments
+to each Period in this PeriodArray.
+
+Parameters:
+
+freqstrA frequency.
+
+howstr {âEâ, âSâ}, default âEâWhether the elements should be aligned to the end
+or start within pa period.
+
+âEâ, âENDâ, or âFINISHâ for end,
+âSâ, âSTARTâ, or âBEGINâ for start.
+
+January 31st (âENDâ) vs. January 1st (âSTARTâ) for example.
+
+
+
+Returns:
+
+PeriodArrayThe transformed PeriodArray with the new frequency.
+
+
+
+
+
+See also
+
+pandas.arrays.PeriodArray.asfreqConvert each Period in a PeriodArray to the given frequency.
+
+Period.asfreqConvert a Period object to the given frequency.
+
+
+
+Examples
+>>> pidx = pd.period_range('2010-01-01', '2015-01-01', freq='A')
+>>> pidx
+PeriodIndex(['2010', '2011', '2012', '2013', '2014', '2015'],
+dtype='period[A-DEC]')
+
+
+>>> pidx.asfreq('M')
+PeriodIndex(['2010-12', '2011-12', '2012-12', '2013-12', '2014-12',
+'2015-12'], dtype='period[M]')
+
+
+>>> pidx.asfreq('M', how='S')
+PeriodIndex(['2010-01', '2011-01', '2012-01', '2013-01', '2014-01',
+'2015-01'], dtype='period[M]')
+
+
+
+

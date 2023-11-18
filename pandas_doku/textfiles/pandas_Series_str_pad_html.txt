@@ -1,0 +1,67 @@
+
+
+pandas.Series.str.pad#
+
+
+Series.str.pad(width, side='left', fillchar=' ')[source]#
+Pad strings in the Series/Index up to width.
+
+Parameters:
+
+widthintMinimum width of resulting string; additional characters will be filled
+with character defined in fillchar.
+
+side{âleftâ, ârightâ, âbothâ}, default âleftâSide from which to fill resulting string.
+
+fillcharstr, default â âAdditional character for filling, default is whitespace.
+
+
+
+Returns:
+
+Series or Index of objectReturns Series or Index with minimum number of char in object.
+
+
+
+
+
+See also
+
+Series.str.rjustFills the left side of strings with an arbitrary character. Equivalent to Series.str.pad(side='left').
+
+Series.str.ljustFills the right side of strings with an arbitrary character. Equivalent to Series.str.pad(side='right').
+
+Series.str.centerFills both sides of strings with an arbitrary character. Equivalent to Series.str.pad(side='both').
+
+Series.str.zfillPad strings in the Series/Index by prepending â0â character. Equivalent to Series.str.pad(side='left', fillchar='0').
+
+
+
+Examples
+>>> s = pd.Series(["caribou", "tiger"])
+>>> s
+0    caribou
+1      tiger
+dtype: object
+
+
+>>> s.str.pad(width=10)
+0       caribou
+1         tiger
+dtype: object
+
+
+>>> s.str.pad(width=10, side='right', fillchar='-')
+0    caribou---
+1    tiger-----
+dtype: object
+
+
+>>> s.str.pad(width=10, side='both', fillchar='-')
+0    -caribou--
+1    --tiger---
+dtype: object
+
+
+
+

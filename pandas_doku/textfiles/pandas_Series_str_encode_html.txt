@@ -1,0 +1,32 @@
+
+
+pandas.Series.str.encode#
+
+
+Series.str.encode(encoding, errors='strict')[source]#
+Encode character string in the Series/Index using indicated encoding.
+Equivalent to str.encode().
+
+Parameters:
+
+encodingstr
+errorsstr, optional
+
+
+Returns:
+
+Series/Index of objects
+
+
+
+Examples
+>>> ser = pd.Series(['cow', '123', '()'])
+>>> ser.str.encode(encoding='ascii')
+0     b'cow'
+1     b'123'
+2      b'()'
+dtype: object
+
+
+
+

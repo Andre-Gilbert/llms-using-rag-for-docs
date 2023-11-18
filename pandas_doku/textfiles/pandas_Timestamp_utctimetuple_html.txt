@@ -1,0 +1,18 @@
+
+
+pandas.Timestamp.utctimetuple#
+
+
+Timestamp.utctimetuple()#
+Return UTC time tuple, compatible with time.localtime().
+Examples
+>>> ts = pd.Timestamp('2023-01-01 10:00:00', tz='Europe/Brussels')
+>>> ts
+Timestamp('2023-01-01 10:00:00+0100', tz='Europe/Brussels')
+>>> ts.utctimetuple()
+time.struct_time(tm_year=2023, tm_mon=1, tm_mday=1, tm_hour=9,
+tm_min=0, tm_sec=0, tm_wday=6, tm_yday=1, tm_isdst=0)
+
+
+
+

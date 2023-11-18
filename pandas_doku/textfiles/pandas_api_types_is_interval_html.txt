@@ -1,0 +1,8 @@
+
+
+pandas.api.types.is_interval#
+
+
+pandas.api.types.is_interval()#
+
+

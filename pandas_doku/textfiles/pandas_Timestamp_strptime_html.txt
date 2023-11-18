@@ -1,0 +1,15 @@
+
+
+pandas.Timestamp.strptime#
+
+
+classmethod Timestamp.strptime(string, format)#
+Function is not implemented. Use pd.to_datetime().
+Examples
+>>> pd.Timestamp.strptime("2023-01-01", "%d/%m/%y")
+Traceback (most recent call last):
+NotImplementedError
+
+
+
+

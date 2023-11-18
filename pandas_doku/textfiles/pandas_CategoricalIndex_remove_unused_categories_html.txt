@@ -1,0 +1,51 @@
+
+
+pandas.CategoricalIndex.remove_unused_categories#
+
+
+CategoricalIndex.remove_unused_categories(*args, **kwargs)[source]#
+Remove categories which are not used.
+
+Returns:
+
+CategoricalCategorical with unused categories dropped.
+
+
+
+
+
+See also
+
+rename_categoriesRename categories.
+
+reorder_categoriesReorder categories.
+
+add_categoriesAdd new categories.
+
+remove_categoriesRemove the specified categories.
+
+set_categoriesSet the categories to the specified ones.
+
+
+
+Examples
+>>> c = pd.Categorical(['a', 'c', 'b', 'c', 'd'])
+>>> c
+['a', 'c', 'b', 'c', 'd']
+Categories (4, object): ['a', 'b', 'c', 'd']
+
+
+>>> c[2] = 'a'
+>>> c[4] = 'c'
+>>> c
+['a', 'c', 'a', 'c', 'c']
+Categories (4, object): ['a', 'b', 'c', 'd']
+
+
+>>> c.remove_unused_categories()
+['a', 'c', 'a', 'c', 'c']
+Categories (2, object): ['a', 'c']
+
+
+
+

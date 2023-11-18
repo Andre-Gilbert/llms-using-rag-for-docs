@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.Tick.delta#
+
+
+Tick.delta#
+
+

@@ -1,0 +1,90 @@
+
+
+pandas.read_sql_query#
+
+
+pandas.read_sql_query(sql, con, index_col=None, coerce_float=True, params=None, parse_dates=None, chunksize=None, dtype=None, dtype_backend=_NoDefault.no_default)[source]#
+Read SQL query into a DataFrame.
+Returns a DataFrame corresponding to the result set of the query
+string. Optionally provide an index_col parameter to use one of the
+columns as the index, otherwise default integer index will be used.
+
+Parameters:
+
+sqlstr SQL query or SQLAlchemy Selectable (select or text object)SQL query to be executed.
+
+conSQLAlchemy connectable, str, or sqlite3 connectionUsing SQLAlchemy makes it possible to use any DB supported by that
+library. If a DBAPI2 object, only sqlite3 is supported.
+
+index_colstr or list of str, optional, default: NoneColumn(s) to set as index(MultiIndex).
+
+coerce_floatbool, default TrueAttempts to convert values of non-string, non-numeric objects (like
+decimal.Decimal) to floating point. Useful for SQL result sets.
+
+paramslist, tuple or mapping, optional, default: NoneList of parameters to pass to execute method. The syntax used
+to pass parameters is database driver dependent. Check your
+database driver documentation for which of the five syntax styles,
+described in PEP 249âs paramstyle, is supported.
+Eg. for psycopg2, uses %(name)s so use params={ânameâ : âvalueâ}.
+
+parse_dateslist or dict, default: None
+List of column names to parse as dates.
+Dict of {column_name: format string} where format string is
+strftime compatible in case of parsing string times, or is one of
+(D, s, ns, ms, us) in case of parsing integer timestamps.
+Dict of {column_name: arg dict}, where the arg dict corresponds
+to the keyword arguments of pandas.to_datetime()
+Especially useful with databases without native Datetime support,
+such as SQLite.
+
+
+chunksizeint, default NoneIf specified, return an iterator where chunksize is the number of
+rows to include in each chunk.
+
+dtypeType name or dict of columnsData type for data or columns. E.g. np.float64 or
+{âaâ: np.float64, âbâ: np.int32, âcâ: âInt64â}.
+
+New in version 1.3.0.
+
+
+dtype_backend{ânumpy_nullableâ, âpyarrowâ}, default ânumpy_nullableâBack-end data type applied to the resultant DataFrame
+(still experimental). Behaviour is as follows:
+
+"numpy_nullable": returns nullable-dtype-backed DataFrame
+(default).
+"pyarrow": returns pyarrow-backed nullable ArrowDtype
+DataFrame.
+
+
+New in version 2.0.
+
+
+
+
+Returns:
+
+DataFrame or Iterator[DataFrame]
+
+
+
+
+See also
+
+read_sql_tableRead SQL database table into a DataFrame.
+
+read_sqlRead SQL query or database table into a DataFrame.
+
+
+
+Notes
+Any datetime values with time zone information parsed via the parse_dates
+parameter will be converted to UTC.
+Examples
+>>> from sqlalchemy import create_engine  
+>>> engine = create_engine("sqlite:///database.db")  
+>>> with engine.connect() as conn, conn.begin():  
+...     data = pd.read_sql_table("data", conn)  
+
+
+
+

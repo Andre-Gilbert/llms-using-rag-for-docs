@@ -1,0 +1,17 @@
+
+
+pandas.errors.EmptyDataError#
+
+
+exception pandas.errors.EmptyDataError[source]#
+Exception raised in pd.read_csv when empty data or header is encountered.
+Examples
+>>> from io import StringIO
+>>> empty = StringIO()
+>>> pd.read_csv(empty)
+Traceback (most recent call last):
+EmptyDataError: No columns to parse from file
+
+
+
+

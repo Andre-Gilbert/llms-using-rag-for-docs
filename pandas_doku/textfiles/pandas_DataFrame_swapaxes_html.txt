@@ -1,0 +1,22 @@
+
+
+pandas.DataFrame.swapaxes#
+
+
+DataFrame.swapaxes(axis1, axis2, copy=None)[source]#
+Interchange axes and swap values axes appropriately.
+
+Deprecated since version 2.1.0: swapaxes is deprecated and will be removed.
+Please use transpose instead.
+
+
+Returns:
+
+same as input
+
+
+
+Examples
+Please see examples for DataFrame.transpose().
+
+

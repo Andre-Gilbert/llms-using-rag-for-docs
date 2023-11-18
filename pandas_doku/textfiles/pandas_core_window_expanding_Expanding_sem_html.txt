@@ -1,0 +1,56 @@
+
+
+pandas.core.window.expanding.Expanding.sem#
+
+
+Expanding.sem(ddof=1, numeric_only=False)[source]#
+Calculate the expanding standard error of mean.
+
+Parameters:
+
+ddofint, default 1Delta Degrees of Freedom. The divisor used in calculations
+is N - ddof, where N represents the number of elements.
+
+numeric_onlybool, default FalseInclude only float, int, boolean columns.
+
+New in version 1.5.0.
+
+
+
+
+Returns:
+
+Series or DataFrameReturn type is the same as the original object with np.float64 dtype.
+
+
+
+
+
+See also
+
+pandas.Series.expandingCalling expanding with Series data.
+
+pandas.DataFrame.expandingCalling expanding with DataFrames.
+
+pandas.Series.semAggregating sem for Series.
+
+pandas.DataFrame.semAggregating sem for DataFrame.
+
+
+
+Notes
+A minimum of one period is required for the calculation.
+Examples
+>>> s = pd.Series([0, 1, 2, 3])
+
+
+>>> s.expanding().sem()
+0         NaN
+1    0.707107
+2    0.707107
+3    0.745356
+dtype: float64
+
+
+
+

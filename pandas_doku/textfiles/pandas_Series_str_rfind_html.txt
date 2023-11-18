@@ -1,0 +1,55 @@
+
+
+pandas.Series.str.rfind#
+
+
+Series.str.rfind(sub, start=0, end=None)[source]#
+Return highest indexes in each strings in the Series/Index.
+Each of returned indexes corresponds to the position where the
+substring is fully contained between [start:end]. Return -1 on
+failure. Equivalent to standard str.rfind().
+
+Parameters:
+
+substrSubstring being searched.
+
+startintLeft edge index.
+
+endintRight edge index.
+
+
+
+Returns:
+
+Series or Index of int.
+
+
+
+
+See also
+
+findReturn lowest indexes in each strings.
+
+
+
+Examples
+For Series.str.find:
+>>> ser = pd.Series(["cow_", "duck_", "do_ve"])
+>>> ser.str.find("_")
+0   3
+1   4
+2   2
+dtype: int64
+
+
+For Series.str.rfind:
+>>> ser = pd.Series(["_cow_", "duck_", "do_v_e"])
+>>> ser.str.rfind("_")
+0   4
+1   4
+2   4
+dtype: int64
+
+
+
+

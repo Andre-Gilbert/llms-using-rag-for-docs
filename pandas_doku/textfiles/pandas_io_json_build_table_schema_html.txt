@@ -1,0 +1,50 @@
+
+
+pandas.io.json.build_table_schema#
+
+
+pandas.io.json.build_table_schema(data, index=True, primary_key=None, version=True)[source]#
+Create a Table schema from data.
+
+Parameters:
+
+dataSeries, DataFrame
+indexbool, default TrueWhether to include data.index in the schema.
+
+primary_keybool or None, default TrueColumn names to designate as the primary key.
+The default None will set âprimaryKeyâ to the index
+level or levels if the index is unique.
+
+versionbool, default TrueWhether to include a field pandas_version with the version
+of pandas that last revised the table schema. This version
+can be different from the installed pandas version.
+
+
+
+Returns:
+
+dict
+
+
+
+Notes
+See Table Schema for
+conversion types.
+Timedeltas as converted to ISO8601 duration format with
+9 decimal places after the seconds field for nanosecond precision.
+Categoricals are converted to the any dtype, and use the enum field
+constraint to list the allowed values. The ordered attribute is included
+in an ordered field.
+Examples
+>>> from pandas.io.json._table_schema import build_table_schema
+>>> df = pd.DataFrame(
+...     {'A': [1, 2, 3],
+...      'B': ['a', 'b', 'c'],
+...      'C': pd.date_range('2016-01-01', freq='d', periods=3),
+...     }, index=pd.Index(range(3), name='idx'))
+>>> build_table_schema(df)
+{'fields': [{'name': 'idx', 'type': 'integer'}, {'name': 'A', 'type': 'integer'}, {'name': 'B', 'type': 'string'}, {'name': 'C', 'type': 'datetime'}], 'primaryKey': ['idx'], 'pandas_version': '1.4.0'}
+
+
+
+

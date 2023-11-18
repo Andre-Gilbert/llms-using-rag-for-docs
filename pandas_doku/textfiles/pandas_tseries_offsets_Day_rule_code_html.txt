@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.Day.rule_code#
+
+
+Day.rule_code#
+
+

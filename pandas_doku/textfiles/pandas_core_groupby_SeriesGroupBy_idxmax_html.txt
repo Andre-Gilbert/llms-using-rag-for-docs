@@ -1,0 +1,74 @@
+
+
+pandas.core.groupby.SeriesGroupBy.idxmax#
+
+
+SeriesGroupBy.idxmax(axis=_NoDefault.no_default, skipna=True)[source]#
+Return the row label of the maximum value.
+If multiple values equal the maximum, the first row label with that
+value is returned.
+
+Parameters:
+
+axis{0 or âindexâ}Unused. Parameter needed for compatibility with DataFrame.
+
+skipnabool, default TrueExclude NA/null values. If the entire Series is NA, the result
+will be NA.
+
+*args, **kwargsAdditional arguments and keywords have no effect but might be
+accepted for compatibility with NumPy.
+
+
+
+Returns:
+
+IndexLabel of the maximum value.
+
+
+
+Raises:
+
+ValueErrorIf the Series is empty.
+
+
+
+
+
+See also
+
+numpy.argmaxReturn indices of the maximum values along the given axis.
+
+DataFrame.idxmaxReturn index of first occurrence of maximum over requested axis.
+
+Series.idxminReturn index label of the first occurrence of minimum of values.
+
+
+
+Notes
+This method is the Series version of ndarray.argmax. This method
+returns the label of the maximum, while ndarray.argmax returns
+the position. To get the position, use series.values.argmax().
+Examples
+>>> s = pd.Series(data=[1, None, 4, 3, 4],
+...               index=['A', 'B', 'C', 'D', 'E'])
+>>> s
+A    1.0
+B    NaN
+C    4.0
+D    3.0
+E    4.0
+dtype: float64
+
+
+>>> s.idxmax()
+'C'
+
+
+If skipna is False and there is an NA value in the data,
+the function returns nan.
+>>> s.idxmax(skipna=False)
+nan
+
+
+
+

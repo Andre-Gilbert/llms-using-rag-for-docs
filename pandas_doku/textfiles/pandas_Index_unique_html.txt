@@ -1,0 +1,39 @@
+
+
+pandas.Index.unique#
+
+
+Index.unique(level=None)[source]#
+Return unique values in the index.
+Unique values are returned in order of appearance, this does NOT sort.
+
+Parameters:
+
+levelint or hashable, optionalOnly return values from specified level (for MultiIndex).
+If int, gets the level by integer position, else by level name.
+
+
+
+Returns:
+
+Index
+
+
+
+
+See also
+
+uniqueNumpy array of unique values in that column.
+
+Series.uniqueReturn unique values of Series object.
+
+
+
+Examples
+>>> idx = pd.Index([1, 1, 2, 3, 3])
+>>> idx.unique()
+Index([1, 2, 3], dtype='int64')
+
+
+
+

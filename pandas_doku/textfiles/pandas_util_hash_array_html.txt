@@ -1,0 +1,35 @@
+
+
+pandas.util.hash_array#
+
+
+pandas.util.hash_array(vals, encoding='utf8', hash_key='0123456789123456', categorize=True)[source]#
+Given a 1d array, return an array of deterministic integers.
+
+Parameters:
+
+valsndarray or ExtensionArray
+encodingstr, default âutf8âEncoding for data & key when strings.
+
+hash_keystr, default _default_hash_keyHash_key for string key to encode.
+
+categorizebool, default TrueWhether to first categorize object arrays before hashing. This is more
+efficient when the array contains duplicate values.
+
+
+
+Returns:
+
+ndarray[np.uint64, ndim=1]Hashed values, same length as the vals.
+
+
+
+
+Examples
+>>> pd.util.hash_array(np.array([1, 2, 3]))
+array([ 6238072747940578789, 15839785061582574730,  2185194620014831856],
+  dtype=uint64)
+
+
+
+

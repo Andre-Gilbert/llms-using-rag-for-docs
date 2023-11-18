@@ -1,0 +1,26 @@
+
+
+pandas.tseries.offsets.CustomBusinessDay.freqstr#
+
+
+CustomBusinessDay.freqstr#
+Return a string representing the frequency.
+Examples
+>>> pd.DateOffset(5).freqstr
+'<5 * DateOffsets>'
+
+
+>>> pd.offsets.BusinessHour(2).freqstr
+'2BH'
+
+
+>>> pd.offsets.Nano().freqstr
+'N'
+
+
+>>> pd.offsets.Nano(-3).freqstr
+'-3N'
+
+
+
+

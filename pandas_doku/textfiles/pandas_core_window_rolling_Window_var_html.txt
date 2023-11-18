@@ -1,0 +1,63 @@
+
+
+pandas.core.window.rolling.Window.var#
+
+
+Window.var(ddof=1, numeric_only=False, **kwargs)[source]#
+Calculate the rolling weighted window variance.
+
+Parameters:
+
+numeric_onlybool, default FalseInclude only float, int, boolean columns.
+
+New in version 1.5.0.
+
+
+**kwargsKeyword arguments to configure the SciPy weighted window type.
+
+
+
+Returns:
+
+Series or DataFrameReturn type is the same as the original object with np.float64 dtype.
+
+
+
+
+
+See also
+
+pandas.Series.rollingCalling rolling with Series data.
+
+pandas.DataFrame.rollingCalling rolling with DataFrames.
+
+pandas.Series.varAggregating var for Series.
+
+pandas.DataFrame.varAggregating var for DataFrame.
+
+
+
+Examples
+>>> ser = pd.Series([0, 1, 5, 2, 8])
+
+
+To get an instance of Window we need
+to pass the parameter win_type.
+>>> type(ser.rolling(2, win_type='gaussian'))
+<class 'pandas.core.window.rolling.Window'>
+
+
+In order to use the SciPy Gaussian window we need to provide the parameters
+M and std. The parameter M corresponds to 2 in our example.
+We pass the second parameter std as a parameter of the following method:
+>>> ser.rolling(2, win_type='gaussian').var(std=3)
+0     NaN
+1     0.5
+2     8.0
+3     4.5
+4    18.0
+dtype: float64
+
+
+
+

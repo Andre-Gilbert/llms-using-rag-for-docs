@@ -1,0 +1,56 @@
+
+
+pandas.core.groupby.DataFrameGroupBy.quantile#
+
+
+DataFrameGroupBy.quantile(q=0.5, interpolation='linear', numeric_only=False)[source]#
+Return group values at the given quantile, a la numpy.percentile.
+
+Parameters:
+
+qfloat or array-like, default 0.5 (50% quantile)Value(s) between 0 and 1 providing the quantile(s) to compute.
+
+interpolation{âlinearâ, âlowerâ, âhigherâ, âmidpointâ, ânearestâ}Method to use when the desired quantile falls between two points.
+
+numeric_onlybool, default FalseInclude only float, int or boolean data.
+
+New in version 1.5.0.
+
+
+Changed in version 2.0.0: numeric_only now defaults to False.
+
+
+
+
+Returns:
+
+Series or DataFrameReturn type determined by caller of GroupBy object.
+
+
+
+
+
+See also
+
+Series.quantileSimilar method for Series.
+
+DataFrame.quantileSimilar method for DataFrame.
+
+numpy.percentileNumPy method to compute qth percentile.
+
+
+
+Examples
+>>> df = pd.DataFrame([
+...     ['a', 1], ['a', 2], ['a', 3],
+...     ['b', 1], ['b', 3], ['b', 5]
+... ], columns=['key', 'val'])
+>>> df.groupby('key').quantile()
+    val
+key
+a    2.0
+b    3.0
+
+
+
+

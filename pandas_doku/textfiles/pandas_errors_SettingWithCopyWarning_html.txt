@@ -1,0 +1,22 @@
+
+
+pandas.errors.SettingWithCopyWarning#
+
+
+exception pandas.errors.SettingWithCopyWarning[source]#
+Warning raised when trying to set on a copied slice from a DataFrame.
+The mode.chained_assignment needs to be set to set to âwarn.â
+âWarnâ is the default option. This can happen unintentionally when
+chained indexing.
+For more information on evaluation order,
+see the user guide.
+For more information on view vs. copy,
+see the user guide.
+Examples
+>>> df = pd.DataFrame({'A': [1, 1, 1, 2, 2]}, columns=['A'])
+>>> df.loc[0:3]['A'] = 'a' 
+... # SettingWithCopyWarning: A value is trying to be set on a copy of a...
+
+
+
+

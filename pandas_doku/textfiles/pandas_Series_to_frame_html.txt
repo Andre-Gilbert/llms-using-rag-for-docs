@@ -1,0 +1,34 @@
+
+
+pandas.Series.to_frame#
+
+
+Series.to_frame(name=_NoDefault.no_default)[source]#
+Convert Series to DataFrame.
+
+Parameters:
+
+nameobject, optionalThe passed name should substitute for the series name (if it has
+one).
+
+
+
+Returns:
+
+DataFrameDataFrame representation of Series.
+
+
+
+
+Examples
+>>> s = pd.Series(["a", "b", "c"],
+...               name="vals")
+>>> s.to_frame()
+  vals
+0    a
+1    b
+2    c
+
+
+
+

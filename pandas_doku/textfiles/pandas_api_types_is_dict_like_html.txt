@@ -1,0 +1,34 @@
+
+
+pandas.api.types.is_dict_like#
+
+
+pandas.api.types.is_dict_like(obj)[source]#
+Check if the object is dict-like.
+
+Parameters:
+
+objThe object to check
+
+
+Returns:
+
+boolWhether obj has dict-like properties.
+
+
+
+
+Examples
+>>> from pandas.api.types import is_dict_like
+>>> is_dict_like({1: 2})
+True
+>>> is_dict_like([1, 2, 3])
+False
+>>> is_dict_like(dict)
+False
+>>> is_dict_like(dict())
+True
+
+
+
+

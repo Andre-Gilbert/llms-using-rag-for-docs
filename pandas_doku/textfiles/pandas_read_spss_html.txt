@@ -1,0 +1,42 @@
+
+
+pandas.read_spss#
+
+
+pandas.read_spss(path, usecols=None, convert_categoricals=True, dtype_backend=_NoDefault.no_default)[source]#
+Load an SPSS file from the file path, returning a DataFrame.
+
+Parameters:
+
+pathstr or PathFile path.
+
+usecolslist-like, optionalReturn a subset of the columns. If None, return all columns.
+
+convert_categoricalsbool, default is TrueConvert categorical columns into pd.Categorical.
+
+dtype_backend{ânumpy_nullableâ, âpyarrowâ}, default ânumpy_nullableâBack-end data type applied to the resultant DataFrame
+(still experimental). Behaviour is as follows:
+
+"numpy_nullable": returns nullable-dtype-backed DataFrame
+(default).
+"pyarrow": returns pyarrow-backed nullable ArrowDtype
+DataFrame.
+
+
+New in version 2.0.
+
+
+
+
+Returns:
+
+DataFrame
+
+
+
+Examples
+>>> df = pd.read_spss("spss_data.sav")  
+
+
+
+

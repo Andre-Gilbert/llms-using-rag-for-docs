@@ -1,0 +1,16 @@
+
+
+pandas.errors.ClosedFileError#
+
+
+exception pandas.errors.ClosedFileError[source]#
+Exception is raised when trying to perform an operation on a closed HDFStore file.
+Examples
+>>> store = pd.HDFStore('my-store', 'a') 
+>>> store.close() 
+>>> store.keys() 
+... # ClosedFileError: my-store file is not open!
+
+
+
+

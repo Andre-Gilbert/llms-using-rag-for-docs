@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.BQuarterEnd.nanos#
+
+
+BQuarterEnd.nanos#
+
+

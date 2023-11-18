@@ -1,0 +1,49 @@
+
+
+pandas.DatetimeIndex.std#
+
+
+DatetimeIndex.std(*args, **kwargs)[source]#
+Return sample standard deviation over requested axis.
+Normalized by N-1 by default. This can be changed using ddof.
+
+Parameters:
+
+axisint, optionalAxis for the function to be applied on. For pandas.Series
+this parameter is unused and defaults to None.
+
+ddofint, default 1Degrees of Freedom. The divisor used in calculations is N - ddof,
+where N represents the number of elements.
+
+skipnabool, default TrueExclude NA/null values. If an entire row/column is NA, the result
+will be NA.
+
+
+
+Returns:
+
+Timedelta
+
+
+
+
+See also
+
+numpy.ndarray.stdReturns the standard deviation of the array elements along given axis.
+
+Series.stdReturn sample standard deviation over requested axis.
+
+
+
+Examples
+For pandas.DatetimeIndex:
+>>> idx = pd.date_range('2001-01-01 00:00', periods=3)
+>>> idx
+DatetimeIndex(['2001-01-01', '2001-01-02', '2001-01-03'],
+              dtype='datetime64[ns]', freq='D')
+>>> idx.std()
+Timedelta('1 days 00:00:00')
+
+
+
+

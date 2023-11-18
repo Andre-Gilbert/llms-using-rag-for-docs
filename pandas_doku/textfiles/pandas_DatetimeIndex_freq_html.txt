@@ -1,0 +1,8 @@
+
+
+pandas.DatetimeIndex.freq#
+
+
+property DatetimeIndex.freq[source]#
+
+

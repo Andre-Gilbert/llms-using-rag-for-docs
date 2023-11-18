@@ -1,0 +1,16 @@
+
+
+pandas.tseries.offsets.FY5253.is_anchored#
+
+
+FY5253.is_anchored()#
+Return boolean whether the frequency is a unit frequency (n=1).
+Examples
+>>> pd.DateOffset().is_anchored()
+True
+>>> pd.DateOffset(2).is_anchored()
+False
+
+
+
+

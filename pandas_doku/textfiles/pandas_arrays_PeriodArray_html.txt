@@ -1,0 +1,78 @@
+
+
+pandas.arrays.PeriodArray#
+
+
+class pandas.arrays.PeriodArray(values, dtype=None, freq=None, copy=False)[source]#
+Pandas ExtensionArray for storing Period data.
+Users should use array() to create new instances.
+
+Parameters:
+
+valuesUnion[PeriodArray, Series[period], ndarray[int], PeriodIndex]The data to store. These should be arrays that can be directly
+converted to ordinals without inference or copy (PeriodArray,
+ndarray[int64]), or a box around such an array (Series[period],
+PeriodIndex).
+
+dtypePeriodDtype, optionalA PeriodDtype instance from which to extract a freq. If both
+freq and dtype are specified, then the frequencies must match.
+
+freqstr or DateOffsetThe freq to use for the array. Mostly applicable when values
+is an ndarray of integers, when freq is required. When values
+is a PeriodArray (or box around), itâs checked that values.freq
+matches freq.
+
+copybool, default FalseWhether to copy the ordinals before storing.
+
+
+
+
+
+See also
+
+PeriodRepresents a period of time.
+
+PeriodIndexImmutable Index for period data.
+
+period_rangeCreate a fixed-frequency PeriodArray.
+
+arrayConstruct a pandas array.
+
+
+
+Notes
+There are two components to a PeriodArray
+
+ordinals : integer ndarray
+freq : pd.tseries.offsets.Offset
+
+The values are physically stored as a 1-D ndarray of integers. These are
+called âordinalsâ and represent some kind of offset from a base.
+The freq indicates the span covered by each element of the array.
+All elements in the PeriodArray have the same freq.
+Examples
+>>> pd.arrays.PeriodArray(pd.PeriodIndex(['2023-01-01',
+...                                       '2023-01-02'], freq='D'))
+<PeriodArray>
+['2023-01-01', '2023-01-02']
+Length: 2, dtype: period[D]
+
+
+Attributes
+
+
+None
+
+
+
+
+Methods
+
+
+None
+
+
+
+
+
+

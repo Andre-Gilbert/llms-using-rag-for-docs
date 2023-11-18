@@ -1,0 +1,20 @@
+
+
+pandas.errors.UndefinedVariableError#
+
+
+exception pandas.errors.UndefinedVariableError(name, is_local=None)[source]#
+Exception raised by query or eval when using an undefined variable name.
+It will also specify whether the undefined variable is local or not.
+Examples
+>>> df = pd.DataFrame({'A': [1, 1, 1]})
+>>> df.query("A > x") 
+... # UndefinedVariableError: name 'x' is not defined
+>>> df.query("A > @y") 
+... # UndefinedVariableError: local variable 'y' is not defined
+>>> pd.eval('x + 1') 
+... # UndefinedVariableError: name 'x' is not defined
+
+
+
+

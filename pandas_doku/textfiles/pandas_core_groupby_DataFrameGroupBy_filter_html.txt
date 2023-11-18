@@ -1,0 +1,46 @@
+
+
+pandas.core.groupby.DataFrameGroupBy.filter#
+
+
+DataFrameGroupBy.filter(func, dropna=True, *args, **kwargs)[source]#
+Filter elements from groups that donât satisfy a criterion.
+Elements from groups are filtered if they do not satisfy the
+boolean criterion specified by func.
+
+Parameters:
+
+funcfunctionCriterion to apply to each group. Should return True or False.
+
+dropnaboolDrop groups that do not pass the filter. True by default; if False,
+groups that evaluate False are filled with NaNs.
+
+
+
+Returns:
+
+DataFrame
+
+
+
+Notes
+Each subframe is endowed the attribute ânameâ in case you need to know
+which group you are working on.
+Functions that mutate the passed object can produce unexpected
+behavior or errors and are not supported. See Mutating with User Defined Function (UDF) methods
+for more details.
+Examples
+>>> df = pd.DataFrame({'A' : ['foo', 'bar', 'foo', 'bar',
+...                           'foo', 'bar'],
+...                    'B' : [1, 2, 3, 4, 5, 6],
+...                    'C' : [2.0, 5., 8., 1., 2., 9.]})
+>>> grouped = df.groupby('A')
+>>> grouped.filter(lambda x: x['B'].mean() > 3.)
+     A  B    C
+1  bar  2  5.0
+3  bar  4  1.0
+5  bar  6  9.0
+
+
+
+

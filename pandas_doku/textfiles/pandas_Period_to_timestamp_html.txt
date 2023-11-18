@@ -1,0 +1,35 @@
+
+
+pandas.Period.to_timestamp#
+
+
+Period.to_timestamp()#
+Return the Timestamp representation of the Period.
+Uses the target frequency specified at the part of the period specified
+by how, which is either Start or Finish.
+
+Parameters:
+
+freqstr or DateOffsetTarget frequency. Default is âDâ if self.freq is week or
+longer and âSâ otherwise.
+
+howstr, default âSâ (start)One of âSâ, âEâ. Can be aliased as case insensitive
+âStartâ, âFinishâ, âBeginâ, âEndâ.
+
+
+
+Returns:
+
+Timestamp
+
+
+
+Examples
+>>> period = pd.Period('2023-1-1', freq='D')
+>>> timestamp = period.to_timestamp()
+>>> timestamp
+Timestamp('2023-01-01 00:00:00')
+
+
+
+

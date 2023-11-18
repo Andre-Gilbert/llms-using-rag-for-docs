@@ -1,0 +1,736 @@
+
+
+pandas.Series#
+
+
+class pandas.Series(data=None, index=None, dtype=None, name=None, copy=None, fastpath=False)[source]#
+One-dimensional ndarray with axis labels (including time series).
+Labels need not be unique but must be a hashable type. The object
+supports both integer- and label-based indexing and provides a host of
+methods for performing operations involving the index. Statistical
+methods from ndarray have been overridden to automatically exclude
+missing data (currently represented as NaN).
+Operations between Series (+, -, /, *, **) align values based on their
+associated index valuesâ they need not be the same length. The result
+index will be the sorted union of the two indexes.
+
+Parameters:
+
+dataarray-like, Iterable, dict, or scalar valueContains data stored in Series. If data is a dict, argument order is
+maintained.
+
+indexarray-like or Index (1d)Values must be hashable and have the same length as data.
+Non-unique index values are allowed. Will default to
+RangeIndex (0, 1, 2, â¦, n) if not provided. If data is dict-like
+and index is None, then the keys in the data are used as the index. If the
+index is not None, the resulting Series is reindexed with the index values.
+
+dtypestr, numpy.dtype, or ExtensionDtype, optionalData type for the output Series. If not specified, this will be
+inferred from data.
+See the user guide for more usages.
+
+nameHashable, default NoneThe name to give to the Series.
+
+copybool, default FalseCopy input data. Only affects Series or 1d ndarray input. See examples.
+
+
+
+
+Notes
+Please reference the User Guide for more information.
+Examples
+Constructing Series from a dictionary with an Index specified
+>>> d = {'a': 1, 'b': 2, 'c': 3}
+>>> ser = pd.Series(data=d, index=['a', 'b', 'c'])
+>>> ser
+a   1
+b   2
+c   3
+dtype: int64
+
+
+The keys of the dictionary match with the Index values, hence the Index
+values have no effect.
+>>> d = {'a': 1, 'b': 2, 'c': 3}
+>>> ser = pd.Series(data=d, index=['x', 'y', 'z'])
+>>> ser
+x   NaN
+y   NaN
+z   NaN
+dtype: float64
+
+
+Note that the Index is first build with the keys from the dictionary.
+After this the Series is reindexed with the given Index values, hence we
+get all NaN as a result.
+Constructing Series from a list with copy=False.
+>>> r = [1, 2]
+>>> ser = pd.Series(r, copy=False)
+>>> ser.iloc[0] = 999
+>>> r
+[1, 2]
+>>> ser
+0    999
+1      2
+dtype: int64
+
+
+Due to input data type the Series has a copy of
+the original data even though copy=False, so
+the data is unchanged.
+Constructing Series from a 1d ndarray with copy=False.
+>>> r = np.array([1, 2])
+>>> ser = pd.Series(r, copy=False)
+>>> ser.iloc[0] = 999
+>>> r
+array([999,   2])
+>>> ser
+0    999
+1      2
+dtype: int64
+
+
+Due to input data type the Series has a view on
+the original data, so
+the data is changed as well.
+Attributes
+
+
+T
+Return the transpose, which is by definition self.
+
+array
+The ExtensionArray of the data backing this Series or Index.
+
+at
+Access a single value for a row/column label pair.
+
+attrs
+Dictionary of global attributes of this dataset.
+
+axes
+Return a list of the row axis labels.
+
+dtype
+Return the dtype object of the underlying data.
+
+dtypes
+Return the dtype object of the underlying data.
+
+flags
+Get the properties associated with this pandas object.
+
+hasnans
+Return True if there are any NaNs.
+
+iat
+Access a single value for a row/column pair by integer position.
+
+iloc
+Purely integer-location based indexing for selection by position.
+
+index
+The index (axis labels) of the Series.
+
+is_monotonic_decreasing
+Return boolean if values in the object are monotonically decreasing.
+
+is_monotonic_increasing
+Return boolean if values in the object are monotonically increasing.
+
+is_unique
+Return boolean if values in the object are unique.
+
+loc
+Access a group of rows and columns by label(s) or a boolean array.
+
+name
+Return the name of the Series.
+
+nbytes
+Return the number of bytes in the underlying data.
+
+ndim
+Number of dimensions of the underlying data, by definition 1.
+
+shape
+Return a tuple of the shape of the underlying data.
+
+size
+Return the number of elements in the underlying data.
+
+values
+Return Series as ndarray or ndarray-like depending on the dtype.
+
+
+
+
+
+empty
+
+
+
+
+Methods
+
+
+abs()
+Return a Series/DataFrame with absolute numeric value of each element.
+
+add(other[,Â level,Â fill_value,Â axis])
+Return Addition of series and other, element-wise (binary operator add).
+
+add_prefix(prefix[,Â axis])
+Prefix labels with string prefix.
+
+add_suffix(suffix[,Â axis])
+Suffix labels with string suffix.
+
+agg([func,Â axis])
+Aggregate using one or more operations over the specified axis.
+
+aggregate([func,Â axis])
+Aggregate using one or more operations over the specified axis.
+
+align(other[,Â join,Â axis,Â level,Â copy,Â ...])
+Align two objects on their axes with the specified join method.
+
+all([axis,Â bool_only,Â skipna])
+Return whether all elements are True, potentially over an axis.
+
+any(*[,Â axis,Â bool_only,Â skipna])
+Return whether any element is True, potentially over an axis.
+
+apply(func[,Â convert_dtype,Â args,Â by_row])
+Invoke function on values of Series.
+
+argmax([axis,Â skipna])
+Return int position of the largest value in the Series.
+
+argmin([axis,Â skipna])
+Return int position of the smallest value in the Series.
+
+argsort([axis,Â kind,Â order])
+Return the integer indices that would sort the Series values.
+
+asfreq(freq[,Â method,Â how,Â normalize,Â ...])
+Convert time series to specified frequency.
+
+asof(where[,Â subset])
+Return the last row(s) without any NaNs before where.
+
+astype(dtype[,Â copy,Â errors])
+Cast a pandas object to a specified dtype dtype.
+
+at_time(time[,Â asof,Â axis])
+Select values at particular time of day (e.g., 9:30AM).
+
+autocorr([lag])
+Compute the lag-N autocorrelation.
+
+backfill(*[,Â axis,Â inplace,Â limit,Â downcast])
+(DEPRECATED) Fill NA/NaN values by using the next valid observation to fill the gap.
+
+between(left,Â right[,Â inclusive])
+Return boolean Series equivalent to left <= series <= right.
+
+between_time(start_time,Â end_time[,Â ...])
+Select values between particular times of the day (e.g., 9:00-9:30 AM).
+
+bfill(*[,Â axis,Â inplace,Â limit,Â downcast])
+Fill NA/NaN values by using the next valid observation to fill the gap.
+
+bool()
+(DEPRECATED) Return the bool of a single element Series or DataFrame.
+
+cat
+alias of CategoricalAccessor
+
+clip([lower,Â upper,Â axis,Â inplace])
+Trim values at input threshold(s).
+
+combine(other,Â func[,Â fill_value])
+Combine the Series with a Series or scalar according to func.
+
+combine_first(other)
+Update null elements with value in the same location in 'other'.
+
+compare(other[,Â align_axis,Â keep_shape,Â ...])
+Compare to another Series and show the differences.
+
+convert_dtypes([infer_objects,Â ...])
+Convert columns to the best possible dtypes using dtypes supporting pd.NA.
+
+copy([deep])
+Make a copy of this object's indices and data.
+
+corr(other[,Â method,Â min_periods])
+Compute correlation with other Series, excluding missing values.
+
+count()
+Return number of non-NA/null observations in the Series.
+
+cov(other[,Â min_periods,Â ddof])
+Compute covariance with Series, excluding missing values.
+
+cummax([axis,Â skipna])
+Return cumulative maximum over a DataFrame or Series axis.
+
+cummin([axis,Â skipna])
+Return cumulative minimum over a DataFrame or Series axis.
+
+cumprod([axis,Â skipna])
+Return cumulative product over a DataFrame or Series axis.
+
+cumsum([axis,Â skipna])
+Return cumulative sum over a DataFrame or Series axis.
+
+describe([percentiles,Â include,Â exclude])
+Generate descriptive statistics.
+
+diff([periods])
+First discrete difference of element.
+
+div(other[,Â level,Â fill_value,Â axis])
+Return Floating division of series and other, element-wise (binary operator truediv).
+
+divide(other[,Â level,Â fill_value,Â axis])
+Return Floating division of series and other, element-wise (binary operator truediv).
+
+divmod(other[,Â level,Â fill_value,Â axis])
+Return Integer division and modulo of series and other, element-wise (binary operator divmod).
+
+dot(other)
+Compute the dot product between the Series and the columns of other.
+
+drop([labels,Â axis,Â index,Â columns,Â level,Â ...])
+Return Series with specified index labels removed.
+
+drop_duplicates(*[,Â keep,Â inplace,Â ignore_index])
+Return Series with duplicate values removed.
+
+droplevel(level[,Â axis])
+Return Series/DataFrame with requested index / column level(s) removed.
+
+dropna(*[,Â axis,Â inplace,Â how,Â ignore_index])
+Return a new Series with missing values removed.
+
+duplicated([keep])
+Indicate duplicate Series values.
+
+eq(other[,Â level,Â fill_value,Â axis])
+Return Equal to of series and other, element-wise (binary operator eq).
+
+equals(other)
+Test whether two objects contain the same elements.
+
+ewm([com,Â span,Â halflife,Â alpha,Â ...])
+Provide exponentially weighted (EW) calculations.
+
+expanding([min_periods,Â axis,Â method])
+Provide expanding window calculations.
+
+explode([ignore_index])
+Transform each element of a list-like to a row.
+
+factorize([sort,Â use_na_sentinel])
+Encode the object as an enumerated type or categorical variable.
+
+ffill(*[,Â axis,Â inplace,Â limit,Â downcast])
+Fill NA/NaN values by propagating the last valid observation to next valid.
+
+fillna([value,Â method,Â axis,Â inplace,Â ...])
+Fill NA/NaN values using the specified method.
+
+filter([items,Â like,Â regex,Â axis])
+Subset the dataframe rows or columns according to the specified index labels.
+
+first(offset)
+Select initial periods of time series data based on a date offset.
+
+first_valid_index()
+Return index for first non-NA value or None, if no non-NA value is found.
+
+floordiv(other[,Â level,Â fill_value,Â axis])
+Return Integer division of series and other, element-wise (binary operator floordiv).
+
+ge(other[,Â level,Â fill_value,Â axis])
+Return Greater than or equal to of series and other, element-wise (binary operator ge).
+
+get(key[,Â default])
+Get item from object for given key (ex: DataFrame column).
+
+groupby([by,Â axis,Â level,Â as_index,Â sort,Â ...])
+Group Series using a mapper or by a Series of columns.
+
+gt(other[,Â level,Â fill_value,Â axis])
+Return Greater than of series and other, element-wise (binary operator gt).
+
+head([n])
+Return the first n rows.
+
+hist([by,Â ax,Â grid,Â xlabelsize,Â xrot,Â ...])
+Draw histogram of the input series using matplotlib.
+
+idxmax([axis,Â skipna])
+Return the row label of the maximum value.
+
+idxmin([axis,Â skipna])
+Return the row label of the minimum value.
+
+infer_objects([copy])
+Attempt to infer better dtypes for object columns.
+
+info([verbose,Â buf,Â max_cols,Â memory_usage,Â ...])
+Print a concise summary of a Series.
+
+interpolate([method,Â axis,Â limit,Â inplace,Â ...])
+Fill NaN values using an interpolation method.
+
+isin(values)
+Whether elements in Series are contained in values.
+
+isna()
+Detect missing values.
+
+isnull()
+Series.isnull is an alias for Series.isna.
+
+item()
+Return the first element of the underlying data as a Python scalar.
+
+items()
+Lazily iterate over (index, value) tuples.
+
+keys()
+Return alias for index.
+
+kurt([axis,Â skipna,Â numeric_only])
+Return unbiased kurtosis over requested axis.
+
+kurtosis([axis,Â skipna,Â numeric_only])
+Return unbiased kurtosis over requested axis.
+
+last(offset)
+Select final periods of time series data based on a date offset.
+
+last_valid_index()
+Return index for last non-NA value or None, if no non-NA value is found.
+
+le(other[,Â level,Â fill_value,Â axis])
+Return Less than or equal to of series and other, element-wise (binary operator le).
+
+lt(other[,Â level,Â fill_value,Â axis])
+Return Less than of series and other, element-wise (binary operator lt).
+
+map(arg[,Â na_action])
+Map values of Series according to an input mapping or function.
+
+mask(cond[,Â other,Â inplace,Â axis,Â level])
+Replace values where the condition is True.
+
+max([axis,Â skipna,Â numeric_only])
+Return the maximum of the values over the requested axis.
+
+mean([axis,Â skipna,Â numeric_only])
+Return the mean of the values over the requested axis.
+
+median([axis,Â skipna,Â numeric_only])
+Return the median of the values over the requested axis.
+
+memory_usage([index,Â deep])
+Return the memory usage of the Series.
+
+min([axis,Â skipna,Â numeric_only])
+Return the minimum of the values over the requested axis.
+
+mod(other[,Â level,Â fill_value,Â axis])
+Return Modulo of series and other, element-wise (binary operator mod).
+
+mode([dropna])
+Return the mode(s) of the Series.
+
+mul(other[,Â level,Â fill_value,Â axis])
+Return Multiplication of series and other, element-wise (binary operator mul).
+
+multiply(other[,Â level,Â fill_value,Â axis])
+Return Multiplication of series and other, element-wise (binary operator mul).
+
+ne(other[,Â level,Â fill_value,Â axis])
+Return Not equal to of series and other, element-wise (binary operator ne).
+
+nlargest([n,Â keep])
+Return the largest n elements.
+
+notna()
+Detect existing (non-missing) values.
+
+notnull()
+Series.notnull is an alias for Series.notna.
+
+nsmallest([n,Â keep])
+Return the smallest n elements.
+
+nunique([dropna])
+Return number of unique elements in the object.
+
+pad(*[,Â axis,Â inplace,Â limit,Â downcast])
+(DEPRECATED) Fill NA/NaN values by propagating the last valid observation to next valid.
+
+pct_change([periods,Â fill_method,Â limit,Â freq])
+Fractional change between the current and a prior element.
+
+pipe(func,Â *args,Â **kwargs)
+Apply chainable functions that expect Series or DataFrames.
+
+plot
+alias of PlotAccessor
+
+pop(item)
+Return item and drops from series.
+
+pow(other[,Â level,Â fill_value,Â axis])
+Return Exponential power of series and other, element-wise (binary operator pow).
+
+prod([axis,Â skipna,Â numeric_only,Â min_count])
+Return the product of the values over the requested axis.
+
+product([axis,Â skipna,Â numeric_only,Â min_count])
+Return the product of the values over the requested axis.
+
+quantile([q,Â interpolation])
+Return value at the given quantile.
+
+radd(other[,Â level,Â fill_value,Â axis])
+Return Addition of series and other, element-wise (binary operator radd).
+
+rank([axis,Â method,Â numeric_only,Â ...])
+Compute numerical data ranks (1 through n) along axis.
+
+ravel([order])
+Return the flattened underlying data as an ndarray or ExtensionArray.
+
+rdiv(other[,Â level,Â fill_value,Â axis])
+Return Floating division of series and other, element-wise (binary operator rtruediv).
+
+rdivmod(other[,Â level,Â fill_value,Â axis])
+Return Integer division and modulo of series and other, element-wise (binary operator rdivmod).
+
+reindex([index,Â axis,Â method,Â copy,Â level,Â ...])
+Conform Series to new index with optional filling logic.
+
+reindex_like(other[,Â method,Â copy,Â limit,Â ...])
+Return an object with matching indices as other object.
+
+rename([index,Â axis,Â copy,Â inplace,Â level,Â ...])
+Alter Series index labels or name.
+
+rename_axis([mapper,Â index,Â axis,Â copy,Â inplace])
+Set the name of the axis for the index or columns.
+
+reorder_levels(order)
+Rearrange index levels using input order.
+
+repeat(repeats[,Â axis])
+Repeat elements of a Series.
+
+replace([to_replace,Â value,Â inplace,Â limit,Â ...])
+Replace values given in to_replace with value.
+
+resample(rule[,Â axis,Â closed,Â label,Â ...])
+Resample time-series data.
+
+reset_index([level,Â drop,Â name,Â inplace,Â ...])
+Generate a new DataFrame or Series with the index reset.
+
+rfloordiv(other[,Â level,Â fill_value,Â axis])
+Return Integer division of series and other, element-wise (binary operator rfloordiv).
+
+rmod(other[,Â level,Â fill_value,Â axis])
+Return Modulo of series and other, element-wise (binary operator rmod).
+
+rmul(other[,Â level,Â fill_value,Â axis])
+Return Multiplication of series and other, element-wise (binary operator rmul).
+
+rolling(window[,Â min_periods,Â center,Â ...])
+Provide rolling window calculations.
+
+round([decimals])
+Round each value in a Series to the given number of decimals.
+
+rpow(other[,Â level,Â fill_value,Â axis])
+Return Exponential power of series and other, element-wise (binary operator rpow).
+
+rsub(other[,Â level,Â fill_value,Â axis])
+Return Subtraction of series and other, element-wise (binary operator rsub).
+
+rtruediv(other[,Â level,Â fill_value,Â axis])
+Return Floating division of series and other, element-wise (binary operator rtruediv).
+
+sample([n,Â frac,Â replace,Â weights,Â ...])
+Return a random sample of items from an axis of object.
+
+searchsorted(value[,Â side,Â sorter])
+Find indices where elements should be inserted to maintain order.
+
+sem([axis,Â skipna,Â ddof,Â numeric_only])
+Return unbiased standard error of the mean over requested axis.
+
+set_axis(labels,Â *[,Â axis,Â copy])
+Assign desired index to given axis.
+
+set_flags(*[,Â copy,Â allows_duplicate_labels])
+Return a new object with updated flags.
+
+shift([periods,Â freq,Â axis,Â fill_value,Â suffix])
+Shift index by desired number of periods with an optional time freq.
+
+skew([axis,Â skipna,Â numeric_only])
+Return unbiased skew over requested axis.
+
+sort_index(*[,Â axis,Â level,Â ascending,Â ...])
+Sort Series by index labels.
+
+sort_values(*[,Â axis,Â ascending,Â inplace,Â ...])
+Sort by the values.
+
+sparse
+alias of SparseAccessor
+
+squeeze([axis])
+Squeeze 1 dimensional axis objects into scalars.
+
+std([axis,Â skipna,Â ddof,Â numeric_only])
+Return sample standard deviation over requested axis.
+
+str
+alias of StringMethods
+
+sub(other[,Â level,Â fill_value,Â axis])
+Return Subtraction of series and other, element-wise (binary operator sub).
+
+subtract(other[,Â level,Â fill_value,Â axis])
+Return Subtraction of series and other, element-wise (binary operator sub).
+
+sum([axis,Â skipna,Â numeric_only,Â min_count])
+Return the sum of the values over the requested axis.
+
+swapaxes(axis1,Â axis2[,Â copy])
+(DEPRECATED) Interchange axes and swap values axes appropriately.
+
+swaplevel([i,Â j,Â copy])
+Swap levels i and j in a MultiIndex.
+
+tail([n])
+Return the last n rows.
+
+take(indices[,Â axis])
+Return the elements in the given positional indices along an axis.
+
+to_clipboard([excel,Â sep])
+Copy object to the system clipboard.
+
+to_csv([path_or_buf,Â sep,Â na_rep,Â ...])
+Write object to a comma-separated values (csv) file.
+
+to_dict([into])
+Convert Series to {label -> value} dict or dict-like object.
+
+to_excel(excel_writer[,Â sheet_name,Â na_rep,Â ...])
+Write object to an Excel sheet.
+
+to_frame([name])
+Convert Series to DataFrame.
+
+to_hdf(path_or_buf,Â key[,Â mode,Â complevel,Â ...])
+Write the contained data to an HDF5 file using HDFStore.
+
+to_json([path_or_buf,Â orient,Â date_format,Â ...])
+Convert the object to a JSON string.
+
+to_latex([buf,Â columns,Â header,Â index,Â ...])
+Render object to a LaTeX tabular, longtable, or nested table.
+
+to_list()
+Return a list of the values.
+
+to_markdown([buf,Â mode,Â index,Â storage_options])
+Print Series in Markdown-friendly format.
+
+to_numpy([dtype,Â copy,Â na_value])
+A NumPy ndarray representing the values in this Series or Index.
+
+to_period([freq,Â copy])
+Convert Series from DatetimeIndex to PeriodIndex.
+
+to_pickle(path[,Â compression,Â protocol,Â ...])
+Pickle (serialize) object to file.
+
+to_sql(name,Â con,Â *[,Â schema,Â if_exists,Â ...])
+Write records stored in a DataFrame to a SQL database.
+
+to_string([buf,Â na_rep,Â float_format,Â ...])
+Render a string representation of the Series.
+
+to_timestamp([freq,Â how,Â copy])
+Cast to DatetimeIndex of Timestamps, at beginning of period.
+
+to_xarray()
+Return an xarray object from the pandas object.
+
+tolist()
+Return a list of the values.
+
+transform(func[,Â axis])
+Call func on self producing a Series with the same axis shape as self.
+
+transpose(*args,Â **kwargs)
+Return the transpose, which is by definition self.
+
+truediv(other[,Â level,Â fill_value,Â axis])
+Return Floating division of series and other, element-wise (binary operator truediv).
+
+truncate([before,Â after,Â axis,Â copy])
+Truncate a Series or DataFrame before and after some index value.
+
+tz_convert(tz[,Â axis,Â level,Â copy])
+Convert tz-aware axis to target time zone.
+
+tz_localize(tz[,Â axis,Â level,Â copy,Â ...])
+Localize tz-naive index of a Series or DataFrame to target time zone.
+
+unique()
+Return unique values of Series object.
+
+unstack([level,Â fill_value,Â sort])
+Unstack, also known as pivot, Series with MultiIndex to produce DataFrame.
+
+update(other)
+Modify Series in place using values from passed Series.
+
+value_counts([normalize,Â sort,Â ascending,Â ...])
+Return a Series containing counts of unique values.
+
+var([axis,Â skipna,Â ddof,Â numeric_only])
+Return unbiased variance over requested axis.
+
+view([dtype])
+Create a new view of the Series.
+
+where(cond[,Â other,Â inplace,Â axis,Â level])
+Replace values where the condition is False.
+
+xs(key[,Â axis,Â level,Â drop_level])
+Return cross-section from the Series/DataFrame.
+
+
+
+
+
+dt
+
+
+
+
+
+

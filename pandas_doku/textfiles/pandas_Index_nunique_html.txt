@@ -1,0 +1,47 @@
+
+
+pandas.Index.nunique#
+
+
+Index.nunique(dropna=True)[source]#
+Return number of unique elements in the object.
+Excludes NA values by default.
+
+Parameters:
+
+dropnabool, default TrueDonât include NaN in the count.
+
+
+
+Returns:
+
+int
+
+
+
+
+See also
+
+DataFrame.nuniqueMethod nunique for DataFrame.
+
+Series.countCount non-NA/null observations in the Series.
+
+
+
+Examples
+>>> s = pd.Series([1, 3, 5, 7, 7])
+>>> s
+0    1
+1    3
+2    5
+3    7
+4    7
+dtype: int64
+
+
+>>> s.nunique()
+4
+
+
+
+

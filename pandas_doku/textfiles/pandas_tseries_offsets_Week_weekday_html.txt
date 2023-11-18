@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.Week.weekday#
+
+
+Week.weekday#
+
+

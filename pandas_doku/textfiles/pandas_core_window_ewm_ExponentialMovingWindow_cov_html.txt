@@ -1,0 +1,62 @@
+
+
+pandas.core.window.ewm.ExponentialMovingWindow.cov#
+
+
+ExponentialMovingWindow.cov(other=None, pairwise=None, bias=False, numeric_only=False)[source]#
+Calculate the ewm (exponential weighted moment) sample covariance.
+
+Parameters:
+
+otherSeries or DataFrame , optionalIf not supplied then will default to self and produce pairwise
+output.
+
+pairwisebool, default NoneIf False then only matching columns between self and other will be
+used and the output will be a DataFrame.
+If True then all pairwise combinations will be calculated and the
+output will be a MultiIndex DataFrame in the case of DataFrame
+inputs. In the case of missing elements, only complete pairwise
+observations will be used.
+
+biasbool, default FalseUse a standard estimation bias correction.
+
+numeric_onlybool, default FalseInclude only float, int, boolean columns.
+
+New in version 1.5.0.
+
+
+
+
+Returns:
+
+Series or DataFrameReturn type is the same as the original object with np.float64 dtype.
+
+
+
+
+
+See also
+
+pandas.Series.ewmCalling ewm with Series data.
+
+pandas.DataFrame.ewmCalling ewm with DataFrames.
+
+pandas.Series.covAggregating cov for Series.
+
+pandas.DataFrame.covAggregating cov for DataFrame.
+
+
+
+Examples
+>>> ser1 = pd.Series([1, 2, 3, 4])
+>>> ser2 = pd.Series([10, 11, 13, 16])
+>>> ser1.ewm(alpha=.2).cov(ser2)
+0         NaN
+1    0.500000
+2    1.524590
+3    3.408836
+dtype: float64
+
+
+
+

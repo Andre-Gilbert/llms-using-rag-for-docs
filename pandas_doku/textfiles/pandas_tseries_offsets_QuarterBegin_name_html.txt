@@ -1,0 +1,18 @@
+
+
+pandas.tseries.offsets.QuarterBegin.name#
+
+
+QuarterBegin.name#
+Return a string representing the base frequency.
+Examples
+>>> pd.offsets.Hour().name
+'H'
+
+
+>>> pd.offsets.Hour(5).name
+'H'
+
+
+
+

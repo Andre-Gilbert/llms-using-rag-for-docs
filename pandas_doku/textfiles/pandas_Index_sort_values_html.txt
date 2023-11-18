@@ -1,0 +1,67 @@
+
+
+pandas.Index.sort_values#
+
+
+Index.sort_values(return_indexer=False, ascending=True, na_position='last', key=None)[source]#
+Return a sorted copy of the index.
+Return a sorted copy of the index, and optionally return the indices
+that sorted the index itself.
+
+Parameters:
+
+return_indexerbool, default FalseShould the indices that would sort the index be returned.
+
+ascendingbool, default TrueShould the index values be sorted in an ascending order.
+
+na_position{âfirstâ or âlastâ}, default âlastâArgument âfirstâ puts NaNs at the beginning, âlastâ puts NaNs at
+the end.
+
+New in version 1.2.0.
+
+
+keycallable, optionalIf not None, apply the key function to the index values
+before sorting. This is similar to the key argument in the
+builtin sorted() function, with the notable difference that
+this key function should be vectorized. It should expect an
+Index and return an Index of the same shape.
+
+
+
+Returns:
+
+sorted_indexpandas.IndexSorted copy of the index.
+
+indexernumpy.ndarray, optionalThe indices that the index itself was sorted by.
+
+
+
+
+
+See also
+
+Series.sort_valuesSort values of a Series.
+
+DataFrame.sort_valuesSort values in a DataFrame.
+
+
+
+Examples
+>>> idx = pd.Index([10, 100, 1, 1000])
+>>> idx
+Index([10, 100, 1, 1000], dtype='int64')
+
+
+Sort values in ascending order (default behavior).
+>>> idx.sort_values()
+Index([1, 10, 100, 1000], dtype='int64')
+
+
+Sort values in descending order, and also get the indices idx was
+sorted by.
+>>> idx.sort_values(ascending=False, return_indexer=True)
+(Index([1000, 100, 10, 1], dtype='int64'), array([3, 1, 0, 2]))
+
+
+
+

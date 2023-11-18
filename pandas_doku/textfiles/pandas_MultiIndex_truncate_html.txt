@@ -1,0 +1,35 @@
+
+
+pandas.MultiIndex.truncate#
+
+
+MultiIndex.truncate(before=None, after=None)[source]#
+Slice index between two labels / tuples, return new MultiIndex.
+
+Parameters:
+
+beforelabel or tuple, can be partial. Default NoneNone defaults to start.
+
+afterlabel or tuple, can be partial. Default NoneNone defaults to end.
+
+
+
+Returns:
+
+MultiIndexThe truncated MultiIndex.
+
+
+
+
+Examples
+>>> mi = pd.MultiIndex.from_arrays([['a', 'b', 'c'], ['x', 'y', 'z']])
+>>> mi
+MultiIndex([('a', 'x'), ('b', 'y'), ('c', 'z')],
+           )
+>>> mi.truncate(before='a', after='b')
+MultiIndex([('a', 'x'), ('b', 'y')],
+           )
+
+
+
+

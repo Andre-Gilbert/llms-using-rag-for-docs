@@ -1,0 +1,30 @@
+
+
+pandas.Series.ravel#
+
+
+Series.ravel(order='C')[source]#
+Return the flattened underlying data as an ndarray or ExtensionArray.
+
+Returns:
+
+numpy.ndarray or ExtensionArrayFlattened data of the Series.
+
+
+
+
+
+See also
+
+numpy.ndarray.ravelReturn a flattened array.
+
+
+
+Examples
+>>> s = pd.Series([1, 2, 3])
+>>> s.ravel()
+array([1, 2, 3])
+
+
+
+

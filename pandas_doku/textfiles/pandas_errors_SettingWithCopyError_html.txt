@@ -1,0 +1,22 @@
+
+
+pandas.errors.SettingWithCopyError#
+
+
+exception pandas.errors.SettingWithCopyError[source]#
+Exception raised when trying to set on a copied slice from a DataFrame.
+The mode.chained_assignment needs to be set to set to âraise.â This can
+happen unintentionally when chained indexing.
+For more information on evaluation order,
+see the user guide.
+For more information on view vs. copy,
+see the user guide.
+Examples
+>>> pd.options.mode.chained_assignment = 'raise'
+>>> df = pd.DataFrame({'A': [1, 1, 1, 2, 2]}, columns=['A'])
+>>> df.loc[0:3]['A'] = 'a' 
+... # SettingWithCopyError: A value is trying to be set on a copy of a...
+
+
+
+

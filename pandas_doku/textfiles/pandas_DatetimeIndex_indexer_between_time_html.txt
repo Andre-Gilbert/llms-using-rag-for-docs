@@ -1,0 +1,45 @@
+
+
+pandas.DatetimeIndex.indexer_between_time#
+
+
+DatetimeIndex.indexer_between_time(start_time, end_time, include_start=True, include_end=True)[source]#
+Return index locations of values between particular times of day.
+
+Parameters:
+
+start_time, end_timedatetime.time, strTime passed either as object (datetime.time) or as string in
+appropriate format (â%H:%Mâ, â%H%Mâ, â%I:%M%pâ, â%I%M%pâ,
+â%H:%M:%Sâ, â%H%M%Sâ, â%I:%M:%S%pâ,â%I%M%S%pâ).
+
+include_startbool, default True
+include_endbool, default True
+
+
+Returns:
+
+np.ndarray[np.intp]
+
+
+
+
+See also
+
+indexer_at_timeGet index locations of values at particular time of day.
+
+DataFrame.between_timeSelect values between particular times of day.
+
+
+
+Examples
+>>> idx = pd.date_range("2023-01-01", periods=4, freq="H")
+>>> idx
+DatetimeIndex(['2023-01-01 00:00:00', '2023-01-01 01:00:00',
+                   '2023-01-01 02:00:00', '2023-01-01 03:00:00'],
+                  dtype='datetime64[ns]', freq='H')
+>>> idx.indexer_between_time("00:00", "2:00", include_end=False)
+array([0, 1])
+
+
+
+

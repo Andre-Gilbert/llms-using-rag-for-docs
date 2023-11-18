@@ -1,0 +1,44 @@
+
+
+pandas.arrays.NumpyExtensionArray#
+
+
+class pandas.arrays.NumpyExtensionArray(values, copy=False)[source]#
+A pandas ExtensionArray for NumPy data.
+This is mostly for internal compatibility, and is not especially
+useful on its own.
+
+Parameters:
+
+valuesndarrayThe NumPy ndarray to wrap. Must be 1-dimensional.
+
+copybool, default FalseWhether to copy values.
+
+
+
+
+Examples
+>>> pd.arrays.NumpyExtensionArray(np.array([0, 1, 2, 3]))
+<NumpyExtensionArray>
+[0, 1, 2, 3]
+Length: 4, dtype: int64
+
+
+Attributes
+
+
+None
+
+
+
+
+Methods
+
+
+None
+
+
+
+
+
+

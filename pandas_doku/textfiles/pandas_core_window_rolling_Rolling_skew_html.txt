@@ -1,0 +1,55 @@
+
+
+pandas.core.window.rolling.Rolling.skew#
+
+
+Rolling.skew(numeric_only=False)[source]#
+Calculate the rolling unbiased skewness.
+
+Parameters:
+
+numeric_onlybool, default FalseInclude only float, int, boolean columns.
+
+New in version 1.5.0.
+
+
+
+
+Returns:
+
+Series or DataFrameReturn type is the same as the original object with np.float64 dtype.
+
+
+
+
+
+See also
+
+scipy.stats.skewThird moment of a probability density.
+
+pandas.Series.rollingCalling rolling with Series data.
+
+pandas.DataFrame.rollingCalling rolling with DataFrames.
+
+pandas.Series.skewAggregating skew for Series.
+
+pandas.DataFrame.skewAggregating skew for DataFrame.
+
+
+
+Notes
+A minimum of three periods is required for the rolling calculation.
+Examples
+>>> ser = pd.Series([1, 5, 2, 7, 12, 6])
+>>> ser.rolling(3).skew().round(6)
+0         NaN
+1         NaN
+2    1.293343
+3   -0.585583
+4    0.000000
+5    1.545393
+dtype: float64
+
+
+
+

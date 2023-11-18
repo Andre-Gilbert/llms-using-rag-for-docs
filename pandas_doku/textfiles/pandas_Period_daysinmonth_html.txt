@@ -1,0 +1,31 @@
+
+
+pandas.Period.daysinmonth#
+
+
+Period.daysinmonth#
+Get the total number of days of the month that this period falls on.
+
+Returns:
+
+int
+
+
+
+
+See also
+
+Period.days_in_monthReturn the days of the month.
+
+Period.dayofyearReturn the day of the year.
+
+
+
+Examples
+>>> p = pd.Period("2018-03-11", freq='H')
+>>> p.daysinmonth
+31
+
+
+
+

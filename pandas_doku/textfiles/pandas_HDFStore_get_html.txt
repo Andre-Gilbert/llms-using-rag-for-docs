@@ -1,0 +1,30 @@
+
+
+pandas.HDFStore.get#
+
+
+HDFStore.get(key)[source]#
+Retrieve pandas object stored in file.
+
+Parameters:
+
+keystr
+
+
+Returns:
+
+objectSame type as object stored in file.
+
+
+
+
+Examples
+>>> df = pd.DataFrame([[1, 2], [3, 4]], columns=['A', 'B'])
+>>> store = pd.HDFStore("store.h5", 'w')  
+>>> store.put('data', df)  
+>>> store.get('data')  
+>>> store.close()  
+
+
+
+

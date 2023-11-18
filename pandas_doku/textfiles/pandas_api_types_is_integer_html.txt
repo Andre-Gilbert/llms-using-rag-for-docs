@@ -1,0 +1,25 @@
+
+
+pandas.api.types.is_integer#
+
+
+pandas.api.types.is_integer()#
+Return True if given object is integer.
+
+Returns:
+
+bool
+
+
+
+Examples
+>>> pd.api.types.is_integer(1)
+True
+
+
+>>> pd.api.types.is_integer(1.0)
+False
+
+
+
+

@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.CustomBusinessMonthBegin.rule_code#
+
+
+CustomBusinessMonthBegin.rule_code#
+
+

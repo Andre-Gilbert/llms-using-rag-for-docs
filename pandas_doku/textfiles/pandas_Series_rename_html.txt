@@ -1,0 +1,76 @@
+
+
+pandas.Series.rename#
+
+
+Series.rename(index=None, *, axis=None, copy=None, inplace=False, level=None, errors='ignore')[source]#
+Alter Series index labels or name.
+Function / dict values must be unique (1-to-1). Labels not contained in
+a dict / Series will be left as-is. Extra labels listed donât throw an
+error.
+Alternatively, change Series.name with a scalar value.
+See the user guide for more.
+
+Parameters:
+
+indexscalar, hashable sequence, dict-like or function optionalFunctions or dict-like are transformations to apply to
+the index.
+Scalar or hashable sequence-like will alter the Series.name
+attribute.
+
+axis{0 or âindexâ}Unused. Parameter needed for compatibility with DataFrame.
+
+copybool, default TrueAlso copy underlying data.
+
+inplacebool, default FalseWhether to return a new Series. If True the value of copy is ignored.
+
+levelint or level name, default NoneIn case of MultiIndex, only rename labels in the specified level.
+
+errors{âignoreâ, âraiseâ}, default âignoreâIf âraiseâ, raise KeyError when a dict-like mapper or
+index contains labels that are not present in the index being transformed.
+If âignoreâ, existing keys will be renamed and extra keys will be ignored.
+
+
+
+Returns:
+
+Series or NoneSeries with index labels or name altered or None if inplace=True.
+
+
+
+
+
+See also
+
+DataFrame.renameCorresponding DataFrame method.
+
+Series.rename_axisSet the name of the axis.
+
+
+
+Examples
+>>> s = pd.Series([1, 2, 3])
+>>> s
+0    1
+1    2
+2    3
+dtype: int64
+>>> s.rename("my_name")  # scalar, changes Series.name
+0    1
+1    2
+2    3
+Name: my_name, dtype: int64
+>>> s.rename(lambda x: x ** 2)  # function, changes labels
+0    1
+1    2
+4    3
+dtype: int64
+>>> s.rename({1: 3, 2: 5})  # mapping, changes labels
+0    1
+3    2
+5    3
+dtype: int64
+
+
+
+

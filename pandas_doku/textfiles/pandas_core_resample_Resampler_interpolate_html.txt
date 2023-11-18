@@ -1,0 +1,165 @@
+
+
+pandas.core.resample.Resampler.interpolate#
+
+
+Resampler.interpolate(method='linear', *, axis=0, limit=None, inplace=False, limit_direction='forward', limit_area=None, downcast=_NoDefault.no_default, **kwargs)[source]#
+Interpolate values between target timestamps according to different methods.
+The original index is first reindexed to target timestamps
+(see core.resample.Resampler.asfreq()),
+then the interpolation of NaN values via :meth`DataFrame.interpolate`
+happens.
+
+Parameters:
+
+methodstr, default âlinearâInterpolation technique to use. One of:
+
+âlinearâ: Ignore the index and treat the values as equally
+spaced. This is the only method supported on MultiIndexes.
+âtimeâ: Works on daily and higher resolution data to interpolate
+given length of interval.
+âindexâ, âvaluesâ: use the actual numerical values of the index.
+âpadâ: Fill in NaNs using existing values.
+ânearestâ, âzeroâ, âslinearâ, âquadraticâ, âcubicâ,
+âbarycentricâ, âpolynomialâ: Passed to
+scipy.interpolate.interp1d, whereas âsplineâ is passed to
+scipy.interpolate.UnivariateSpline. These methods use the numerical
+values of the index. Both âpolynomialâ and âsplineâ require that
+you also specify an order (int), e.g.
+df.interpolate(method='polynomial', order=5). Note that,
+slinear method in Pandas refers to the Scipy first order spline
+instead of Pandas first order spline.
+âkroghâ, âpiecewise_polynomialâ, âsplineâ, âpchipâ, âakimaâ,
+âcubicsplineâ: Wrappers around the SciPy interpolation methods of
+similar names. See Notes.
+âfrom_derivativesâ: Refers to
+scipy.interpolate.BPoly.from_derivatives.
+
+
+axis{{0 or âindexâ, 1 or âcolumnsâ, None}}, default NoneAxis to interpolate along. For Series this parameter is unused
+and defaults to 0.
+
+limitint, optionalMaximum number of consecutive NaNs to fill. Must be greater than
+0.
+
+inplacebool, default FalseUpdate the data in place if possible.
+
+limit_direction{{âforwardâ, âbackwardâ, âbothâ}}, OptionalConsecutive NaNs will be filled in this direction.
+
+If limit is specified:
+If âmethodâ is âpadâ or âffillâ, âlimit_directionâ must be âforwardâ.
+If âmethodâ is âbackfillâ or âbfillâ, âlimit_directionâ must be
+âbackwardsâ.
+
+
+If âlimitâ is not specified:
+If âmethodâ is âbackfillâ or âbfillâ, the default is âbackwardâ
+else the default is âforwardâ
+
+
+raises ValueError if limit_direction is âforwardâ or âbothâ andmethod is âbackfillâ or âbfillâ.
+
+raises ValueError if limit_direction is âbackwardâ or âbothâ andmethod is âpadâ or âffillâ.
+
+
+
+
+
+limit_area{{None, âinsideâ, âoutsideâ}}, default NoneIf limit is specified, consecutive NaNs will be filled with this
+restriction.
+
+None: No fill restriction.
+âinsideâ: Only fill NaNs surrounded by valid values
+(interpolate).
+âoutsideâ: Only fill NaNs outside valid values (extrapolate).
+
+
+downcastoptional, âinferâ or None, defaults to NoneDowncast dtypes if possible.
+
+``**kwargs``optionalKeyword arguments to pass on to the interpolating function.
+
+
+
+Returns:
+
+DataFrame or SeriesInterpolated values at the specified freq.
+
+
+
+
+
+See also
+
+core.resample.Resampler.asfreqReturn the values at the new freq, essentially a reindex.
+
+DataFrame.interpolateFill NaN values using an interpolation method.
+
+
+
+Notes
+For high-frequent or non-equidistant time-series with timestamps
+the reindexing followed by interpolation may lead to information loss
+as shown in the last example.
+Examples
+>>> import datetime as dt
+>>> timesteps = [
+...    dt.datetime(2023, 3, 1, 7, 0, 0),
+...    dt.datetime(2023, 3, 1, 7, 0, 1),
+...    dt.datetime(2023, 3, 1, 7, 0, 2),
+...    dt.datetime(2023, 3, 1, 7, 0, 3),
+...    dt.datetime(2023, 3, 1, 7, 0, 4)]
+>>> series = pd.Series(data=[1, -1, 2, 1, 3], index=timesteps)
+>>> series
+2023-03-01 07:00:00    1
+2023-03-01 07:00:01   -1
+2023-03-01 07:00:02    2
+2023-03-01 07:00:03    1
+2023-03-01 07:00:04    3
+dtype: int64
+
+
+Upsample the dataframe to 0.5Hz by providing the period time of 2s.
+>>> series.resample("2s").interpolate("linear")
+2023-03-01 07:00:00    1
+2023-03-01 07:00:02    2
+2023-03-01 07:00:04    3
+Freq: 2S, dtype: int64
+
+
+Downsample the dataframe to 2Hz by providing the period time of 500ms.
+>>> series.resample("500ms").interpolate("linear")
+2023-03-01 07:00:00.000    1.0
+2023-03-01 07:00:00.500    0.0
+2023-03-01 07:00:01.000   -1.0
+2023-03-01 07:00:01.500    0.5
+2023-03-01 07:00:02.000    2.0
+2023-03-01 07:00:02.500    1.5
+2023-03-01 07:00:03.000    1.0
+2023-03-01 07:00:03.500    2.0
+2023-03-01 07:00:04.000    3.0
+Freq: 500L, dtype: float64
+
+
+Internal reindexing with as_freq() prior to interpolation leads to
+an interpolated timeseries on the basis the reindexed timestamps (anchors).
+Since not all datapoints from original series become anchors,
+it can lead to misleading interpolation results as in the following example:
+>>> series.resample("400ms").interpolate("linear")
+2023-03-01 07:00:00.000    1.0
+2023-03-01 07:00:00.400    1.2
+2023-03-01 07:00:00.800    1.4
+2023-03-01 07:00:01.200    1.6
+2023-03-01 07:00:01.600    1.8
+2023-03-01 07:00:02.000    2.0
+2023-03-01 07:00:02.400    2.2
+2023-03-01 07:00:02.800    2.4
+2023-03-01 07:00:03.200    2.6
+2023-03-01 07:00:03.600    2.8
+2023-03-01 07:00:04.000    3.0
+Freq: 400L, dtype: float64
+
+
+Note that the series erroneously increases between two anchors
+07:00:00 and 07:00:02.
+
+

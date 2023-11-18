@@ -1,0 +1,38 @@
+
+
+pandas.util.hash_pandas_object#
+
+
+pandas.util.hash_pandas_object(obj, index=True, encoding='utf8', hash_key='0123456789123456', categorize=True)[source]#
+Return a data hash of the Index/Series/DataFrame.
+
+Parameters:
+
+objIndex, Series, or DataFrame
+indexbool, default TrueInclude the index in the hash (if Series/DataFrame).
+
+encodingstr, default âutf8âEncoding for data & key when strings.
+
+hash_keystr, default _default_hash_keyHash_key for string key to encode.
+
+categorizebool, default TrueWhether to first categorize object arrays before hashing. This is more
+efficient when the array contains duplicate values.
+
+
+
+Returns:
+
+Series of uint64, same length as the object
+
+
+
+Examples
+>>> pd.util.hash_pandas_object(pd.Series([1, 2, 3]))
+0    14639053686158035780
+1     3869563279212530728
+2      393322362522515241
+dtype: uint64
+
+
+
+

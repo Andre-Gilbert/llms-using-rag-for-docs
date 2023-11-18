@@ -1,0 +1,17 @@
+
+
+pandas.Timestamp.isocalendar#
+
+
+Timestamp.isocalendar()#
+Return a named tuple containing ISO year, week number, and weekday.
+Examples
+>>> ts = pd.Timestamp('2023-01-01 10:00:00')
+>>> ts
+Timestamp('2023-01-01 10:00:00')
+>>> ts.isocalendar()
+datetime.IsoCalendarDate(year=2022, week=52, weekday=7)
+
+
+
+

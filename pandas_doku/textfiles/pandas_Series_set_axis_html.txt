@@ -1,0 +1,56 @@
+
+
+pandas.Series.set_axis#
+
+
+Series.set_axis(labels, *, axis=0, copy=None)[source]#
+Assign desired index to given axis.
+Indexes for row labels can be changed by assigning
+a list-like or Index.
+
+Parameters:
+
+labelslist-like, IndexThe values for the new index.
+
+axis{0 or âindexâ}, default 0The axis to update. The value 0 identifies the rows. For Series
+this parameter is unused and defaults to 0.
+
+copybool, default TrueWhether to make a copy of the underlying data.
+
+New in version 1.5.0.
+
+
+
+
+Returns:
+
+SeriesAn object of type Series.
+
+
+
+
+
+See also
+
+Series.rename_axisAlter the name of the index.
+
+
+
+Examples
+>>> s = pd.Series([1, 2, 3])
+>>> s
+0    1
+1    2
+2    3
+dtype: int64
+
+
+>>> s.set_axis(['a', 'b', 'c'], axis=0)
+a    1
+b    2
+c    3
+dtype: int64
+
+
+
+

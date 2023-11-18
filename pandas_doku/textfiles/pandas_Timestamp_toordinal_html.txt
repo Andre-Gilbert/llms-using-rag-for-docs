@@ -1,0 +1,17 @@
+
+
+pandas.Timestamp.toordinal#
+
+
+Timestamp.toordinal()#
+Return proleptic Gregorian ordinal. January 1 of year 1 is day 1.
+Examples
+>>> ts = pd.Timestamp('2023-01-01 10:00:50')
+>>> ts
+Timestamp('2023-01-01 10:00:50')
+>>> ts.toordinal()
+738521
+
+
+
+

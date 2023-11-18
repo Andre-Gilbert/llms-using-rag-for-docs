@@ -1,0 +1,56 @@
+
+
+pandas.arrays.DatetimeArray#
+
+
+class pandas.arrays.DatetimeArray(values, dtype=None, freq=_NoDefault.no_default, copy=False)[source]#
+Pandas ExtensionArray for tz-naive or tz-aware datetime data.
+
+Warning
+DatetimeArray is currently experimental, and its API may change
+without warning. In particular, DatetimeArray.dtype is
+expected to change to always be an instance of an ExtensionDtype
+subclass.
+
+
+Parameters:
+
+valuesSeries, Index, DatetimeArray, ndarrayThe datetime data.
+For DatetimeArray values (or a Series or Index boxing one),
+dtype and freq will be extracted from values.
+
+dtypenumpy.dtype or DatetimeTZDtypeNote that the only NumPy dtype allowed is âdatetime64[ns]â.
+
+freqstr or Offset, optionalThe frequency.
+
+copybool, default FalseWhether to copy the underlying array of values.
+
+
+
+
+Examples
+>>> pd.arrays.DatetimeArray(pd.DatetimeIndex(['2023-01-01', '2023-01-02']),
+...                         freq='D')
+<DatetimeArray>
+['2023-01-01 00:00:00', '2023-01-02 00:00:00']
+Length: 2, dtype: datetime64[ns]
+
+
+Attributes
+
+
+None
+
+
+
+
+Methods
+
+
+None
+
+
+
+
+
+

@@ -1,0 +1,8 @@
+
+
+pandas.Timestamp.hour#
+
+
+Timestamp.hour#
+
+

@@ -1,0 +1,100 @@
+
+
+pandas.tseries.offsets.CustomBusinessMonthBegin#
+
+
+class pandas.tseries.offsets.CustomBusinessMonthBegin#
+Attributes
+
+
+base
+Returns a copy of the calling offset object with n=1 and all other attributes equal.
+
+cbday_roll
+Define default roll function to be called in apply method.
+
+freqstr
+Return a string representing the frequency.
+
+kwds
+Return a dict of extra parameters for the offset.
+
+month_roll
+Define default roll function to be called in apply method.
+
+name
+Return a string representing the base frequency.
+
+offset
+Alias for self._offset.
+
+
+
+
+
+calendar
+
+
+holidays
+
+
+m_offset
+
+
+n
+
+
+nanos
+
+
+normalize
+
+
+rule_code
+
+
+weekmask
+
+
+
+
+Methods
+
+
+copy
+Return a copy of the frequency.
+
+is_anchored
+Return boolean whether the frequency is a unit frequency (n=1).
+
+is_month_end
+Return boolean whether a timestamp occurs on the month end.
+
+is_month_start
+Return boolean whether a timestamp occurs on the month start.
+
+is_on_offset
+Return boolean whether a timestamp intersects with this frequency.
+
+is_quarter_end
+Return boolean whether a timestamp occurs on the quarter end.
+
+is_quarter_start
+Return boolean whether a timestamp occurs on the quarter start.
+
+is_year_end
+Return boolean whether a timestamp occurs on the year end.
+
+is_year_start
+Return boolean whether a timestamp occurs on the year start.
+
+rollback
+Roll provided date backward to next offset only if not on offset.
+
+rollforward
+Roll provided date forward to next offset only if not on offset.
+
+
+
+
+

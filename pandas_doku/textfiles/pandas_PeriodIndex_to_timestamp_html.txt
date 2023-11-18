@@ -1,0 +1,32 @@
+
+
+pandas.PeriodIndex.to_timestamp#
+
+
+PeriodIndex.to_timestamp(freq=None, how='start')[source]#
+Cast to DatetimeArray/Index.
+
+Parameters:
+
+freqstr or DateOffset, optionalTarget frequency. The default is âDâ for week or longer,
+âSâ otherwise.
+
+how{âsâ, âeâ, âstartâ, âendâ}Whether to use the start or end of the time period being converted.
+
+
+
+Returns:
+
+DatetimeArray/Index
+
+
+
+Examples
+>>> idx = pd.PeriodIndex(["2023-01", "2023-02", "2023-03"], freq="M")
+>>> idx.to_timestamp()
+DatetimeIndex(['2023-01-01', '2023-02-01', '2023-03-01'],
+dtype='datetime64[ns]', freq='MS')
+
+
+
+

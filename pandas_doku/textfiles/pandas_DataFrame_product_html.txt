@@ -1,0 +1,83 @@
+
+
+pandas.DataFrame.product#
+
+
+DataFrame.product(axis=0, skipna=True, numeric_only=False, min_count=0, **kwargs)[source]#
+Return the product of the values over the requested axis.
+
+Parameters:
+
+axis{index (0), columns (1)}Axis for the function to be applied on.
+For Series this parameter is unused and defaults to 0.
+For DataFrames, specifying axis=None will apply the aggregation
+across both axes.
+
+New in version 2.0.0.
+
+
+skipnabool, default TrueExclude NA/null values when computing the result.
+
+numeric_onlybool, default FalseInclude only float, int, boolean columns. Not implemented for Series.
+
+min_countint, default 0The required number of valid values to perform the operation. If fewer than
+min_count non-NA values are present the result will be NA.
+
+**kwargsAdditional keyword arguments to be passed to the function.
+
+
+
+Returns:
+
+Series or scalar
+
+
+
+
+See also
+
+Series.sumReturn the sum.
+
+Series.minReturn the minimum.
+
+Series.maxReturn the maximum.
+
+Series.idxminReturn the index of the minimum.
+
+Series.idxmaxReturn the index of the maximum.
+
+DataFrame.sumReturn the sum over the requested axis.
+
+DataFrame.minReturn the minimum over the requested axis.
+
+DataFrame.maxReturn the maximum over the requested axis.
+
+DataFrame.idxminReturn the index of the minimum over the requested axis.
+
+DataFrame.idxmaxReturn the index of the maximum over the requested axis.
+
+
+
+Examples
+By default, the product of an empty or all-NA Series is 1
+>>> pd.Series([], dtype="float64").prod()
+1.0
+
+
+This can be controlled with the min_count parameter
+>>> pd.Series([], dtype="float64").prod(min_count=1)
+nan
+
+
+Thanks to the skipna parameter, min_count handles all-NA and
+empty series identically.
+>>> pd.Series([np.nan]).prod()
+1.0
+
+
+>>> pd.Series([np.nan]).prod(min_count=1)
+nan
+
+
+
+

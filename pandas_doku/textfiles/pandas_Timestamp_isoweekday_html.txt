@@ -1,0 +1,18 @@
+
+
+pandas.Timestamp.isoweekday#
+
+
+Timestamp.isoweekday()#
+Return the day of the week represented by the date.
+Monday == 1 â¦ Sunday == 7.
+Examples
+>>> ts = pd.Timestamp('2023-01-01 10:00:00')
+>>> ts
+Timestamp('2023-01-01 10:00:00')
+>>> ts.isoweekday()
+7
+
+
+
+

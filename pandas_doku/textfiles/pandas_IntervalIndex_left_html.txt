@@ -1,0 +1,8 @@
+
+
+pandas.IntervalIndex.left#
+
+
+IntervalIndex.left[source]#
+
+

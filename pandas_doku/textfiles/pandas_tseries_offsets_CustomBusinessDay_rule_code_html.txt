@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.CustomBusinessDay.rule_code#
+
+
+CustomBusinessDay.rule_code#
+
+

@@ -1,0 +1,51 @@
+
+
+pandas.core.window.ewm.ExponentialMovingWindow.var#
+
+
+ExponentialMovingWindow.var(bias=False, numeric_only=False)[source]#
+Calculate the ewm (exponential weighted moment) variance.
+
+Parameters:
+
+biasbool, default FalseUse a standard estimation bias correction.
+
+numeric_onlybool, default FalseInclude only float, int, boolean columns.
+
+New in version 1.5.0.
+
+
+
+
+Returns:
+
+Series or DataFrameReturn type is the same as the original object with np.float64 dtype.
+
+
+
+
+
+See also
+
+pandas.Series.ewmCalling ewm with Series data.
+
+pandas.DataFrame.ewmCalling ewm with DataFrames.
+
+pandas.Series.varAggregating var for Series.
+
+pandas.DataFrame.varAggregating var for DataFrame.
+
+
+
+Examples
+>>> ser = pd.Series([1, 2, 3, 4])
+>>> ser.ewm(alpha=.2).var()
+0         NaN
+1    0.500000
+2    0.991803
+3    1.631547
+dtype: float64
+
+
+
+

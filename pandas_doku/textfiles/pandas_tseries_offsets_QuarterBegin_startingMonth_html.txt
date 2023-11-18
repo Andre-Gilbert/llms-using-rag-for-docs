@@ -1,0 +1,8 @@
+
+
+pandas.tseries.offsets.QuarterBegin.startingMonth#
+
+
+QuarterBegin.startingMonth#
+
+

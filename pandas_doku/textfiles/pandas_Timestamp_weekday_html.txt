@@ -1,0 +1,18 @@
+
+
+pandas.Timestamp.weekday#
+
+
+Timestamp.weekday()#
+Return the day of the week represented by the date.
+Monday == 0 â¦ Sunday == 6.
+Examples
+>>> ts = pd.Timestamp('2023-01-01')
+>>> ts
+Timestamp('2023-01-01  00:00:00')
+>>> ts.weekday()
+6
+
+
+
+

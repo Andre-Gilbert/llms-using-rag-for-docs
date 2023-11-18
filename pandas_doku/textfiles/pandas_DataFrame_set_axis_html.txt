@@ -1,0 +1,60 @@
+
+
+pandas.DataFrame.set_axis#
+
+
+DataFrame.set_axis(labels, *, axis=0, copy=None)[source]#
+Assign desired index to given axis.
+Indexes for column or row labels can be changed by assigning
+a list-like or Index.
+
+Parameters:
+
+labelslist-like, IndexThe values for the new index.
+
+axis{0 or âindexâ, 1 or âcolumnsâ}, default 0The axis to update. The value 0 identifies the rows. For Series
+this parameter is unused and defaults to 0.
+
+copybool, default TrueWhether to make a copy of the underlying data.
+
+New in version 1.5.0.
+
+
+
+
+Returns:
+
+DataFrameAn object of type DataFrame.
+
+
+
+
+
+See also
+
+DataFrame.rename_axisAlter the name of the index or columns.
+
+
+
+Examples
+>>> df = pd.DataFrame({"A": [1, 2, 3], "B": [4, 5, 6]})
+
+
+Change the row labels.
+>>> df.set_axis(['a', 'b', 'c'], axis='index')
+   A  B
+a  1  4
+b  2  5
+c  3  6
+
+
+Change the column labels.
+>>> df.set_axis(['I', 'II'], axis='columns')
+   I  II
+0  1   4
+1  2   5
+2  3   6
+
+
+
+

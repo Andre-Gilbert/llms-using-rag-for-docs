@@ -1,0 +1,48 @@
+
+
+pandas.IntervalIndex.from_breaks#
+
+
+classmethod IntervalIndex.from_breaks(breaks, closed='right', name=None, copy=False, dtype=None)[source]#
+Construct an IntervalIndex from an array of splits.
+
+Parameters:
+
+breaksarray-like (1-dimensional)Left and right bounds for each interval.
+
+closed{âleftâ, ârightâ, âbothâ, âneitherâ}, default ârightâWhether the intervals are closed on the left-side, right-side, both
+or neither.
+
+namestr, optionalName of the resulting IntervalIndex.
+
+copybool, default FalseCopy the data.
+
+dtypedtype or None, default NoneIf None, dtype will be inferred.
+
+
+
+Returns:
+
+IntervalIndex
+
+
+
+
+See also
+
+interval_rangeFunction to create a fixed frequency IntervalIndex.
+
+IntervalIndex.from_arraysConstruct from a left and right array.
+
+IntervalIndex.from_tuplesConstruct from a sequence of tuples.
+
+
+
+Examples
+>>> pd.IntervalIndex.from_breaks([0, 1, 2, 3])
+IntervalIndex([(0, 1], (1, 2], (2, 3]],
+              dtype='interval[int64, right]')
+
+
+
+

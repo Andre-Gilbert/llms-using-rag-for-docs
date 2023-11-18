@@ -1,0 +1,22 @@
+
+
+pandas.Timestamp.day_of_week#
+
+
+Timestamp.day_of_week#
+Return day of the week.
+
+Returns:
+
+int
+
+
+
+Examples
+>>> ts = pd.Timestamp(2020, 3, 14)
+>>> ts.day_of_week
+5
+
+
+
+
