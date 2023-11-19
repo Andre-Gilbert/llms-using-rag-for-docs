@@ -1,5 +1,5 @@
 """AI agent implementation."""
-from clients import ChatClient
+from clients import OpenAIClient
 from settings import settings
 from utils import num_tokens_from_messages
 
@@ -7,7 +7,7 @@ from utils import num_tokens_from_messages
 class AIAgent:
     """AI agent class."""
 
-    def __init__(self, model: ChatClient, tools: dict, system_prompt: str):
+    def __init__(self, model: OpenAIClient, tools: dict, system_prompt: str):
         self.model = model
         self.tools = tools
         self.conversation = [{"role": "system", "content": system_prompt}]
@@ -20,7 +20,7 @@ class AIAgent:
             iterations += 1
             self._trim_conversation()
 
-    def reset(self):
+    def reset(self) -> None:
         """Resets the conversation."""
         self.conversation = [self.conversation[0]]
 
