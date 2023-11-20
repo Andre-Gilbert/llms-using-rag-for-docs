@@ -1,4 +1,4 @@
-"""LLM clients."""
+"""LLM client."""
 from datetime import datetime, timedelta, timezone
 
 import requests
@@ -9,10 +9,10 @@ from settings import settings
 class OpenAIClient:
     """Class that implements the OpenAI models."""
 
-    def __init__(self, service_key, llm_config):
-        self.uaa_client_id = service_key["uaa"]["clientid"]
-        self.uaa_client_secret = service_key["uaa"]["clientsecret"]
-        self.uaa_url = service_key["uaa"]["url"]
+    def __init__(self, service_key: dict, llm_config: dict):
+        self.uaa_client_id = service_key["client_id"]
+        self.uaa_client_secret = service_key["client_secret"]
+        self.uaa_url = service_key["auth_url"]
 
         self.uaa_token = None
         self.uaa_token_expiry = None
@@ -20,9 +20,9 @@ class OpenAIClient:
         self.headers = {"Content-Type": "application/json", "Authorization": None}
         self.service_url = f"{service_key['url']}/api/v1"
 
-        self.llm_deployment_id = llm_config["DEPLOYMENT_ID"]
-        self.llm_max_tokens = llm_config["MAX_TOKENS"]
-        self.llm_temperature = llm_config["TEMPERATURE"]
+        self.llm_deployment_id = llm_config["deployment_id"]
+        self.llm_max_tokens = llm_config["max_response_tokens"]
+        self.llm_temperature = llm_config["temperature"]
 
     def _get_token(self) -> str:
         """Retrieves the UAA client credentials token."""
@@ -66,7 +66,7 @@ class OpenAIClient:
             raise exception
         return response
 
-    def get_embedding(self, text: str, model: str = "text-embedding-ada-002") -> requests.Response:
+    def get_embedding(self, text: str, model: str = "text-embedding-ada-002-v2") -> requests.Response:
         """Gets the embedding for the given text."""
         current_time = datetime.now(timezone.utc)
         if (self.uaa_token is None) or (

@@ -1,5 +1,5 @@
 """AI agent implementation."""
-from clients import OpenAIClient
+from client import OpenAIClient
 from settings import settings
 from utils import num_tokens_from_messages
 
