@@ -74,6 +74,7 @@ class OpenAIClient:
         ):
             self._get_token()
         url = f"{self.service_url}/embeddings"
+        text = text.replace("\n", " ")
         data = {"deployment_id": model, "input": text}
         response = None
         try:
