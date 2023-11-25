@@ -1,5 +1,8 @@
 """AI agent implementation."""
+import requests
+
 from client import OpenAIClient
+from rag import RetrievalAugmentedGeneration
 from settings import settings
 from utils import num_tokens_from_messages
 
@@ -7,14 +10,32 @@ from utils import num_tokens_from_messages
 class AIAgent:
     """AI agent class."""
 
-    def __init__(self, model: OpenAIClient, tools: dict, system_prompt: str):
-        self.model = model
+    def __init__(
+        self,
+        llm_client: OpenAIClient,
+        tools: dict,
+        system_prompt: str,
+        rag: RetrievalAugmentedGeneration = None,
+    ):
+        self.llm_client = llm_client
         self.tools = tools
+        self.rag = rag
         self.conversation = [{"role": "system", "content": system_prompt}]
+
+    def _parse_response(self, response: requests.Response):
+        pass
 
     def run(self, user_prompt: str) -> str:
         """Runs the AI agent given a user input."""
-        self.conversation.append({"role": "user", "content": user_prompt})
+        if self.rag:
+            # retrieve relevant content
+            #
+            # context = self.rag.search(user_prompt)
+            # self.conversation.append({"role": "user", "content": f"{user_prompt} Context: {context}"})
+            #
+            pass
+        else:
+            self.conversation.append({"role": "user", "content": user_prompt})
         iterations = 0
         while iterations < settings.AGENT_MAX_ITERATIONS:
             iterations += 1
