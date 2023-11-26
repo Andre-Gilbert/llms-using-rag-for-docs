@@ -1,5 +1,5 @@
 """Retrieval augmented generation implementation."""
-from client import OpenAIClient
+from clients import OpenAIClient
 
 
 class RetrievalAugmentedGeneration:

@@ -1,7 +1,7 @@
 """AI agent implementation."""
 import requests
 
-from client import OpenAIClient
+from clients import OpenAIClient
 from rag import RetrievalAugmentedGeneration
 from settings import settings
 from utils import num_tokens_from_messages
