@@ -99,7 +99,7 @@ class RetrievalAugmentedGeneration:
         embedding = self.embedding_function(query)["data"][0]["embeddings"]
         vector = np.array([embedding], dtype=np.float32)
         D, I = self.index.search(vector, self.fetch_k)
-        results = sorted([{self.doc_store[idx]: score} for idx, score in zip(I[0], D[0]) if idx in self.doc_map])
+        results = sorted([{self.doc_store[idx]: score} for idx, score in zip(I[0], D[0]) if idx in self.doc_store])
         return results[: self.k]
 
 
