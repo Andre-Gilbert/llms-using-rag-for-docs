@@ -48,8 +48,9 @@ class OpenAIClient(LLMClient):
         self.llm_max_response_tokens = llm_config["max_response_tokens"]
         self.llm_temperature = llm_config["temperature"]
         self.llm_embedding_model = "text-embedding-ada-002-v2"
+        self.llm_usage = {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0}
 
-    def get_completion(self, messages: list[dict[str, str]]) -> requests.Response:
+    def get_completion(self, messages: list[dict[str, str]]) -> requests.Response.json:
         """Sends a request to the specified LLM."""
         current_time = datetime.now(timezone.utc)
         if (self.uaa_token is None) or (
@@ -71,9 +72,13 @@ class OpenAIClient(LLMClient):
                 response = requests.post(url, headers=self.headers, json=data, timeout=settings.REQUEST_TIMEOUT)
         except requests.exceptions.RequestException as exception:
             raise exception
+        response = response.json()
+        self.llm_usage["prompt_tokens"] += response["usage"]["prompt_tokens"]
+        self.llm_usage["completion_tokens"] += response["usage"]["completion_tokens"]
+        self.llm_usage["total_tokens"] += response["usage"]["total_tokens"]
         return response
 
-    def get_embedding(self, text: str) -> requests.Response:
+    def get_embedding(self, text: str) -> requests.Response.json:
         """Gets the embedding for the given text."""
         current_time = datetime.now(timezone.utc)
         if (self.uaa_token is None) or (
@@ -91,4 +96,7 @@ class OpenAIClient(LLMClient):
                 response = requests.post(url, headers=self.headers, json=data, timeout=settings.REQUEST_TIMEOUT)
         except requests.exceptions.RequestException as exception:
             raise exception
+        response = response.json()
+        self.llm_usage["prompt_tokens"] += response["usage"]["prompt_tokens"]
+        self.llm_usage["total_tokens"] += response["usage"]["total_tokens"]
         return response

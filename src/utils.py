@@ -1,4 +1,6 @@
 """Utility functions."""
+from itertools import islice
+
 import tiktoken
 
 
@@ -21,3 +23,12 @@ def num_tokens_from_string(string: str) -> int:
     encoding = tiktoken.get_encoding("cl100k_base")
     num_tokens = len(encoding.encode(string))
     return num_tokens
+
+
+def batched(iterable, n):
+    """Batches data into tuples of length n (the last batch may be shorter)."""
+    if n < 1:
+        raise ValueError("n must be at least one")
+    it = iter(iterable)
+    while batch := tuple(islice(it, n)):
+        yield batch
