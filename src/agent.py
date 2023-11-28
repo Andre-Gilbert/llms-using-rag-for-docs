@@ -7,6 +7,7 @@ from settings import settings
 from utils import num_tokens_from_messages
 from helpers import extract
 import re
+import ast
 import time
 import logging
 import json
@@ -44,7 +45,6 @@ class AIAgent:
             thought = extract(response, "Thought")
             action = extract(response, "Action")
             answer = extract(response, "Answer")
-            # print(answer)
 
             # Now extract the code
             # pattern = r'```python(.*?)```'
@@ -55,7 +55,7 @@ class AIAgent:
 
         except Exception as e:
             import traceback
-            print(traceback.format_exc())
+            logging.error(traceback.format_exc())
             parsed = False
             thought = None
             action = None
@@ -100,19 +100,52 @@ class AIAgent:
             else:
                 response = raw_response.json()
                 response_content = response["choices"][0]["message"]["content"]
-                print(response_content)
+                logging.debug(response_content)
                 thought, action, answer, parsed, observation = self._parse_response(response_content)
                 self.conversation.append({"role": "assistant", "content": response_content})
-                print(observation)
-                print("Final answer: \n", answer)
+                logging.debug("Final answer log: \n", answer)
 
-                if parsed:
-                    # TODO: Handle missing thoughts or actions if necessary.
-                    pass
+                # Now the model created a step in the chain of thought and will evaluate and potentially automatically refine it.
+                if parsed and action is not None:
+                    # Check if the code is valid
+                    # TODO: When testing with the test cases, we might want to check the number of arguments at this point.
+
+                    # Parse code and look for syntax or schema errors.
+                    logging.debug("Now checking the code for syntax errors.")
+                    code_validity, code_error = self._code_is_valid(action)
+                    if code_validity:
+                        observation = {"Observation": "Your response format was correct and the code does not have any syntax errors."}
+                    else:
+                        observation = {"Observation": f"Your response format was correct but there seems to be a syntax error: {code_error}"}
 
                 if action == None and answer != None:
                     return answer
+                
+                logging.debug("Final observation: ", observation)
                 self.conversation.append({"role": "assistant", "content": str(observation)})
+
+
+    def _code_is_valid(self, code: str) -> tuple:
+        """
+        Checks the code for syntax errors and returns a tuple with a bool result
+        and the error message in case there is one.
+
+        Parameters:
+        - code (str): The Python code to be checked.
+
+        Returns:
+        - tuple: A tuple containing a boolean indicating code validity and an error message (empty string if no error).
+        """
+
+        try:
+            parsed_code = ast.parse(code, mode='exec')
+            is_valid = True
+            error_message = ""
+        except SyntaxError as e:
+            is_valid = False
+            error_message = str(e)
+
+        return is_valid, error_message
 
 
     def reset_conversation(self) -> None:
