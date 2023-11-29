@@ -73,6 +73,7 @@ class OpenAIClient(LLMClient):
         except requests.exceptions.RequestException as exception:
             raise exception
         response = response.json()
+        print(response)
         self.llm_usage["prompt_tokens"] += response["usage"]["prompt_tokens"]
         self.llm_usage["completion_tokens"] += response["usage"]["completion_tokens"]
         self.llm_usage["total_tokens"] += response["usage"]["total_tokens"]

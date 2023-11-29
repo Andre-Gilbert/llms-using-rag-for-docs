@@ -1,4 +1,6 @@
 """Global settings."""
+from pathlib import Path
+
 from pydantic_settings import BaseSettings
 
 
@@ -51,4 +53,5 @@ class Settings(BaseSettings):
         case_sensitive = True
 
 
+settings = Settings()
 settings = Settings()
