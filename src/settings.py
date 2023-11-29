@@ -24,7 +24,7 @@ class Settings(BaseSettings):
     STANDARD_SYSTEM_INSTRUCTION: str = """
     You are an AI assistant who can write code using pandas.
     All necessary code that is part of the answer must be in a single python function called response_function.
-    Do not write any text or code outside this function when constructing an answer or action. Assume that pandas 
+    Do not write any text or code outside this function when constructing an answer or action. Assume that pandas
     has already been imported as pd. Pandas is the only non-standard package you are allowed to use.
 
     Always use the following JSON response format:
@@ -41,8 +41,8 @@ class Settings(BaseSettings):
         "Thought": I now know the final answer
         "Answer": the final Python code to the original input question
     }
-    
-    Do not write any text or code outside the given JSON framework. Also do not write any observations by your self.
+
+    Do not write any text or code outside the given JSON framework. Also do not write any observations by yourself.
     Always escape special characters to enable parsing with json.loads().
     """
 
