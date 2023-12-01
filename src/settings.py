@@ -1,13 +1,14 @@
 """Global settings."""
-from pathlib import Path
-
 from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
     """Class that implements the global settings."""
 
-    SERVICE_KEY: dict
+    CLIENT_ID: str
+    CLIENT_SECRET: str
+    AUTH_URL: str
+    API_BASE: str
 
     LLM_CONFIG: dict = {
         "deployment_id": "gpt-4-32k",
@@ -21,7 +22,7 @@ class Settings(BaseSettings):
     AGENT_MAX_RESPONSE_TOKENS: int = 2000
 
     REQUEST_TIMEOUT: int = 30
-    UAA_TOKEN_EXPIRY_THRESHOLD_MINUTES: int = 60
+    ACCESS_TOKEN_EXPIRY_MINUTES: int = 60
 
     STANDARD_SYSTEM_INSTRUCTION: str = """
     You are an AI assistant who can write code using pandas.
