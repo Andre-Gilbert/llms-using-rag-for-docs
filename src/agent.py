@@ -7,7 +7,7 @@ import time
 
 import requests
 
-from clients import OpenAIClient
+from clients import GPTClient
 from helpers import extract
 from rag import RetrievalAugmentedGeneration
 from settings import settings
@@ -26,7 +26,7 @@ class AIAgent:
 
     def __init__(
         self,
-        llm_client: OpenAIClient,
+        llm_client: GPTClient,
         tools: dict = dict(),
         system_prompt: str = settings.STANDARD_SYSTEM_INSTRUCTION,
         rag: RetrievalAugmentedGeneration = None,
