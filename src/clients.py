@@ -3,7 +3,12 @@ from datetime import datetime, timedelta, timezone
 
 import requests
 from pydantic import BaseModel
-from tenacity import retry, retry_if_exception_type, stop_after_attempt, wait_fixed
+from tenacity import (
+    retry,
+    retry_if_exception_type,
+    stop_after_attempt,
+    wait_exponential,
+)
 
 from settings import settings
 
@@ -18,7 +23,10 @@ class LLMClient(BaseModel):
 
     access_token: str | None = None
     access_token_expiry: str | None = None
-    headers: dict = {"Content-Type": "application/json", "Authorization": None}
+    headers: dict = {
+        "Content-Type": "application/json",
+        "Authorization": None,
+    }
 
     def _fetch_access_token(self) -> None:
         """Fetches the access token."""
@@ -46,8 +54,12 @@ class LLMClient(BaseModel):
         )
 
     @retry(
-        stop=stop_after_attempt(3),
-        wait=wait_fixed(settings.REQUEST_TIMEOUT),
+        stop=stop_after_attempt(settings.API_MAX_RETRIES),
+        wait=wait_exponential(
+            multiplier=1,
+            min=settings.API_MIN_REQUEST_TIMEOUT_SECONDS,
+            max=settings.API_MAX_REQUEST_TIMEOUT_SECONDS,
+        ),
         retry=retry_if_exception_type(requests.exceptions.RequestException),
     )
     def _request_handler(self, api_url: str, data: dict) -> requests.Response.json:

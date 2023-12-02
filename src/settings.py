@@ -16,13 +16,14 @@ class Settings(BaseSettings):
         "temperature": 0.1,
     }
 
-    AGENT_MAX_RETRIES: int = 3
     AGENT_MAX_ITERATIONS: int = 10
     AGENT_TOKEN_LIMIT: int = 32768
-    AGENT_MAX_RESPONSE_TOKENS: int = 2000
+    AGENT_MAX_RESPONSE_TOKENS: int = 1000
 
-    REQUEST_TIMEOUT: int = 30
-    ACCESS_TOKEN_EXPIRY_MINUTES: int = 60
+    API_MAX_RETRIES: int = 3
+    API_MIN_REQUEST_TIMEOUT_SECONDS: int = 4
+    API_MAX_REQUEST_TIMEOUT_SECONDS: int = 10
+    API_ACCESS_TOKEN_EXPIRY_MINUTES: int = 60
 
     STANDARD_SYSTEM_INSTRUCTION: str = """
     You are an AI assistant who can write code using pandas.
