@@ -5,10 +5,10 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     """Class that implements the global settings."""
 
-    CLIENT_ID: str
-    CLIENT_SECRET: str
-    AUTH_URL: str
-    API_BASE: str
+    CLIENT_ID: str 
+    CLIENT_SECRET: str 
+    AUTH_URL: str 
+    API_BASE: str 
 
     LLM_CONFIG: dict = {
         "deployment_id": "gpt-4-32k",

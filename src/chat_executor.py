@@ -1,12 +1,7 @@
 from agent import AIAgent
 from clients import GPTClient
-
-# import dotenv
-# import os
 from settings import settings
 
-# dotenv.load_dotenv()
-# service_key = eval(os.getenv('SERVICE_KEY'))
 
 client = GPTClient(
     client_id=settings.CLIENT_ID,
