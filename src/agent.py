@@ -66,17 +66,12 @@ class AIAgent:
 
     def run(self, user_prompt: str) -> str:
         "Runs the AI agent given a user input."
-
-        if self.rag:
-            # retrieve relevant content
-            #
-            # context = self.rag.search(user_prompt)
-            # self.conversation.append({"role": "user", "content": f"{user_prompt} Context: {context}"})
-            #
-            pass
-        else:
+        if self.rag is None:
             self.conversation.append({"role": "user", "content": user_prompt})
-
+        else:
+            context = self.rag.similarity_search(user_prompt)
+            self.conversation.append({"role": "user", "content": f"{user_prompt} Context: {context}"})
+        print(self.conversation)
         # Make sure the conversation does not exceed the token limit as we iterate to get a final answer.
         iterations = 0
         while iterations <= settings.AGENT_MAX_ITERATIONS:
@@ -85,19 +80,6 @@ class AIAgent:
 
             # Now get the response from the LLM
             response = self.llm_client.get_completion(self.conversation)
-
-            # Retry a few times if the API cannot be reached.
-            # api_retries = 0
-            # while not raw_response.ok:
-            #     if api_retries <= settings.REQUEST_TIMEOUT:
-            #         raise Exception("The LLM API could not be reached!")
-            #     else:
-            #         api_retries += 1
-            #         logging.debug("The response code from the LLM API was not less than 400. Retry in 2 sec...")
-            #         time.sleep(2)
-            #         raw_response = self.llm_client.get_completion(self.conversation)
-            # else:
-            # response = raw_response.json()
             response_content = response["choices"][0]["message"]["content"]
             logging.debug(response_content)
             thought, action, answer, parsed, observation = self._parse_response(response_content)
