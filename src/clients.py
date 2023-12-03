@@ -35,7 +35,7 @@ class LLMClient(BaseModel):
             f"{self.auth_url}/oauth/token",
             auth=(self.client_id, self.client_secret),
             params={"grant_type": "client_credentials"},
-            timeout=settings.REQUEST_TIMEOUT,
+            timeout=settings.API_MAX_REQUEST_TIMEOUT_SECONDS,
         )
         response = response.json()
         self.access_token = response.get("access_token", None)
@@ -50,7 +50,7 @@ class LLMClient(BaseModel):
         """Checks if the access token exists or has expired."""
         current_time = datetime.now(timezone.utc)
         return (self.access_token is None) or (
-            current_time - self.access_token_expiry < timedelta(minutes=settings.ACCESS_TOKEN_EXPIRY_MINUTES)
+            current_time - self.access_token_expiry < timedelta(minutes=settings.API_ACCESS_TOKEN_EXPIRY_MINUTES)
         )
 
     @retry(
@@ -78,10 +78,10 @@ class LLMClient(BaseModel):
         if self._access_token_expired_or_missing():
             self._fetch_access_token()
         try:
-            response = requests.post(api_url, headers=self.headers, json=data, timeout=settings.REQUEST_TIMEOUT)
+            response = requests.post(api_url, headers=self.headers, json=data, timeout=settings.API_MAX_REQUEST_TIMEOUT_SECONDS)
             if response.status_code in (401, 403):
                 self._fetch_access_token()
-                response = requests.post(api_url, headers=self.headers, json=data, timeout=settings.REQUEST_TIMEOUT)
+                response = requests.post(api_url, headers=self.headers, json=data, timeout=settings.API_MAX_REQUEST_TIMEOUT_SECONDS)
         except requests.exceptions.RequestException as exception:
             raise exception
         return response.json()

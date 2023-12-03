@@ -9,7 +9,7 @@ import requests
 
 from clients import GPTClient
 from helpers import extract
-from rag import RetrievalAugmentedGeneration
+from rag import FAISS
 from settings import settings
 from utils import num_tokens_from_messages
 
@@ -29,7 +29,7 @@ class AIAgent:
         llm_client: GPTClient,
         tools: dict = dict(),
         system_prompt: str = settings.STANDARD_SYSTEM_INSTRUCTION,
-        rag: RetrievalAugmentedGeneration = None,
+        rag: FAISS = None,
     ):
         self.llm_client = llm_client
         self.tools = tools

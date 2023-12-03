@@ -40,7 +40,7 @@ class FAISS(BaseModel):
     """
 
     embedding_function: Callable[[str], requests.Response.json]
-    index: faiss.IndexFlatL2 | faiss.IndexFlatIP | None = None
+    index: Any
     documents: dict = {}
     num_search_results: int = 4
     similarity_search_score_threshold: float = 0.0
@@ -60,7 +60,7 @@ class FAISS(BaseModel):
         Returns:
             A tuple containing the text and embedding chunks.
         """
-        
+
         chunk_texts = []
         chunk_embeddings = []
         chunk_lens = []
