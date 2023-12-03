@@ -13,7 +13,7 @@ import numpy as np
 import requests
 from pydantic import BaseModel
 
-from utils import chunked_tokens
+from utils import chunked_tokens, get_text_from_tokens
 
 
 class DistanceMetric(str, Enum):
@@ -39,8 +39,8 @@ class FAISS(BaseModel):
         _normalize_L2: Whether the vectors should be normalized before storing.
     """
 
-    embedding_function: Callable[[str], requests.Response.json]
-    index: Any
+    embedding_function: Any
+    index: Any = None
     documents: dict = {}
     num_search_results: int = 4
     similarity_search_score_threshold: float = 0.0
@@ -60,15 +60,16 @@ class FAISS(BaseModel):
         Returns:
             A tuple containing the text and embedding chunks.
         """
-
         chunk_texts = []
         chunk_embeddings = []
         chunk_lens = []
         for chunk in chunked_tokens(text, self.text_chunk_size):
-            chunk_embedding = self.embedding_function(chunk)["data"][0]["embedding"]
+            chunk_text = get_text_from_tokens(chunk)
+            chunk_embedding = self.embedding_function(chunk_text)["data"][0]["embedding"]
+            print(chunk_embedding)
             chunk_embeddings.append(chunk_embedding)
             chunk_lens.append(len(chunk))
-            chunk_texts.append(chunk)
+            chunk_texts.append(chunk_text)
         if self.use_weighted_average_of_text_chunks:
             chunk_embeddings = np.average(chunk_embeddings, axis=0, weights=chunk_lens)
             chunk_embeddings = chunk_embeddings / np.linalg.norm(chunk_embeddings)  # normalizes length to 1
@@ -87,11 +88,11 @@ class FAISS(BaseModel):
         Returns:
             A tuple containing the documents and embeddings.
         """
-
         documents = []
         embeddings = []
         for text in texts:
             chunk_texts, chunk_embeddings = self._len_safe_get_embedding(text)
+            print(chunk_texts, chunk_embeddings)
             for text, embedding in zip(chunk_texts, chunk_embeddings):
                 documents.append(text)
                 embeddings.append(embedding)
@@ -99,8 +100,8 @@ class FAISS(BaseModel):
 
     def add_texts(self, texts: list[str]) -> None:
         """Adds texts to the FAISS index."""
-
         documents, embeddings = self._embed_texts(texts)
+        print(documents, embeddings)
         vectors = np.array(embeddings, dtype=np.float32)
         if self.distance_metric == DistanceMetric.MAX_INNER_PRODUCT:
             self.index = faiss.IndexFlatIP(vectors.shape[1])
@@ -142,7 +143,6 @@ class FAISS(BaseModel):
         Returns:
             An instance of the FAISS index.
         """
-
         vector_store = cls(embedding_function=embedding_function, **kwargs)
         if vector_store.distance_metric != DistanceMetric.EUCLIDEAN_DISTANCE and vector_store._normalize_L2:
             logging.warning(
@@ -160,7 +160,6 @@ class FAISS(BaseModel):
             folder_path: The folder path to save index and documents to.
             index_name: The index filename.
         """
-
         path = Path(folder_path)
         path.mkdir(exist_ok=True, parents=True)
         faiss.write_index(self.index, str(path / f"{index_name}.faiss"))
@@ -195,7 +194,6 @@ class FAISS(BaseModel):
         Returns:
             An instance of the FAISS index.
         """
-
         path = Path(folder_path)
         index = faiss.read_index(str(path / f"{index_name}.faiss"))
         with open(path / f"{index_name}.pkl", "rb") as file:
@@ -229,7 +227,6 @@ class FAISS(BaseModel):
         Returns:
             A list of documents most similar to the query text and L2 distance in float for each.
         """
-
         embedding = self.embedding_function(query)["data"][0]["embedding"]
         vector = np.array([embedding], dtype=np.float32)
         if self._normalize_L2:

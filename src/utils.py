@@ -40,3 +40,9 @@ def chunked_tokens(text: str, chunk_size: int) -> Generator[tuple, Any, None]:
     tokens = encoding.encode(text)
     chunks_iterator = batched(tokens, chunk_size)
     yield from chunks_iterator
+
+
+def get_text_from_tokens(tokens) -> str:
+    encoding = tiktoken.get_encoding("cl100k_base")
+    text = encoding.decode(tokens)
+    return text
