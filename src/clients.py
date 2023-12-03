@@ -78,10 +78,14 @@ class LLMClient(BaseModel):
         if self._access_token_expired_or_missing():
             self._fetch_access_token()
         try:
-            response = requests.post(api_url, headers=self.headers, json=data, timeout=settings.API_MAX_REQUEST_TIMEOUT_SECONDS)
+            response = requests.post(
+                api_url, headers=self.headers, json=data, timeout=settings.API_MAX_REQUEST_TIMEOUT_SECONDS
+            )
             if response.status_code in (401, 403):
                 self._fetch_access_token()
-                response = requests.post(api_url, headers=self.headers, json=data, timeout=settings.API_MAX_REQUEST_TIMEOUT_SECONDS)
+                response = requests.post(
+                    api_url, headers=self.headers, json=data, timeout=settings.API_MAX_REQUEST_TIMEOUT_SECONDS
+                )
         except requests.exceptions.RequestException as exception:
             raise exception
         return response.json()
