@@ -66,7 +66,6 @@ class FAISS(BaseModel):
         for chunk in chunked_tokens(text, self.text_chunk_size):
             chunk_text = get_text_from_tokens(chunk)
             chunk_embedding = self.embedding_function(chunk_text)["data"][0]["embedding"]
-            print(chunk_embedding)
             chunk_embeddings.append(chunk_embedding)
             chunk_lens.append(len(chunk))
             chunk_texts.append(chunk_text)
@@ -92,7 +91,6 @@ class FAISS(BaseModel):
         embeddings = []
         for text in texts:
             chunk_texts, chunk_embeddings = self._len_safe_get_embedding(text)
-            print(chunk_texts, chunk_embeddings)
             for text, embedding in zip(chunk_texts, chunk_embeddings):
                 documents.append(text)
                 embeddings.append(embedding)
@@ -101,7 +99,6 @@ class FAISS(BaseModel):
     def add_texts(self, texts: list[str]) -> None:
         """Adds texts to the FAISS index."""
         documents, embeddings = self._embed_texts(texts)
-        print(documents, embeddings)
         vectors = np.array(embeddings, dtype=np.float32)
         if self.distance_metric == DistanceMetric.MAX_INNER_PRODUCT:
             self.index = faiss.IndexFlatIP(vectors.shape[1])
