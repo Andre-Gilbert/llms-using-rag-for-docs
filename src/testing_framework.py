@@ -15,7 +15,7 @@ client = GPTClient(
 )
 agent = AIAgent(client)
 
-for test_case in TEST_CASES:
+for test_case in TEST_CASES[0]:
     # get response function from agent
     final_answer = agent.run(test_case['user_prompt'])
     namespace_agent = {}
@@ -26,7 +26,11 @@ for test_case in TEST_CASES:
     data_string = test_case['data']
     local_vars = {}
     exec(data_string, globals(), local_vars)
-    data = local_vars.get('data', None)
+    if len(local_vars) == 1:
+        data = local_vars.get('data', None)
+    else: # the maximum input of variables we have in the test cases is 2
+        data_1 = local_vars.get('data_1', None)
+        data_2 = local_vars.get('data_2', None)
 
     # retrieve the correct function
     correct_function_string = test_case['correct_function']
@@ -35,24 +39,26 @@ for test_case in TEST_CASES:
     correct_function = namespace_correct['correct_function']
 
     # execute the correct function with the data as parameter and save it as desired result
-    desired_result = correct_function(data)
+    if len(local_vars) == 1:
+        desired_result = correct_function(data)
+    else:
+        desired_result = correct_function(data_1, data_2)
 
     # execute the agent function with the data as parameter and save it as agent_result
-    agent_result = response_function(data)
+    if len(local_vars) == 1:
+        agent_result = response_function(data)
+    else:
+        agent_result = response_function(data_1, data_2)
 
     # this has to be extended, each time we expect another data type as the desired output
     if isinstance(agent_result, pd.DataFrame):
         if desired_result.equals(agent_result):
-            print() # for better reading in the console
             print(f"Agent output was correct for test case {test_case['id']}.")
         else:
-            print()
             print(f"Agent output was not correct for test case {test_case['id']}.")
 
     else:
         if agent_result == desired_result:
-            print()
             print(f"Agent output was correct for test case {test_case['id']}.")
         else:
-            print()
             print(f"Agent output was not correct for test case {test_case['id']}.")

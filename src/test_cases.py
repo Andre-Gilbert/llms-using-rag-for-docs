@@ -9,7 +9,7 @@ TEST_CASES = [
     },
     {
         "id": 1,
-        "user_prompt": """This is my Dataframe:({'Name': ['Alice', 'Bob', 'Aritra'], 'Age': [25, 30, 35], 'Location': ['Seattle', 'New York', 'Kona']},index=([10, 20, 30])) Please show the df while making sure to change the index to 100,200and 300 """, # prompt that we send the agent
+        "user_prompt": """This is my Dataframe:({'Name': ['Alice', 'Bob', 'Aritra'], 'Age': [25, 30, 35], 'Location': ['Seattle', 'New York', 'Kona']},index=([10, 20, 30])) Please display the df while making sure to change the index to 100, 200 and 300 """, # prompt that we send the agent
         "data": """data = pd.DataFrame=({'Name': ['Alice', 'Bob', 'Aritra'], 'Age': [25, 30, 35], 'Location': ['Seattle', 'New York', 'Kona']},index=([10, 20, 30]))""", # the data needed should always be named 'data'
         "correct_function": """import pandas as pd\ndef correct_function(data):\n    data.index = [100, 200, 300]\n    return data""", # this is a response function that takes the parameter 'data' and does the correct thing with it
     },
