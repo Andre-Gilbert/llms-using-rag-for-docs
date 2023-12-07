@@ -33,21 +33,15 @@ TEST_CASES = [
     },
     {
         "id": 5,
-        "user_prompt": """data = [[1, 8, 2], [1, 2, 5], [2, 5, 8], [2, 6, 9]] df = pd.DataFrame(data, columns=["a", "b", "c"] , index=["tiger", "leopard", "cheetah", "lion"]) Given Data is my Data and df is my Dataframe. Both are part of your argument. Please groupby that dataframe by a  and give the product as well """, # prompt that we send the agent
-        #more data args are needed
-        #talk w MG
-        error in test_cases.py id5
-        "data": """data = pd.DataFrame=""", # the data needed should always be named 'data'
+        "user_prompt": """data1 = [[1, 8, 2], [1, 2, 5], [2, 5, 8], [2, 6, 9]] data2 = pd.DataFrame(data, columns=["a", "b", "c"] , index=["tiger", "leopard", "cheetah", "lion"]) Given Data is my Data and df is my Dataframe. Both are part of your argument. Please groupby that dataframe by "a" and give the product as well """, # prompt that we send the agent
+        "data": """data_1 = [[1, 8, 2], [1, 2, 5], [2, 5, 8], [2, 6, 9]]\ndata_2 = pd.DataFrame= (data, columns=["a", "b", "c"] , index=["tiger", "leopard", "cheetah", "lion"])""", # the data needed should always be named 'data'
         "correct_function": """import pandas as pd\ndef correct_function(data):\n    data = df.groupby('a').prod()\n    return data""", # this is a response function that takes the parameter 'data' and does the correct thing with it
     },
     {
         "id": 6,
         "user_prompt": """a = pd.Series([1, 1, 1, np.nan], index=['a', 'b', 'c', 'd']) b = pd.Series([1, np.nan, 1, np.nan], index=['a', 'b', 'd', 'e'])  Please take a and b as your arguments and divide a by b. Please also use the fill value 0 """, # prompt that we send the agent
-        #more data args are needed
-        #talk w MG
-        error in test_cases.py id6
-        "data": """data = pd.DataFrame=""", # the data needed should always be named 'data'
-        "correct_function": """import pandas as pd\ndef correct_function(data):\n    data = a.div(b, fill_value=0)\n    return data""", # this is a response function that takes the parameter 'data' and does the correct thing with it
+        "data": """data_1 = pd.Series([1, 1, 1, np.nan], index=['a', 'b', 'c', 'd'])\ndata_2 = pd.Series([1, np.nan, 1, np.nan], index=['a', 'b', 'd', 'e'])""", # the data needed should always be named 'data'
+        "correct_function": """import pandas as pd\ndef correct_function(data):\n    data = data_1.div(data_2, fill_value=0)\n    return data""", # this is a response function that takes the parameter 'data' and does the correct thing with it
     },
     {
         "id": 7,
@@ -64,11 +58,8 @@ TEST_CASES = [
     {
         "id": 9,
         "user_prompt": """data1 = {'Name': ['Alice', 'Bob', 'Charlie'],'Age': [25, 30, 22],'City': ['New York', 'San Francisco', 'Los Angeles']}data2= {'Name': ['Alice', 'John', 'Charlie'],'Age': [25, 31, 22],'City': ['New York', 'San Francisco', 'Los Angeles']}Please calculate the average age of people who are in both dataframes """, # prompt that we send the agent
-         #more data args are needed
-        #talk w MG
-        error in test_cases.py id9
-        "data": """data = pd.DataFrame=""", # the data needed should always be named 'data'
-        "correct_function": """import pandas as pd\ndef correct_function(data):\n    data1 = pd.DataFrame(data1)\n    data2 = pd.DataFrame(data2)\n    merged_df = pd.merge(data1, data2, on='Name')\n    data = merged_df['Age_x'].mean()\n    return data""", # this is a response function that takes the parameter 'data' and does the correct thing with it
+        "data": """data_1 = {'Name': ['Alice', 'Bob', 'Charlie'],'Age': [25, 30, 22],'City': ['New York', 'San Francisco', 'Los Angeles']}\ndata_2 = {'Name': ['Alice', 'John', 'Charlie'],'Age': [25, 31, 22],'City': ['New York', 'San Francisco', 'Los Angeles']}""", # the data needed should always be named 'data'
+        "correct_function": """import pandas as pd\ndef correct_function(data):\n    data_1 = pd.DataFrame(data1)\n    data_2 = pd.DataFrame(data2)\n    merged_df = pd.merge(data_1, data_2, on='Name')\n    data = merged_df['Age_x'].mean()\n    return data""", # this is a response function that takes the parameter 'data' and does the correct thing with it
     },
     {
         "id": 10,
@@ -103,11 +94,8 @@ TEST_CASES = [
     {
         "id": 15,
         "user_prompt": """I have 2 Dataframes. which are you arguments The first one: pd.DataFrame({'key': ['K0', 'K1', 'K1', 'K3', 'K0', 'K1'],  'A': ['A0', 'A1', 'A2', 'A3', 'A4', 'A5']})And the second one: pd.DataFrame({'key': ['K0', 'K1', 'K2'], 'B': ['B0', 'B1', 'B2']})How do i join the second one on the first one using the key. And making sure it is a m:1 relation """, # prompt that we send the agent
-         #more data args are needed
-        #talk w MG
-        error in test_cases.py id15
-        "data": """data1 = data2 = pd.DataFrame=""", # the data needed should always be named 'data'
-        "correct_function": """import pandas as pd\ndef correct_function(data):\n    data1.join(data2.set_index('key'), on='key', validate='m:1')\n    return data""", # this is a response function that takes the parameter 'data' and does the correct thing with it
+        "data": """data_1 = pd.DataFrame({'key': ['K0', 'K1', 'K1', 'K3', 'K0', 'K1'],  'A': ['A0', 'A1', 'A2', 'A3', 'A4', 'A5']})\ndata_2 = pd.DataFrame = ({'key': ['K0', 'K1', 'K2'], 'B': ['B0', 'B1', 'B2']})""", # the data needed should always be named 'data'
+        "correct_function": """import pandas as pd\ndef correct_function(data):\n    data_1.join(data_2.set_index('key'), on='key', validate='m:1')\n    return data""", # this is a response function that takes the parameter 'data' and does the correct thing with it
     },
     {
         "id": 16,
