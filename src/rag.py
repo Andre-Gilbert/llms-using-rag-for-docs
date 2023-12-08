@@ -17,7 +17,7 @@ from utils import chunked_tokens, get_text_from_tokens
 
 
 class DistanceMetric(str, Enum):
-    """Enumerator of the distance metrics for calculating distances between vectors."""
+    """Distance metrics for calculating distances between vectors."""
 
     EUCLIDEAN_DISTANCE = "EUCLIDEAN_DISTANCE"
     MAX_INNER_PRODUCT = "MAX_INNER_PRODUCT"
