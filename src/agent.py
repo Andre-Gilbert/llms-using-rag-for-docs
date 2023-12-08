@@ -43,10 +43,6 @@ class AIAgent:
             action = extract(response, "Action")
             answer = extract(response, "Answer")
 
-            # Now extract the code
-            # pattern = r'```python(.*?)```'
-            # answer = re.search(pattern, answer, re.DOTALL)
-
             parsed = True
             observation = {"Observation": "Your response format was correct."}
 
@@ -137,12 +133,3 @@ class AIAgent:
         while conversation_history_tokens + settings.AGENT_MAX_RESPONSE_TOKENS >= settings.AGENT_TOKEN_LIMIT:
             del self.conversation[1]
             conversation_history_tokens = num_tokens_from_messages(self.conversation)
-
-
-class Chat:
-    """
-    Takes care of the chat history to provide the LLM with context on previous requests.
-    """
-
-    def __init__(self) -> None:
-        pass
