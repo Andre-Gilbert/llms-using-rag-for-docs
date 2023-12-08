@@ -176,7 +176,7 @@ class FAISS(BaseModel):
 
         Args:
             folder_path: The folder path to save the index and configuration to.
-            index_filename: The filename used for saving.
+            index_filename: The filename used for loading.
             llm_client: The LLM client to use when generating queries.
 
         Returns:
