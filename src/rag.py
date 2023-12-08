@@ -13,6 +13,7 @@ import numpy as np
 import requests
 from pydantic import BaseModel
 
+from clients import GPTClient
 from utils import chunked_tokens, get_text_from_tokens
 
 
@@ -27,7 +28,7 @@ class FAISS(BaseModel):
     """Class that implements RAG using Meta FAISS.
 
     Attributes:
-        embedding_function: Embeddings to use when generating queries.
+        llm_client: The LLM client to use when generating queries.
         index: The FAISS index.
         documents: Mapping of indices to document.
         num_search_results: Number of documents to return per similarity search.
@@ -39,7 +40,7 @@ class FAISS(BaseModel):
         _normalize_L2: Whether the vectors should be normalized before storing.
     """
 
-    embedding_function: Any
+    llm_client: GPTClient
     index: Any = None
     documents: dict = {}
     num_search_results: int = 4
@@ -65,7 +66,7 @@ class FAISS(BaseModel):
         chunk_lens = []
         for chunk in chunked_tokens(text, self.text_chunk_size):
             chunk_text = get_text_from_tokens(chunk)
-            chunk_embedding = self.embedding_function(chunk_text)["data"][0]["embedding"]
+            chunk_embedding = self.llm_client.get_embedding(chunk_text)["data"][0]["embedding"]
             chunk_embeddings.append(chunk_embedding)
             chunk_lens.append(len(chunk))
             chunk_texts.append(chunk_text)
@@ -116,17 +117,12 @@ class FAISS(BaseModel):
                 index += 1
 
     @classmethod
-    def create_index_from_texts(
-        cls,
-        texts: list[str],
-        embedding_function: Callable[[str], requests.Response.json],
-        **kwargs: dict[str, Any],
-    ) -> FAISS:
+    def create_index_from_texts(cls, texts: list[str], llm_client: GPTClient, **kwargs: dict[str, Any]) -> FAISS:
         """Creates a FAISS index from texts.
 
         Args:
             texts: A list of texts used for creating the FAISS index.
-            embedding_function: Embeddings to use when generating queries.
+            llm_client: The LLM client to use when generating queries.
             **kwargs:
                 num_search_results: Number of documents to return per similarity search.
                 similarity_search_score_threshold: The similarity score for a document
@@ -140,27 +136,27 @@ class FAISS(BaseModel):
         Returns:
             An instance of the FAISS index.
         """
-        vector_store = cls(embedding_function=embedding_function, **kwargs)
+        vector_store = cls(llm_client=llm_client, **kwargs)
         if vector_store.distance_metric != DistanceMetric.EUCLIDEAN_DISTANCE and vector_store._normalize_L2:
             logging.warning(
-                "Normalizing L2 is not applicable for metric type: %s. Setting normalize L2 to False.",
+                "Adjusting the normalization parameter to False, as it is not applicable for metric type: %s.",
                 vector_store.distance_metric,
             )
             vector_store._normalize_L2 = False
         vector_store.add_texts(texts)
         return vector_store
 
-    def save_local(self, folder_path: str, index_name: str) -> None:
-        """Saves FAISS index and documents to disk.
+    def save_local(self, folder_path: str, index_filename: str) -> None:
+        """Saves the FAISS index and configuration to disk.
 
         Args:
-            folder_path: The folder path to save index and documents to.
-            index_name: The index filename.
+            folder_path: The folder path to save the index and configuration to.
+            index_filename: The filename used for saving.
         """
         path = Path(folder_path)
         path.mkdir(exist_ok=True, parents=True)
-        faiss.write_index(self.index, str(path / f"{index_name}.faiss"))
-        with open(path / f"{index_name}.pkl", "wb") as file:
+        faiss.write_index(self.index, str(path / f"{index_filename}.faiss"))
+        with open(path / f"{index_filename}.pkl", "wb") as file:
             pickle.dump(
                 (
                     self.documents,
@@ -175,25 +171,20 @@ class FAISS(BaseModel):
             )
 
     @classmethod
-    def load_local(
-        cls,
-        folder_path: str,
-        index_name: str,
-        embedding_function: Callable[[str], requests.Response.json],
-    ) -> FAISS:
-        """Loads FAISS index and documents from disk.
+    def load_local(cls, folder_path: str, index_filename: str, llm_client: GPTClient) -> FAISS:
+        """Loads the FAISS index and configuration from disk.
 
         Args:
-            folder_path: The folder path to load index and documents from.
-            index_name: The index filename.
-            embedding_function: Embeddings to use when generating queries.
+            folder_path: The folder path to save the index and configuration to.
+            index_filename: The filename used for saving.
+            llm_client: The LLM client to use when generating queries.
 
         Returns:
             An instance of the FAISS index.
         """
         path = Path(folder_path)
-        index = faiss.read_index(str(path / f"{index_name}.faiss"))
-        with open(path / f"{index_name}.pkl", "rb") as file:
+        index = faiss.read_index(str(path / f"{index_filename}.faiss"))
+        with open(path / f"{index_filename}.pkl", "rb") as file:
             (
                 documents,
                 num_search_results,
@@ -204,7 +195,7 @@ class FAISS(BaseModel):
                 normalize_L2,
             ) = pickle.load(file)
         return cls(
-            embedding_function=embedding_function,
+            llm_client=llm_client,
             index=index,
             documents=documents,
             num_search_results=num_search_results,
@@ -224,7 +215,7 @@ class FAISS(BaseModel):
         Returns:
             A list of documents most similar to the query text and L2 distance in float for each.
         """
-        embedding = self.embedding_function(query)["data"][0]["embedding"]
+        embedding = self.llm_client.get_embedding(query)["data"][0]["embedding"]
         vector = np.array([embedding], dtype=np.float32)
         if self._normalize_L2:
             faiss.normalize_L2(vector)
