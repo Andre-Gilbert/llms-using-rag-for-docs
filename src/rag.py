@@ -6,11 +6,10 @@ import operator
 import pickle
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 import faiss
 import numpy as np
-import requests
 from pydantic import BaseModel
 
 from clients import GPTClient
