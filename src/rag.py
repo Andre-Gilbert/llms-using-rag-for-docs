@@ -110,7 +110,7 @@ class FAISS(BaseModel):
         if not self.documents:
             self.documents = dict(enumerate(documents))
         else:
-            index = len(documents)
+            index = len(self.documents)
             for document in documents:
                 self.documents[index] = document
                 index += 1
