@@ -13,7 +13,7 @@ from rag import FAISS
 from settings import settings
 from utils import num_tokens_from_messages
 
-logging.basicConfig(level=logging.INFO, format="%(process)d - %(levelname)s - %(message)s")
+logging.basicConfig(level=logging.DEBUG, format="%(process)d - %(levelname)s - %(message)s")
 
 
 class AIAgent:
@@ -43,10 +43,6 @@ class AIAgent:
             action = extract(response, "Action")
             answer = extract(response, "Answer")
 
-            # Now extract the code
-            # pattern = r'```python(.*?)```'
-            # answer = re.search(pattern, answer, re.DOTALL)
-
             parsed = True
             observation = {"Observation": "Your response format was correct."}
 
@@ -70,7 +66,7 @@ class AIAgent:
             self.conversation.append({"role": "user", "content": user_prompt})
         else:
             context = self.rag.similarity_search(user_prompt)
-            self.conversation.append({"role": "user", "content": f"{user_prompt} Context: {context}"})
+            self.conversation.append({"role": "user", "content": f"{user_prompt} Context: \n{context}"})
         print(self.conversation)
         # Make sure the conversation does not exceed the token limit as we iterate to get a final answer.
         iterations = 0
@@ -81,10 +77,10 @@ class AIAgent:
             # Now get the response from the LLM
             response = self.llm_client.get_completion(self.conversation)
             response_content = response["choices"][0]["message"]["content"]
-            logging.debug(response_content)
+            # logging.debug(response_content)
             thought, action, answer, parsed, observation = self._parse_response(response_content)
             self.conversation.append({"role": "assistant", "content": response_content})
-            logging.debug("Final answer log: \n", answer)
+            logging.debug(f"Final answer log: \n{answer}")
 
             # Now the model created a step in the chain of thought and will evaluate and potentially automatically refine it.
             if parsed and action is not None:
@@ -104,7 +100,7 @@ class AIAgent:
                     }
             if action is None and answer is not None:
                 return answer
-            logging.debug("Final observation: ", observation)
+            # logging.debug("Final observation: ", observation)
             self.conversation.append({"role": "assistant", "content": str(observation)})
 
     def _code_is_valid(self, code: str) -> tuple:
@@ -137,12 +133,3 @@ class AIAgent:
         while conversation_history_tokens + settings.AGENT_MAX_RESPONSE_TOKENS >= settings.AGENT_TOKEN_LIMIT:
             del self.conversation[1]
             conversation_history_tokens = num_tokens_from_messages(self.conversation)
-
-
-class Chat:
-    """
-    Takes care of the chat history to provide the LLM with context on previous requests.
-    """
-
-    def __init__(self) -> None:
-        pass
