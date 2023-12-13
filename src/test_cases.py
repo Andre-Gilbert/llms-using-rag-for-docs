@@ -126,7 +126,7 @@ TEST_CASES = [
     },
     {
         "id": 18,
-        "user_prompt": """Please compute the difference between these concecutive values as a index object: pd.Index([10, 20, 30, 40, 50]) """, # prompt that we send the agent
+        "user_prompt": """Please compute the difference between these concecutive values as an index object: pd.Index([10, 20, 30, 40, 50]) """, # prompt that we send the agent
         "data": """data = pd.Index([10, 20, 30, 40, 50])""", # the data needed should always be named 'data'
         "correct_function": """import pandas as pd\ndef correct_function(data):\n    data = pd.Index([10, 20, 30, 40, 50])\n    data.diff()\n    return data""", # this is a response function that takes the parameter 'data' and does the correct thing with it
     },
