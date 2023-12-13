@@ -14,11 +14,12 @@ TEST_CASES = [
     #     "correct_function": """import pandas as pd\ndef correct_function(data):\n    data.index = [100, 200, 300]\n    return data""", # this is a response function that takes the parameter 'data' and does the correct thing with it
     # },
     # {
-    #     "id": 2,
-    #     "user_prompt": """({'animal': ['alligator', 'bee', 'falcon', 'lion','monkey', 'parrot', 'shark', 'whale', 'zebra']}) This is my dataframe. Please show me the head of all columns but the last 4 """, # prompt that we send the agent
-    #     "data": """data = pd.DataFrame({'animal': ['alligator', 'bee', 'falcon', 'lion','monkey', 'parrot', 'shark', 'whale', 'zebra']})""", # the data needed should always be named 'data'
-    #     "correct_function": """import pandas as pd\ndef correct_function(data):\n    return data.iloc[:, :-4].head()""", # this is a response function that takes the parameter 'data' and does the correct thing with it
-    # },
+    #{
+    #    "id": 2,
+    #    "user_prompt": """({'animal': ['alligator', 'bee', 'falcon', 'lion','monkey', 'parrot', 'shark', 'whale', 'zebra']}) This is my dataframe. Please display all but the last 3 rows of the dataframe""", # prompt that we send the agent
+    #    "data": """data = pd.DataFrame({'animal': ['alligator', 'bee', 'falcon', 'lion','monkey', 'parrot', 'shark', 'whale', 'zebra']})""", # the data needed should always be named 'data'
+    #    "correct_function": """import pandas as pd\ndef correct_function(data):\n    data = data.iloc[:-3, :]\n    return data""", # this is a response function that takes the parameter 'data' and does the correct thing with it
+    #},
     # {
     #     "id": 3,
     #     "user_prompt": """ts = pd.Timestamp('2017-01-01 09:10:11') This is your argument. Please add 2 Months to that timestamp """, # prompt that we send the agent
