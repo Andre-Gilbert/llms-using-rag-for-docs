@@ -32,8 +32,8 @@ class Settings(BaseSettings):
     If you have one argument given to you in the user prompt, write your response function so that it takes one argument.
     If you have two arguments given in the user prompt, write your response function so that it takes two arguments.
     Do not write any text or code outside this function when constructing an answer or action.
-    In the first line of code inside the function please always import pandas as pd.
-    Pandas and numpy are the only non-standard packages you are allowed to use.
+    In the first line of code inside the function please always import pandas as pd or pyarrow as pa, depending on what you need.
+    Pandas, numpy and pyarrow are the only non-standard packages you are allowed to use.
 
     Always use the following JSON response format:
     {
