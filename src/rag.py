@@ -42,7 +42,6 @@ class FAISS(BaseModel):
     llm_client: GPTClient
     index: Any = None
     documents: dict = {}
-    num_search_results: int = 4
     similarity_search_score_threshold: float = 0.0
     distance_metric: DistanceMetric = DistanceMetric.EUCLIDEAN_DISTANCE
     text_chunk_size: int = 512
@@ -107,13 +106,10 @@ class FAISS(BaseModel):
         if self._normalize_L2:
             faiss.normalize_L2(vectors)
         self.index.add(vectors)
-        if not self.documents:
-            self.documents = dict(enumerate(documents))
-        else:
-            index = len(self.documents)
-            for document in documents:
-                self.documents[index] = document
-                index += 1
+        document_id = len(self.documents)
+        for document in documents:
+            self.documents[document_id] = document
+            document_id += 1
 
     @classmethod
     def create_index_from_texts(cls, texts: list[str], llm_client: GPTClient, **kwargs: dict[str, Any]) -> FAISS:
@@ -159,7 +155,6 @@ class FAISS(BaseModel):
             pickle.dump(
                 (
                     self.documents,
-                    self.num_search_results,
                     self.similarity_search_score_threshold,
                     self.distance_metric,
                     self.text_chunk_size,
@@ -186,7 +181,6 @@ class FAISS(BaseModel):
         with open(path / f"{index_filename}.pkl", "rb") as file:
             (
                 documents,
-                num_search_results,
                 similarity_search_score_threshold,
                 distance_metric,
                 text_chunk_size,
@@ -197,7 +191,6 @@ class FAISS(BaseModel):
             llm_client=llm_client,
             index=index,
             documents=documents,
-            num_search_results=num_search_results,
             similarity_search_score_threshold=similarity_search_score_threshold,
             distance_metric=distance_metric,
             text_chunk_size=text_chunk_size,
@@ -205,20 +198,21 @@ class FAISS(BaseModel):
             _normalize_L2=normalize_L2,
         )
 
-    def similarity_search(self, query: str) -> list[tuple[str, float]]:
+    def similarity_search(self, text: str, num_search_results: int = 3) -> list[tuple[str, float]]:
         """Gets relevant context.
 
         Args:
-            query: The AI agent user input.
+            text: The AI agent user input.
+            num_search_results: The number of documents to return from the index.
 
         Returns:
             A list of documents most similar to the query text and L2 distance in float for each.
         """
-        embedding = self.llm_client.get_embedding(query)["data"][0]["embedding"]
+        embedding = self.llm_client.get_embedding(text)["data"][0]["embedding"]
         vector = np.array([embedding], dtype=np.float32)
         if self._normalize_L2:
             faiss.normalize_L2(vector)
-        scores, indices = self.index.search(vector, self.num_search_results)
+        scores, indices = self.index.search(vector, num_search_results)
         documents = [
             (self.documents[index], score) for index, score in zip(indices[0], scores[0]) if index in self.documents
         ]

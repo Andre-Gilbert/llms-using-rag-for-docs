@@ -27,13 +27,15 @@ class AIAgent:
     def __init__(
         self,
         llm_client: GPTClient,
-        tools: dict = dict(),
+        tools: dict | None = None,
         system_prompt: str = settings.STANDARD_SYSTEM_INSTRUCTION,
-        rag: FAISS = None,
+        rag: FAISS | None = None,
+        rag_num_search_results: int = 3,
     ):
         self.llm_client = llm_client
         self.tools = tools
         self.rag = rag
+        self.rag_num_search_results = rag_num_search_results
         self.conversation = [{"role": "system", "content": system_prompt}]
 
     def _parse_response(self, response: requests.Response) -> tuple:
@@ -65,7 +67,7 @@ class AIAgent:
         if self.rag is None:
             self.conversation.append({"role": "user", "content": user_prompt})
         else:
-            context = self.rag.similarity_search(user_prompt)
+            context = self.rag.similarity_search(user_prompt, self.rag_num_search_results)
             self.conversation.append({"role": "user", "content": f"{user_prompt} Context: \n{context}"})
         print(self.conversation)
         # Make sure the conversation does not exceed the token limit as we iterate to get a final answer.
