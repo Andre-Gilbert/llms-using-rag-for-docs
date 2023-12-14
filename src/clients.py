@@ -79,12 +79,18 @@ class LLMClient(BaseModel):
             self._fetch_access_token()
         try:
             response = requests.post(
-                api_url, headers=self.headers, json=data, timeout=settings.API_MAX_REQUEST_TIMEOUT_SECONDS
+                api_url,
+                headers=self.headers,
+                json=data,
+                timeout=settings.API_REQUEST_TIMEOUT_SECONDS,
             )
             if response.status_code in (401, 403):
                 self._fetch_access_token()
                 response = requests.post(
-                    api_url, headers=self.headers, json=data, timeout=settings.API_MAX_REQUEST_TIMEOUT_SECONDS
+                    api_url,
+                    headers=self.headers,
+                    json=data,
+                    timeout=settings.API_REQUEST_TIMEOUT_SECONDS,
                 )
         except requests.exceptions.RequestException as exception:
             raise exception
