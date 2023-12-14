@@ -13,11 +13,11 @@ TEST_CASES = [
     #     "data": """data = pd.DataFrame({'Name': ['Alice', 'Bob', 'Aritra'], 'Age': [25, 30, 35], 'Location': ['Seattle', 'New York', 'Kona']},index=([10, 20, 30]))""", # the data needed should always be named 'data'
     #     "correct_function": """import pandas as pd\ndef correct_function(data):\n    data.index = [100, 200, 300]\n    return data""", # this is a response function that takes the parameter 'data' and does the correct thing with it
     # },
-    # {
-    #     "id": 2,
-    #     "user_prompt": """({'animal': ['alligator', 'bee', 'falcon', 'lion','monkey', 'parrot', 'shark', 'whale', 'zebra']}) This is my dataframe. Please show me the head of all columns but the last 4 """, # prompt that we send the agent
-    #     "data": """data = pd.DataFrame({'animal': ['alligator', 'bee', 'falcon', 'lion','monkey', 'parrot', 'shark', 'whale', 'zebra']})""", # the data needed should always be named 'data'
-    #     "correct_function": """import pandas as pd\ndef correct_function(data):\n    return data.iloc[:, :-4].head()""", # this is a response function that takes the parameter 'data' and does the correct thing with it
+    #{
+    #    "id": 2,
+    #    "user_prompt": """({'animal': ['alligator', 'bee', 'falcon', 'lion','monkey', 'parrot', 'shark', 'whale', 'zebra']}) This is my dataframe. Please display all but the last 3 rows of the dataframe""", # prompt that we send the agent
+    #    "data": """data = pd.DataFrame({'animal': ['alligator', 'bee', 'falcon', 'lion','monkey', 'parrot', 'shark', 'whale', 'zebra']})""", # the data needed should always be named 'data'
+    #    "correct_function": """import pandas as pd\ndef correct_function(data):\n    data = data.iloc[:-3, :]\n    return data""", # this is a response function that takes the parameter 'data' and does the correct thing with it
     # },
     # {
     #     "id": 3,
@@ -61,12 +61,12 @@ TEST_CASES = [
     #     "data": """data_1 = {'Name': ['Alice', 'Bob', 'Charlie'],'Age': [25, 30, 22],'City': ['New York', 'San Francisco', 'Los Angeles']}\ndata_2 = {'Name': ['Alice', 'John', 'Charlie'],'Age': [25, 31, 22],'City': ['New York', 'San Francisco', 'Los Angeles']}""", # the data needed should always be named 'data'
     #     "correct_function": """import pandas as pd\ndef correct_function(data_1, data_2):\n    data_1 = pd.DataFrame(data_1)\n    data_2 = pd.DataFrame(data_2)\n    merged_df = pd.merge(data_1, data_2, on='Name')\n    data = merged_df['Age_x'].mean()\n    return data""", # this is a response function that takes the parameter 'data' and does the correct thing with it
     # },
-    # {
-    #     "id": 10,
-    #     "user_prompt": """data = { 'Timestamp': [ '2023-01-01 12:01:00', '2023-01-01 12:10:00', '2023-01-01 12:25:00', '2023-01-01 13:05:00', '2023-01-01 13:25:00', '2023-01-01 14:00:00', '2023-01-02 08:30:00', '2023-01-02 09:00:00', '2023-01-02 09:35:00' ], 'User': [1, 1, 1, 2, 2, 2, 3, 3, 3], 'Page': ['Home', 'Product', 'Checkout', 'Home', 'Product', 'Home', 'Home', 'Product', 'Checkout'] } Using the pandas DataFrame df provided, implement the following operation: Create a new column called 'Session_ID' that labels each row with a unique session identifier. Define a session as a series of consecutive interactions by the same user with no gap greater than 30 minutes between interactions. Ensure that each session has a unique identifier. Make sure to show the hole code """, # prompt that we send the agent
-    #     "data": """data = pd.DataFrame({'Timestamp': ['2023-01-01 12:01:00', '2023-01-01 12:10:00', '2023-01-01 12:25:00', '2023-01-01 13:05:00','2023-01-01 13:25:00', '2023-01-01 14:00:00', '2023-01-02 08:30:00', '2023-01-02 09:00:00','2023-01-02 09:35:00'],'User': [1, 1, 1, 2, 2, 2, 3, 3, 3],'Page': ['Home', 'Product', 'Checkout', 'Home', 'Product', 'Home', 'Home', 'Product', 'Checkout']})""", # the data needed should always be named 'data'
-    #     "correct_function": """import pandas as pd\ndef correct_function(data):\n    data['Timestamp'] = pd.to_datetime(data['Timestamp'])\n    data = data.sort_values(by=['User', 'Timestamp'])\n    data['TimeDiff'] = data.groupby('User')['Timestamp'].diff()\n    data['Session_ID'] = (data['TimeDiff'] > pd.Timedelta(minutes=30)).cumsum()\n    data = data.drop('TimeDiff', axis=1)\n    return data""", # this is a response function that takes the parameter 'data' and does the correct thing with it
-    # },
+    {
+        "id": 10,
+        "user_prompt": """data = { 'Timestamp': [ '2023-01-01 12:01:00', '2023-01-01 12:10:00', '2023-01-01 12:25:00', '2023-01-01 13:05:00', '2023-01-01 13:25:00', '2023-01-01 14:00:00', '2023-01-02 08:30:00', '2023-01-02 09:00:00', '2023-01-02 09:35:00' ], 'User': [1, 1, 1, 2, 2, 2, 3, 3, 3], 'Page': ['Home', 'Product', 'Checkout', 'Home', 'Product', 'Home', 'Home', 'Product', 'Checkout'] } Using the pandas DataFrame df provided, implement the following operation: Create a new column called 'Session_ID' that labels each row with a unique session identifier. Define a session as a series of consecutive interactions by the same user with no gap greater than 30 minutes between interactions. Ensure that each session has a unique identifier. Make sure to show the hole code """, # prompt that we send the agent
+        "data": """data = pd.DataFrame({'Timestamp': ['2023-01-01 12:01:00', '2023-01-01 12:10:00', '2023-01-01 12:25:00', '2023-01-01 13:05:00','2023-01-01 13:25:00', '2023-01-01 14:00:00', '2023-01-02 08:30:00', '2023-01-02 09:00:00','2023-01-02 09:35:00'],'User': [1, 1, 1, 2, 2, 2, 3, 3, 3],'Page': ['Home', 'Product', 'Checkout', 'Home', 'Product', 'Home', 'Home', 'Product', 'Checkout']})""", # the data needed should always be named 'data'
+        "correct_function": """import pandas as pd\ndef correct_function(data):\n    data['Timestamp'] = pd.to_datetime(data['Timestamp'])\n    data = data.sort_values(by=['User', 'Timestamp'])\n    data['TimeDiff'] = data.groupby('User')['Timestamp'].diff()\n    data['Session_ID'] = (data['TimeDiff'] > pd.Timedelta(minutes=30)).cumsum()\n    data = data.drop('TimeDiff', axis=1)\n    return data""", # this is a response function that takes the parameter 'data' and does the correct thing with it
+    },
     # {
     #     "id": 11,
     #     "user_prompt": """Please return the rolling rank(3) of this Series [1, 4, 2, 3, 5, 3]. Make sure to code your solution using the pandas lib """, # prompt that we send the agent
