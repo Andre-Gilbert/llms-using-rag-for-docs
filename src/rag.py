@@ -21,6 +21,7 @@ class DistanceMetric(str, Enum):
 
     EUCLIDEAN_DISTANCE = "EUCLIDEAN_DISTANCE"
     MAX_INNER_PRODUCT = "MAX_INNER_PRODUCT"
+    COSINE_SIMILARITY = "COSINE_SIMILARITY"
 
 
 class FAISS(BaseModel):
@@ -99,10 +100,10 @@ class FAISS(BaseModel):
         """Adds texts to the FAISS index."""
         documents, embeddings = self._embed_texts(texts)
         vectors = np.array(embeddings, dtype=np.float32)
-        if self.distance_metric == DistanceMetric.MAX_INNER_PRODUCT:
-            self.index = faiss.IndexFlatIP(vectors.shape[1])
-        else:
+        if self.distance_metric == DistanceMetric.EUCLIDEAN_DISTANCE:
             self.index = faiss.IndexFlatL2(vectors.shape[1])
+        else:
+            self.index = faiss.IndexFlatIP(vectors.shape[1])
         if self._normalize_L2:
             faiss.normalize_L2(vectors)
         self.index.add(vectors)
@@ -132,12 +133,18 @@ class FAISS(BaseModel):
             An instance of the FAISS index.
         """
         vector_store = cls(llm_client=llm_client, **kwargs)
-        if vector_store.distance_metric != DistanceMetric.EUCLIDEAN_DISTANCE and vector_store._normalize_L2:
+        if vector_store.distance_metric == DistanceMetric.MAX_INNER_PRODUCT and vector_store._normalize_L2:
             logging.warning(
                 "Adjusting the normalization parameter to False, as it is not applicable for metric type: %s.",
                 vector_store.distance_metric,
             )
             vector_store._normalize_L2 = False
+        elif vector_store.distance_metric == DistanceMetric.COSINE_SIMILARITY and not vector_store._normalize_L2:
+            logging.warning(
+                "Adjusting the normalization parameter to True, as it is required for metric type: %s.",
+                vector_store.distance_metric,
+            )
+            vector_store._normalize_L2 = True
         vector_store.add_texts(texts)
         return vector_store
 
