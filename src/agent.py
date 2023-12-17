@@ -28,7 +28,7 @@ class AIAgent:
         tools: dict or None = None,
         system_prompt: str = settings.STANDARD_SYSTEM_INSTRUCTION,
         rag: FAISS or CoALA = None,
-        rag_num_search_results: int or None = None,
+        rag_num_search_results: int or None = 3,
     ):
         self.llm_client = llm_client
         self.tools = tools
@@ -65,7 +65,7 @@ class AIAgent:
         if self.rag is None:
             self.conversation.append({"role": "user", "content": user_prompt})
         else:
-            context = self.rag.similarity_search(user_prompt, self.rag_num_search_results)
+            context = self.rag.similarity_search(text=user_prompt, num_search_results=self.rag_num_search_results)
             self.conversation.append({"role": "user", "content": f"{user_prompt} \nContext: \n{context}"})
         print(self.conversation)
         # Make sure the conversation does not exceed the token limit as we iterate to get a final answer.

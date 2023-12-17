@@ -17,11 +17,11 @@ client = GPTClient(
 
 rag = FAISS.create_index_from_texts(
     texts=["print('Hello Wourld')", "None", 'Irrelevant content'],
-    embedding_function=client.get_embedding,
+    llm_client=client,
 )
 code_storage = FAISS.create_index_from_texts(
     texts=["Question: Print Hello World\nFinal Answer:def response_function():\n    print('Hello World')"],
-    embedding_function=client.get_embedding,
+    llm_client=client,
 )
 coala_rag = CoALA(docs_storage=rag, code_storage=code_storage)
 

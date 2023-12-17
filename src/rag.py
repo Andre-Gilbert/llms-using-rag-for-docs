@@ -243,11 +243,11 @@ class CoALA:
         self.code = code_storage
         
     
-    def similarity_search(self, query: str) -> str:
+    def similarity_search(self, text: str, num_search_results: int = 3) -> str:
         "Returns the similarity search results for both the docs storage and the code storage as a tuple."
 
-        docs_result = self.docs.similarity_search(query=query)
-        code_result = self.code.similarity_search(query=query)
+        docs_result = self.docs.similarity_search(text=text, num_search_results=num_search_results)
+        code_result = self.code.similarity_search(text=text, num_search_results=num_search_results)
         result = f"Relevant documentation, sorted by similarity of the embedding in descending order:\n{docs_result}\n\n"
         result += f"Relevant previous answers with code, sorted by similarity of the embedding in descending order:\n{code_result}"
         return result
