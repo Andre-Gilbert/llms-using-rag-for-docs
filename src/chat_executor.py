@@ -1,5 +1,7 @@
 from agent import AIAgent
 from clients import GPTClient
+from rag import FAISS
+from rag import CoALA
 from settings import settings
 
 
@@ -12,8 +14,20 @@ client = GPTClient(
     llm_max_response_tokens=1000,
     llm_temperature=0.0,
 )
-agent = AIAgent(client)
+
+rag = FAISS.create_index_from_texts(
+    texts=["print('Hello Wourld')", "None", 'Irrelevant content'],
+    embedding_function=client.get_embedding,
+)
+code_storage = FAISS.create_index_from_texts(
+    texts=["Question: Print Hello World\nFinal Answer:def response_function():\n    print('Hello World')"],
+    embedding_function=client.get_embedding,
+)
+coala_rag = CoALA(docs_storage=rag, code_storage=code_storage)
+
+agent = AIAgent(client, rag=coala_rag)
 
 # Get the user's order
-user_prompt = input("What do you want me to do? Type here: ")
-agent.run(user_prompt)
+while True:
+    user_prompt = input("What do you want me to do? Type here: ")
+    agent.run(user_prompt)
