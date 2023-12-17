@@ -28,6 +28,7 @@ class AIAgent:
         tools: dict or None = None,
         system_prompt: str = settings.STANDARD_SYSTEM_INSTRUCTION,
         rag: FAISS or CoALA = None,
+        rag_num_search_results: int or None = None,
     ):
         self.llm_client = llm_client
         self.tools = tools
