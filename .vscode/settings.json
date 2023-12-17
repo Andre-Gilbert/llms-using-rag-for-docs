@@ -3,7 +3,7 @@
   "editor.insertSpaces": true,
   "editor.tabSize": 4,
   "editor.codeActionsOnSave": {
-    "source.fixAll": true
+    "source.fixAll": "explicit"
   },
   "pylint.args": ["--rcfile=${workspaceFolder}/.pylintrc"],
   "isort.args": ["--profile", "black"],

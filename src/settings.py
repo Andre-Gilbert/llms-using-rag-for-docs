@@ -5,10 +5,10 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     """Class that implements the global settings."""
 
-    CLIENT_ID: str 
-    CLIENT_SECRET: str 
-    AUTH_URL: str 
-    API_BASE: str 
+    CLIENT_ID: str
+    CLIENT_SECRET: str
+    AUTH_URL: str
+    API_BASE: str
 
     LLM_CONFIG: dict = {
         "deployment_id": "gpt-4-32k",
@@ -21,6 +21,7 @@ class Settings(BaseSettings):
     AGENT_MAX_RESPONSE_TOKENS: int = 1000
 
     API_MAX_RETRIES: int = 3
+    API_REQUEST_TIMEOUT_SECONDS: int = 60
     API_MIN_REQUEST_TIMEOUT_SECONDS: int = 4
     API_MAX_REQUEST_TIMEOUT_SECONDS: int = 10
     API_ACCESS_TOKEN_EXPIRY_MINUTES: int = 60
@@ -28,8 +29,11 @@ class Settings(BaseSettings):
     STANDARD_SYSTEM_INSTRUCTION: str = """
     You are an AI assistant who can write code using pandas.
     All necessary code that is part of the answer must be in a single python function called response_function.
-    Do not write any text or code outside this function when constructing an answer or action. Assume that pandas
-    has already been imported as pd. Pandas is the only non-standard package you are allowed to use.
+    If you have one argument given to you in the user prompt, write your response function so that it takes one argument.
+    If you have two arguments given in the user prompt, write your response function so that it takes two arguments.
+    Do not write any text or code outside this function when constructing an answer or action.
+    In the first line of code inside the function please always import pandas as pd or pyarrow as pa, depending on what you need.
+    Pandas, numpy and pyarrow are the only non-standard packages you are allowed to use.
 
     Always use the following JSON response format:
     {
