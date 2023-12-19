@@ -32,7 +32,6 @@ def get_config_from_grid(config_grid: ConfigGrid) -> Generator[tuple, None, None
         distance_metric,
         normalize_L2,
         num_search_result,
-        texts,
         text_chunk_size,
         use_weighted_average_of_text_chunk,
     ) in product(
@@ -41,7 +40,6 @@ def get_config_from_grid(config_grid: ConfigGrid) -> Generator[tuple, None, None
         config_grid.rag.distance_metrics,
         config_grid.rag.normalize_L2,
         config_grid.rag.num_search_results,
-        config_grid.rag.texts,
         config_grid.rag.text_chunk_size,
         config_grid.rag.use_weighted_average_of_text_chunks,
     ):
@@ -51,13 +49,13 @@ def get_config_from_grid(config_grid: ConfigGrid) -> Generator[tuple, None, None
             distance_metric,
             normalize_L2,
             num_search_result,
-            texts,
             text_chunk_size,
             use_weighted_average_of_text_chunk,
         )
 
 
 def evaluate_code_generation(config_grid: ConfigGrid, test_cases: list):
+    texts = config_grid.rag.texts
     for config in get_config_from_grid(config_grid):
         (
             agent,
