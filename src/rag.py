@@ -21,6 +21,7 @@ class DistanceMetric(str, Enum):
 
     EUCLIDEAN_DISTANCE = "EUCLIDEAN_DISTANCE"
     MAX_INNER_PRODUCT = "MAX_INNER_PRODUCT"
+    COSINE_SIMILARITY = "COSINE_SIMILARITY"
 
 
 class FAISS(BaseModel):
@@ -42,7 +43,6 @@ class FAISS(BaseModel):
     llm_client: GPTClient
     index: Any = None
     documents: dict = {}
-    num_search_results: int = 4
     similarity_search_score_threshold: float = 0.0
     distance_metric: DistanceMetric = DistanceMetric.EUCLIDEAN_DISTANCE
     text_chunk_size: int = 512
@@ -100,20 +100,17 @@ class FAISS(BaseModel):
         """Adds texts to the FAISS index."""
         documents, embeddings = self._embed_texts(texts)
         vectors = np.array(embeddings, dtype=np.float32)
-        if self.distance_metric == DistanceMetric.MAX_INNER_PRODUCT:
-            self.index = faiss.IndexFlatIP(vectors.shape[1])
-        else:
+        if self.distance_metric == DistanceMetric.EUCLIDEAN_DISTANCE:
             self.index = faiss.IndexFlatL2(vectors.shape[1])
+        else:
+            self.index = faiss.IndexFlatIP(vectors.shape[1])
         if self._normalize_L2:
             faiss.normalize_L2(vectors)
         self.index.add(vectors)
-        if not self.documents:
-            self.documents = dict(enumerate(documents))
-        else:
-            index = len(self.documents)
-            for document in documents:
-                self.documents[index] = document
-                index += 1
+        document_id = len(self.documents)
+        for document in documents:
+            self.documents[document_id] = document
+            document_id += 1
 
     @classmethod
     def create_index_from_texts(cls, texts: list[str], llm_client: GPTClient, **kwargs: dict[str, Any]) -> FAISS:
@@ -136,12 +133,18 @@ class FAISS(BaseModel):
             An instance of the FAISS index.
         """
         vector_store = cls(llm_client=llm_client, **kwargs)
-        if vector_store.distance_metric != DistanceMetric.EUCLIDEAN_DISTANCE and vector_store._normalize_L2:
+        if vector_store.distance_metric == DistanceMetric.MAX_INNER_PRODUCT and vector_store._normalize_L2:
             logging.warning(
                 "Adjusting the normalization parameter to False, as it is not applicable for metric type: %s.",
                 vector_store.distance_metric,
             )
             vector_store._normalize_L2 = False
+        elif vector_store.distance_metric == DistanceMetric.COSINE_SIMILARITY and not vector_store._normalize_L2:
+            logging.warning(
+                "Adjusting the normalization parameter to True, as it is required for metric type: %s.",
+                vector_store.distance_metric,
+            )
+            vector_store._normalize_L2 = True
         vector_store.add_texts(texts)
         return vector_store
 
@@ -159,7 +162,6 @@ class FAISS(BaseModel):
             pickle.dump(
                 (
                     self.documents,
-                    self.num_search_results,
                     self.similarity_search_score_threshold,
                     self.distance_metric,
                     self.text_chunk_size,
@@ -186,7 +188,6 @@ class FAISS(BaseModel):
         with open(path / f"{index_filename}.pkl", "rb") as file:
             (
                 documents,
-                num_search_results,
                 similarity_search_score_threshold,
                 distance_metric,
                 text_chunk_size,
@@ -197,7 +198,6 @@ class FAISS(BaseModel):
             llm_client=llm_client,
             index=index,
             documents=documents,
-            num_search_results=num_search_results,
             similarity_search_score_threshold=similarity_search_score_threshold,
             distance_metric=distance_metric,
             text_chunk_size=text_chunk_size,
@@ -205,20 +205,21 @@ class FAISS(BaseModel):
             _normalize_L2=normalize_L2,
         )
 
-    def similarity_search(self, query: str) -> list[tuple[str, float]]:
+    def similarity_search(self, text: str, num_search_results: int = 3) -> list[tuple[str, float]]:
         """Gets relevant context.
 
         Args:
-            query: The AI agent user input.
+            text: The AI agent user input.
+            num_search_results: The number of documents to return from the index.
 
         Returns:
             A list of documents most similar to the query text and L2 distance in float for each.
         """
-        embedding = self.llm_client.get_embedding(query)["data"][0]["embedding"]
+        embedding = self.llm_client.get_embedding(text)["data"][0]["embedding"]
         vector = np.array([embedding], dtype=np.float32)
         if self._normalize_L2:
             faiss.normalize_L2(vector)
-        scores, indices = self.index.search(vector, self.num_search_results)
+        scores, indices = self.index.search(vector, num_search_results)
         documents = [
             (self.documents[index], score) for index, score in zip(indices[0], scores[0]) if index in self.documents
         ]
@@ -231,7 +232,29 @@ class FAISS(BaseModel):
 
 
 class CoALA:
-    """Class that implements a cognitive architecture."""
+    """
+    Cognitive Architecture for Language Agent (CoALA) implementation as proposed in
+    https://arxiv.org/pdf/2309.02427.pdf.
+    This builds on the FAISS RAG implementation.
+    """
 
-    def __init__(self):
-        pass
+    def __init__(self, docs_storage: FAISS, code_storage: FAISS):
+        self.docs = docs_storage
+        self.code = code_storage
+        
+    
+    def similarity_search(self, text: str, num_search_results: int = 3) -> str:
+        "Returns the similarity search results for both the docs storage and the code storage as a tuple."
+
+        docs_result = self.docs.similarity_search(text=text, num_search_results=num_search_results)
+        code_result = self.code.similarity_search(text=text, num_search_results=num_search_results)
+        result = f"Relevant documentation, sorted by similarity of the embedding in descending order:\n{docs_result}\n\n"
+        result += f"Relevant previous answers with code, sorted by similarity of the embedding in descending order:\n{code_result}"
+        return result
+    
+    
+    def add_answer_to_code_storage(self, text: str) -> None:
+        "Gets a new text of question and correct answer for the code storage."
+
+        # TODO: When running the chat_executor with a while loop around the agent.run(), the storage is renewed every iteration for an unknown reason.
+        self.code.add_texts([text])

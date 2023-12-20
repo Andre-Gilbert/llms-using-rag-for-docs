@@ -2,14 +2,12 @@
 import ast
 import json
 import logging
-import re
-import time
 
 import requests
 
 from clients import GPTClient
 from helpers import extract
-from rag import FAISS
+from rag import FAISS, CoALA
 from settings import settings
 from utils import num_tokens_from_messages
 
@@ -27,13 +25,15 @@ class AIAgent:
     def __init__(
         self,
         llm_client: GPTClient,
-        tools: dict = dict(),
+        tools: dict or None = None,
         system_prompt: str = settings.STANDARD_SYSTEM_INSTRUCTION,
-        rag: FAISS = None,
+        rag: FAISS or CoALA = None,
+        rag_num_search_results: int or None = 3,
     ):
         self.llm_client = llm_client
         self.tools = tools
         self.rag = rag
+        self.rag_num_search_results = rag_num_search_results
         self.conversation = [{"role": "system", "content": system_prompt}]
 
     def _parse_response(self, response: requests.Response) -> tuple:
@@ -65,8 +65,8 @@ class AIAgent:
         if self.rag is None:
             self.conversation.append({"role": "user", "content": user_prompt})
         else:
-            context = self.rag.similarity_search(user_prompt)
-            self.conversation.append({"role": "user", "content": f"{user_prompt} Context: \n{context}"})
+            context = self.rag.similarity_search(text=user_prompt, num_search_results=self.rag_num_search_results)
+            self.conversation.append({"role": "user", "content": f"{user_prompt} \nContext: \n{context}"})
         print(self.conversation)
         # Make sure the conversation does not exceed the token limit as we iterate to get a final answer.
         iterations = 0
@@ -99,6 +99,12 @@ class AIAgent:
                         "Observation": f"Your response format was correct but there seems to be a syntax error: {code_error}"
                     }
             if action is None and answer is not None:
+                # TODO: Remove this and embed it in the test framework in case the generated function's output is correct.
+                if isinstance(self.rag, CoALA):
+                    # Push result into the long-term memory (i.e. the FAISS code storage)
+                    logging.info("Assuming that the answer was correct, I'll add that to the long-term storage.")
+                    self.rag.add_answer_to_code_storage(f"Question: \n{user_prompt}\nFinal Answer: \n{answer}")
+                    print("Documents: ", self.rag.code.documents)
                 return answer
             # logging.debug("Final observation: ", observation)
             self.conversation.append({"role": "assistant", "content": str(observation)})
