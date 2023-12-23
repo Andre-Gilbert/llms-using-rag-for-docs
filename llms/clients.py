@@ -10,7 +10,7 @@ from tenacity import (
     wait_exponential,
 )
 
-from settings import settings
+from llms.settings import settings
 
 
 class LLMClient(BaseModel):

@@ -1,16 +1,16 @@
 """Tools used for evaluating AI agents."""
-from typing import Generator
+from typing import Any, Generator
 
 from pydantic import BaseModel
 from tqdm import tqdm
 from tqdm.contrib.itertools import product
 
-from agent import AIAgent
-from rag import FAISS, CoALA, DistanceMetric
+from llms.agent import AIAgent
+from llms.rag import DistanceMetric
 
 
 class RAG(BaseModel):
-    retrievers: list[FAISS | CoALA | None]
+    retrievers: list[Any]
     distance_metrics: list[DistanceMetric]
     normalize_L2: list[bool]
     num_search_results: list[int]

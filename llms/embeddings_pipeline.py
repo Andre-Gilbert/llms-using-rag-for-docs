@@ -3,8 +3,8 @@ import os
 import faiss
 import numpy as np
 
-from clients import OpenAIClient
-from settings import settings
+from llms.clients import OpenAIClient
+from llms.settings import settings
 
 client = OpenAIClient(service_key=settings.SERVICE_KEY, llm_config=settings.LLM_CONFIG)
 folder_paths = [

@@ -1,9 +1,7 @@
-from agent import AIAgent
-from clients import GPTClient
-from rag import FAISS
-from rag import CoALA
-from settings import settings
-
+from llms.agent import AIAgent
+from llms.clients import GPTClient
+from llms.rag import FAISS, CoALA
+from llms.settings import settings
 
 client = GPTClient(
     client_id=settings.CLIENT_ID,
@@ -16,7 +14,7 @@ client = GPTClient(
 )
 
 rag = FAISS.create_index_from_texts(
-    texts=["print('Hello Wourld')", "None", 'Irrelevant content'],
+    texts=["print('Hello Wourld')", "None", "Irrelevant content"],
     llm_client=client,
 )
 code_storage = FAISS.create_index_from_texts(

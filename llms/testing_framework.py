@@ -1,8 +1,9 @@
 import pandas as pd
-from test_cases import TEST_CASES
-from agent import AIAgent
-from clients import GPTClient
-from settings import settings
+
+from llms.agent import AIAgent
+from llms.clients import GPTClient
+from llms.settings import settings
+from llms.test_cases import TEST_CASES
 
 client = GPTClient(
     client_id=settings.CLIENT_ID,
@@ -17,26 +18,26 @@ agent = AIAgent(client)
 
 for test_case in TEST_CASES[0]:
     # get response function from agent
-    final_answer = agent.run(test_case['user_prompt'])
+    final_answer = agent.run(test_case["user_prompt"])
     namespace_agent = {}
     exec(final_answer, namespace_agent)
-    response_function = namespace_agent['response_function']
+    response_function = namespace_agent["response_function"]
 
     # get desired result and save it in a variable called data
-    data_string = test_case['data']
+    data_string = test_case["data"]
     local_vars = {}
     exec(data_string, globals(), local_vars)
     if len(local_vars) == 1:
-        data = local_vars.get('data', None)
-    else: # the maximum input of variables we have in the test cases is 2
-        data_1 = local_vars.get('data_1', None)
-        data_2 = local_vars.get('data_2', None)
+        data = local_vars.get("data", None)
+    else:  # the maximum input of variables we have in the test cases is 2
+        data_1 = local_vars.get("data_1", None)
+        data_2 = local_vars.get("data_2", None)
 
     # retrieve the correct function
-    correct_function_string = test_case['correct_function']
+    correct_function_string = test_case["correct_function"]
     namespace_correct = {}
     exec(correct_function_string, namespace_correct)
-    correct_function = namespace_correct['correct_function']
+    correct_function = namespace_correct["correct_function"]
 
     # execute the correct function with the data as parameter and save it as desired result
     if len(local_vars) == 1:

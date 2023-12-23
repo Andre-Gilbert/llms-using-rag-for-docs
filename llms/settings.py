@@ -10,12 +10,6 @@ class Settings(BaseSettings):
     AUTH_URL: str
     API_BASE: str
 
-    LLM_CONFIG: dict = {
-        "deployment_id": "gpt-4-32k",
-        "max_response_tokens": 3000,
-        "temperature": 0.1,
-    }
-
     AGENT_MAX_ITERATIONS: int = 10
     AGENT_TOKEN_LIMIT: int = 32768
     AGENT_MAX_RESPONSE_TOKENS: int = 1000
