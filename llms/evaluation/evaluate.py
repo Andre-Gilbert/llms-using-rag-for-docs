@@ -5,13 +5,10 @@ from pydantic import BaseModel
 from tqdm import tqdm
 from tqdm.contrib.itertools import product
 
-from llms.agent import AIAgent
-from llms.rag import DistanceMetric
-
 
 class RAG(BaseModel):
     retrievers: list[Any]
-    distance_metrics: list[DistanceMetric]
+    distance_metrics: list
     normalize_L2: list[bool]
     num_search_results: list[int]
     texts: list[str]
@@ -20,7 +17,7 @@ class RAG(BaseModel):
 
 
 class ConfigGrid(BaseModel):
-    agents: list[AIAgent]
+    agents: list
     rag: RAG
 
 

@@ -10,10 +10,9 @@ from typing import Any
 
 import faiss
 import numpy as np
+from clients import GPTClient
 from pydantic import BaseModel
-
-from llms.clients import GPTClient
-from llms.utils import chunked_tokens, get_text_from_tokens
+from utils import chunked_tokens, get_text_from_tokens
 
 
 class DistanceMetric(str, Enum):

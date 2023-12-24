@@ -1,9 +1,8 @@
 import pandas as pd
-
-from llms.agent import AIAgent
-from llms.clients import GPTClient
-from llms.settings import settings
-from llms.test_cases import TEST_CASES
+from agent import AIAgent
+from clients import GPTClient
+from settings import settings
+from test_cases import TEST_CASES
 
 client = GPTClient(
     client_id=settings.CLIENT_ID,

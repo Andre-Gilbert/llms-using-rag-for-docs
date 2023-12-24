@@ -1,7 +1,7 @@
-from llms.agent import AIAgent
-from llms.clients import GPTClient
-from llms.rag import FAISS, CoALA
-from llms.settings import settings
+from agent import AIAgent
+from clients import GPTClient
+from rag import FAISS, CoALA
+from settings import settings
 
 client = GPTClient(
     client_id=settings.CLIENT_ID,

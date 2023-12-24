@@ -3,14 +3,13 @@ from datetime import datetime, timedelta, timezone
 
 import requests
 from pydantic import BaseModel
+from settings import settings
 from tenacity import (
     retry,
     retry_if_exception_type,
     stop_after_attempt,
     wait_exponential,
 )
-
-from llms.settings import settings
 
 
 class LLMClient(BaseModel):
