@@ -1,5 +1,5 @@
 """AI agent tools."""
-from rag import FAISS
+from llms.rag import FAISS
 
 
 class Tools:

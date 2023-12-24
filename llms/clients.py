@@ -3,13 +3,14 @@ from datetime import datetime, timedelta, timezone
 
 import requests
 from pydantic import BaseModel
-from settings import settings
 from tenacity import (
     retry,
     retry_if_exception_type,
     stop_after_attempt,
     wait_exponential,
 )
+
+from llms.settings import settings
 
 
 class LLMClient(BaseModel):
@@ -20,8 +21,8 @@ class LLMClient(BaseModel):
     auth_url: str
     api_base: str
 
-    access_token: str or None = None
-    access_token_expiry: str or None = None
+    access_token: str | None = None
+    access_token_expiry: str | None = None
     headers: dict = {
         "Content-Type": "application/json",
         "Authorization": None,
@@ -109,13 +110,17 @@ class GPTClient(LLMClient):
         llm_usage: Usage statistics for GPT.
     """
 
-    llm_deployment_id: str
-    llm_max_response_tokens: int
-    llm_temperature: float
-    llm_embedding_model: str = "text-embedding-ada-002-v2"
-    llm_usage: dict = {
+    deployment_id: str
+    max_response_tokens: int
+    temperature: float
+    embedding_model: str = "text-embedding-ada-002-v2"
+    chat_usage: dict = {
         "prompt_tokens": 0,
         "completion_tokens": 0,
+        "total_tokens": 0,
+    }
+    embeddings_usage: dict = {
+        "prompt_tokens": 0,
         "total_tokens": 0,
     }
 
@@ -131,15 +136,15 @@ class GPTClient(LLMClient):
         response = self._request_handler(
             api_url=f"{self.api_base}/api/v1/completions",
             data={
-                "deployment_id": self.llm_deployment_id,
+                "deployment_id": self.deployment_id,
                 "messages": messages,
-                "max_tokens": self.llm_max_response_tokens,
-                "temperature": self.llm_temperature,
+                "max_tokens": self.max_response_tokens,
+                "temperature": self.temperature,
             },
         )
-        self.llm_usage["prompt_tokens"] += response["usage"]["prompt_tokens"]
-        self.llm_usage["completion_tokens"] += response["usage"]["completion_tokens"]
-        self.llm_usage["total_tokens"] += response["usage"]["total_tokens"]
+        self.chat_usage["prompt_tokens"] += response["usage"]["prompt_tokens"]
+        self.chat_usage["completion_tokens"] += response["usage"]["completion_tokens"]
+        self.chat_usage["total_tokens"] += response["usage"]["total_tokens"]
         return response
 
     def get_embedding(self, text: str) -> requests.Response.json:
@@ -154,10 +159,10 @@ class GPTClient(LLMClient):
         response = self._request_handler(
             api_url=f"{self.api_base}/api/v1/embeddings",
             data={
-                "deployment_id": self.llm_embedding_model,
+                "deployment_id": self.embedding_model,
                 "input": text.replace("\n", " "),
             },
         )
-        self.llm_usage["prompt_tokens"] += response["usage"]["prompt_tokens"]
-        self.llm_usage["total_tokens"] += response["usage"]["total_tokens"]
+        self.embeddings_usage["prompt_tokens"] += response["usage"]["prompt_tokens"]
+        self.embeddings_usage["total_tokens"] += response["usage"]["total_tokens"]
         return response

@@ -4,11 +4,12 @@ import json
 import logging
 
 import requests
-from clients import GPTClient
-from helpers import extract
-from rag import FAISS, CoALA
-from settings import settings
-from utils import num_tokens_from_messages
+
+from llms.clients import GPTClient
+from llms.helpers import extract
+from llms.rag import FAISS, CoALA
+from llms.settings import settings
+from llms.utils import num_tokens_from_messages
 
 logging.basicConfig(level=logging.DEBUG, format="%(process)d - %(levelname)s - %(message)s")
 
