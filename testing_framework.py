@@ -10,9 +10,9 @@ client = GPTClient(
     client_secret=settings.CLIENT_SECRET,
     auth_url=settings.AUTH_URL,
     api_base=settings.API_BASE,
-    llm_deployment_id="gpt-4-32k",
-    llm_max_response_tokens=1000,
-    llm_temperature=0.0,
+    deployment_id="gpt-4-32k",
+    max_response_tokens=1000,
+    temperature=0.0,
 )
 agent = ReActAgent(client)
 
