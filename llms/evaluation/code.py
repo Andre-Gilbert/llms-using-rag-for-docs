@@ -1,8 +1,9 @@
 """Tools used for evaluating AI agents."""
 from enum import Enum
 from typing import Generator
+from uuid import uuid4
 
-from pydantic import BaseModel
+from pydantic import UUID4, BaseModel, Field
 from tqdm import tqdm
 from tqdm.contrib.itertools import product
 
@@ -11,6 +12,7 @@ from llms.rag.faiss import FAISS, DistanceMetric
 
 
 class CodeTestCase(BaseModel):
+    identifier: UUID4 = Field(default_factory=uuid4)
     prompt: str
     data: str
     correct_function: str
