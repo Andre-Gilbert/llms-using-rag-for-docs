@@ -13,7 +13,7 @@ import numpy as np
 from pydantic import BaseModel
 
 from llms.clients.gpt import GPTClient
-from llms.utils import chunked_tokens, get_text_from_tokens
+from llms.rag.utils import chunked_tokens, get_text_from_tokens
 
 
 class DistanceMetric(str, Enum):

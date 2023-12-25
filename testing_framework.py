@@ -1,9 +1,9 @@
 import pandas as pd
-from clients import GPTClient
-from settings import settings
-from test_cases import TEST_CASES
 
 from llms.agents.react import ReActAgent
+from llms.clients.gpt import GPTClient
+from llms.settings import settings
+from tests.pandas import TEST_CASES
 
 client = GPTClient(
     client_id=settings.CLIENT_ID,
