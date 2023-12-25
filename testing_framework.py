@@ -1,9 +1,9 @@
 import pandas as pd
 
-from llms.agent import AIAgent
-from llms.clients import GPTClient
+from llms.agents.react import ReActAgent
+from llms.clients.gpt import GPTClient
 from llms.settings import settings
-from llms.test_cases import TEST_CASES
+from tests.pandas import TEST_CASES
 
 client = GPTClient(
     client_id=settings.CLIENT_ID,
@@ -14,7 +14,7 @@ client = GPTClient(
     llm_max_response_tokens=1000,
     llm_temperature=0.0,
 )
-agent = AIAgent(client)
+agent = ReActAgent(client)
 
 for test_case in TEST_CASES[0]:
     # get response function from agent

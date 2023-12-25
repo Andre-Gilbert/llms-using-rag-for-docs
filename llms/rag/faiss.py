@@ -1,4 +1,4 @@
-"""Retrieval augmented generation implementations."""
+"""FAISS vector store implementation."""
 from __future__ import annotations
 
 import logging
@@ -12,8 +12,8 @@ import faiss
 import numpy as np
 from pydantic import BaseModel
 
-from llms.clients import GPTClient
-from llms.utils import chunked_tokens, get_text_from_tokens
+from llms.clients.gpt import GPTClient
+from llms.rag.utils import chunked_tokens, get_text_from_tokens
 
 
 class DistanceMetric(str, Enum):
@@ -229,32 +229,3 @@ class FAISS(BaseModel):
                 (document, score) for document, score in documents if cmp(score, self.similarity_search_score_threshold)
             ]
         return documents
-
-
-class CoALA:
-    """
-    Cognitive Architecture for Language Agent (CoALA) implementation as proposed in
-    https://arxiv.org/pdf/2309.02427.pdf.
-    This builds on the FAISS RAG implementation.
-    """
-
-    def __init__(self, docs_storage: FAISS, code_storage: FAISS):
-        self.docs = docs_storage
-        self.code = code_storage
-
-    def similarity_search(self, text: str, num_search_results: int = 3) -> str:
-        "Returns the similarity search results for both the docs storage and the code storage as a tuple."
-
-        docs_result = self.docs.similarity_search(text=text, num_search_results=num_search_results)
-        code_result = self.code.similarity_search(text=text, num_search_results=num_search_results)
-        result = (
-            f"Relevant documentation, sorted by similarity of the embedding in descending order:\n{docs_result}\n\n"
-        )
-        result += f"Relevant previous answers with code, sorted by similarity of the embedding in descending order:\n{code_result}"
-        return result
-
-    def add_answer_to_code_storage(self, text: str) -> None:
-        "Gets a new text of question and correct answer for the code storage."
-
-        # TODO: When running the chat_executor with a while loop around the agent.run(), the storage is renewed every iteration for an unknown reason.
-        self.code.add_texts([text])

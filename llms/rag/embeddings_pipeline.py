@@ -3,10 +3,18 @@ import os
 import faiss
 import numpy as np
 
-from llms.clients import OpenAIClient
+from llms.clients.gpt import GPTClient
 from llms.settings import settings
 
-client = OpenAIClient(service_key=settings.SERVICE_KEY, llm_config=settings.LLM_CONFIG)
+client = GPTClient(
+    client_id=settings.CLIENT_ID,
+    client_secret=settings.CLIENT_SECRET,
+    auth_url=settings.AUTH_URL,
+    api_base=settings.API_BASE,
+    deployment_id="gpt-4-32k",
+    max_response_tokens=1000,
+    temperature=0.0,
+)
 folder_paths = [
     "D:/Uni/5_Semester/NLP/llms-using-rag-for-docs/pandas_doku/textfiles/textfiles1",
     "D:/Uni/5_Semester/NLP/llms-using-rag-for-docs/pandas_doku/textfiles/textfiles2",

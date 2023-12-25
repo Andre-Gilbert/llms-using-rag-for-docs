@@ -1,20 +1,20 @@
-"""AI agent implementation."""
+"""ReAct agent implementation."""
 import ast
 import json
 import logging
 
 import requests
 
-from llms.clients import GPTClient
-from llms.helpers import extract
-from llms.rag import FAISS, CoALA
+from llms.agents.utils import extract, num_tokens_from_messages
+from llms.clients.gpt import GPTClient
+from llms.rag.coala import CoALA
+from llms.rag.faiss import FAISS
 from llms.settings import settings
-from llms.utils import num_tokens_from_messages
 
 logging.basicConfig(level=logging.DEBUG, format="%(process)d - %(levelname)s - %(message)s")
 
 
-class AIAgent:
+class ReActAgent:
     """
     AI agent built on top of the ReAct methodology as proposed in https://arxiv.org/abs/2210.03629.
     This handles the conversation between the user and the LLM by providing and interface

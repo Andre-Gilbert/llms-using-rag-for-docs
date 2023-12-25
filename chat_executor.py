@@ -1,6 +1,7 @@
-from llms.agent import AIAgent
-from llms.clients import GPTClient
-from llms.rag import FAISS, CoALA
+from llms.agents.react import ReActAgent
+from llms.clients.gpt import GPTClient
+from llms.rag.coala import CoALA
+from llms.rag.faiss import FAISS
 from llms.settings import settings
 
 client = GPTClient(
@@ -8,9 +9,9 @@ client = GPTClient(
     client_secret=settings.CLIENT_SECRET,
     auth_url=settings.AUTH_URL,
     api_base=settings.API_BASE,
-    llm_deployment_id="gpt-4-32k",
-    llm_max_response_tokens=1000,
-    llm_temperature=0.0,
+    deployment_id="gpt-4-32k",
+    max_response_tokens=1000,
+    temperature=0.0,
 )
 
 rag = FAISS.create_index_from_texts(
@@ -23,7 +24,7 @@ code_storage = FAISS.create_index_from_texts(
 )
 coala_rag = CoALA(docs_storage=rag, code_storage=code_storage)
 
-agent = AIAgent(client, rag=coala_rag)
+agent = ReActAgent(client, rag=coala_rag)
 
 # Get the user's order
 while True:
