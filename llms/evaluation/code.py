@@ -6,11 +6,11 @@ from pydantic import BaseModel
 from tqdm import tqdm
 from tqdm.contrib.itertools import product
 
-from llms.clients import GPTClient
-from llms.rag import FAISS, DistanceMetric
+from llms.clients.gpt import GPTClient
+from llms.rag.faiss import FAISS, DistanceMetric
 
 
-class TestCase(BaseModel):
+class CodeTestCase(BaseModel):
     prompt: str
     data: str
     correct_function: str
@@ -67,7 +67,7 @@ def _get_config_from_grid(config_grid: ConfigGrid) -> Generator[Config, None, No
         )
 
 
-def evaluate_code_generation(config_grid: ConfigGrid, test_cases: list[TestCase]):
+def evaluate_code_generation(config_grid: ConfigGrid, test_cases: list[CodeTestCase]):
     texts = config_grid.rag.texts
     for config in _get_config_from_grid(config_grid):
         if config.retriever == RAGRetriever.RAG:
