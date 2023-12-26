@@ -26,6 +26,7 @@ class RAG(BaseModel):
     retrievers: list[RAGRetriever]
     distance_metrics: list[DistanceMetric]
     num_search_results: list[int]
+    similarity_search_score_thresholds: list[float]
     texts: list[str]
     text_chunk_size: list[int]
 
@@ -40,29 +41,33 @@ class Config(BaseModel):
     retriever: RAGRetriever
     distance_metric: DistanceMetric
     num_search_result: int
+    similarity_search_score_threshold: float
     text_chunk_size: int
 
 
 def _get_config_from_grid(config_grid: ConfigGrid) -> Generator[Config, None, None]:
     """Gets a config from the config grid using the cartesian product."""
     for (
-        agent,
+        llm,
         retriever,
         distance_metric,
         num_search_result,
+        similarity_search_score_threshold,
         text_chunk_size,
     ) in product(
-        config_grid.agents,
+        config_grid.llms,
         config_grid.rag.retrievers,
         config_grid.rag.distance_metrics,
         config_grid.rag.num_search_results,
+        config_grid.rag.similarity_search_score_thresholds,
         config_grid.rag.text_chunk_size,
     ):
         yield Config(
-            agent=agent,
+            llm=llm,
             retriever=retriever,
             distance_metric=distance_metric,
             num_search_result=num_search_result,
+            similarity_search_score_threshold=similarity_search_score_threshold,
             text_chunk_size=text_chunk_size,
         )
 
