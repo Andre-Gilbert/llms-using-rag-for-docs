@@ -33,9 +33,9 @@ TEST_CASES = [
     },
     {
         "id": 5,
-        "user_prompt": """data1 = [[1, 8, 2], [1, 2, 5], [2, 5, 8], [2, 6, 9]], data2 = pd.DataFrame(data, columns=["a", "b", "c"] , index=["tiger", "leopard", "cheetah", "lion"]) Given Data is my Data and df is my Dataframe. Both are part of your argument. Please group that dataframe by "a" and compute the product as well """, # prompt that we send the agent
+        "user_prompt": """data1 = [[1, 8, 2], [1, 2, 5], [2, 5, 8], [2, 6, 9]], data2 = pd.DataFrame(data, columns=["a", "b", "c"] , index=["tiger", "leopard", "cheetah", "lion"]) Given Data is my Data and df is my Dataframe. Both are part of your argument. Please group that dataframe by "a" and compute the product aswell.""", # prompt that we send the agent
         "data": """data_1 = [[1, 8, 2], [1, 2, 5], [2, 5, 8], [2, 6, 9]]\ndata_2 = pd.DataFrame(data_1, columns=["a", "b", "c"] , index=["tiger", "leopard", "cheetah", "lion"])""", # the data needed should always be named 'data'
-        "correct_function": """import pandas as pd\ndef correct_function(data_1, data_2):\n    data = data_2.groupby('a').prod()\n    return data""", # this is a response function that takes the parameter 'data' and does the correct thing with it
+        "correct_function": """import pandas as pd\ndef correct_function(data_1, data_2):\n    result = data_2.groupby('a').prod()\n    return result""", # this is a response function that takes the parameter 'data' and does the correct thing with it
     },
     {
         "id": 6,
@@ -101,7 +101,7 @@ TEST_CASES = [
          "id": 16,
          "user_prompt": """This is your Index:pd.MultiIndex.from_tuples([('bird', 'falcon'),('bird', 'parrot'),('mammal', 'lion'),('mammal', 'monkey')],names=['class', 'name']) These are your columns: pd.MultiIndex.from_tuples([('speed', 'max'),('species', 'type')]) And this is your input: pd.DataFrame([(389.0, 'fly'),(24.0, 'fly'),(80.5, 'run'),(np.nan, 'jump')],index=index,columns=columns).Index, Columns and Input are your arguments. Please create a dataframe and rename the index to classes and names""", # prompt that we send the agent
          "data": """import numpy as np\ndata_1 = pd.MultiIndex.from_tuples([('bird', 'falcon'),('bird', 'parrot'),('mammal', 'lion'),('mammal', 'monkey')],names=['class', 'name'])\ndata_2 = pd.MultiIndex.from_tuples([('speed', 'max'),('species', 'type')])\ndata_3 = pd.DataFrame([(389.0, 'fly'),(24.0, 'fly'),(80.5, 'run'),(np.nan, 'jump')],index=data_1,columns=data_2)""", # the data needed should always be named 'data'
-         "correct_function": """import pandas as pd\ndef correct_function(data_1, data_2, data_3):\n    data = data_3.reset_index(names=['classes', 'names'])\n    return data""", # this is a response function that takes the parameter 'data' and does the correct thing with it
+         "correct_function": """import pandas as pd\ndef correct_function(data_1, data_2, data_3):\n    result = data_3.reset_index(names=['classes', 'names'])\n    return result""", # this is a response function that takes the parameter 'data' and does the correct thing with it
     },
     {
         "id": 17,
