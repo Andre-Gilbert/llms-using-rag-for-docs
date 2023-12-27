@@ -31,7 +31,6 @@ class FAISS(BaseModel):
         llm_client: The LLM client to use when generating queries.
         index: The FAISS index.
         documents: Mapping of indices to document.
-        num_search_results: Number of documents to return per similarity search.
         similarity_search_score_threshold: The similarity score for a document to be included in the search results.
         distance_metric: The distance metric for calculating distances between vectors.
         text_chunk_size: Divides the input text into chunks of the specified size.
@@ -120,7 +119,6 @@ class FAISS(BaseModel):
             texts: A list of texts used for creating the FAISS index.
             llm_client: The LLM client to use when generating queries.
             **kwargs:
-                num_search_results: Number of documents to return per similarity search.
                 similarity_search_score_threshold: The similarity score for a document
                     to be included in the search results.
                 distance_metric: The distance metric for calculating distances between vectors.
