@@ -99,6 +99,7 @@ class FAISS(BaseModel):
         """Adds texts to the FAISS index."""
         documents, embeddings = self._embed_texts(texts)
         vectors = np.array(embeddings, dtype=np.float32)
+        print(vectors.shape, vectors, documents, embeddings)
         if self.distance_metric == DistanceMetric.EUCLIDEAN_DISTANCE:
             self.index = faiss.IndexFlatL2(vectors.shape[1])
         else:

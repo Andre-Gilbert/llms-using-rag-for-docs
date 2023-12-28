@@ -7,7 +7,9 @@ from pydantic import BaseModel, Field
 from tqdm import tqdm
 from tqdm.contrib.itertools import product
 
+from llms.agents.react import ReActAgent
 from llms.clients.gpt import GPTClient
+from llms.rag.coala import CoALA
 from llms.rag.faiss import FAISS, DistanceMetric
 
 _ROOT_DIR = Path(__file__).resolve().parent.parent.parent
@@ -43,8 +45,8 @@ class RAG(BaseModel):
     num_search_results: list[int]
     similarity_search_score_thresholds: list[float]
     texts: list[str]
-    text_chunk_size: list[int]
-    use_weighted_average_of_text_chunks: list[bool] = Field(default=[True, False], frozen=True)
+    text_chunk_sizes: list[int]
+    use_weighted_average_of_text_chunks: list[bool] = Field(default=[False, True], frozen=True)
 
 
 class ConfigGrid(BaseModel):
@@ -78,8 +80,8 @@ def _get_config(config_grid: ConfigGrid) -> Generator[Config, None, None]:
         config_grid.rag.distance_metrics,
         config_grid.rag.num_search_results,
         config_grid.rag.similarity_search_score_thresholds,
-        config_grid.rag.text_chunk_size,
-        config_grid.use_weighted_average_of_text_chunks,
+        config_grid.rag.text_chunk_sizes,
+        config_grid.rag.use_weighted_average_of_text_chunks,
     ):
         yield Config(
             llm=llm,
@@ -92,29 +94,70 @@ def _get_config(config_grid: ConfigGrid) -> Generator[Config, None, None]:
         )
 
 
+def _get_rag(folder_path, prefix, config, texts) -> FAISS:
+    index_filename = (
+        f"{prefix}_"
+        + "embeddings_"
+        + f"{config.distance_metric}_"
+        + f"{config.similarity_search_score_threshold}_"
+        + f"{config.text_chunk_size}_"
+        + f"{config.use_weighted_average_of_text_chunks}"
+    )
+    try:
+        rag = FAISS.load_local(folder_path, index_filename, config.llm)
+    except RuntimeError:
+        normalize_L2 = config.distance_metric == DistanceMetric.COSINE_SIMILARITY
+        rag = FAISS.create_index_from_texts(
+            texts,
+            config.llm,
+            similarity_search_score_threshold=config.similarity_search_score_threshold,
+            distance_metric=config.distance_metric,
+            text_chunk_size=config.text_chunk_size,
+            use_weighted_average_of_text_chunks=config.use_weighted_average_of_text_chunks,
+            _normalize_L2=normalize_L2,
+        )
+        rag.save_local(folder_path, index_filename)
+    return rag
+
+
+def _get_coala(config, texts) -> CoALA:
+    docs_vector_store = _get_rag(_ROOT_DIR / "embeddings" / "semantic", "semantic", config, texts)
+    index_filename = index_filename = (
+        "episodic_"
+        + "embeddings_"
+        + f"{config.distance_metric}_"
+        + f"{config.similarity_search_score_threshold}_"
+        + f"{config.text_chunk_size}_"
+        + f"{config.use_weighted_average_of_text_chunks}"
+    )
+    try:
+        code_vector_store = FAISS.load_local(_ROOT_DIR / "embeddings" / "episodic", index_filename, config.llm)
+    except RuntimeError:
+        normalize_L2 = config.distance_metric == DistanceMetric.EUCLIDEAN_DISTANCE
+        code_vector_store = FAISS(
+            llm_client=config.llm,
+            similarity_search_score_threshold=config.similarity_search_score_threshold,
+            distance_metric=config.distance_metric,
+            text_chunk_size=config.text_chunk_size,
+            use_weighted_average_of_text_chunks=config.use_weighted_average_of_text_chunks,
+            _normalize_L2=normalize_L2,
+        )
+    return CoALA(docs_vector_store, code_vector_store)
+
+
+def _run_tests(agent, test_cases: list[CodeTestCase]):
+    for test_case in tqdm(test_cases):
+        pass
+    return "result"
+
+
 def evaluate_code_generation(config_grid: ConfigGrid, test_cases: list[CodeTestCase]):
     num_tests = len(test_cases)
     texts = config_grid.rag.texts
     for config in _get_config(config_grid):
-        folder_path = Path(_ROOT_DIR / "indices")
-        normalize_L2 = config.distance_metric == DistanceMetric.EUCLIDEAN_DISTANCE
         if config.retriever == RAGRetriever.RAG:
-            try:
-                index_filename = ""
-                rag = FAISS.load_local(folder_path, index_filename, config.llm)
-            except FileNotFoundError:
-                rag = FAISS.create_index_from_texts(
-                    texts,
-                    config.llm,
-                    similarity_search_score_threshold=config.similarity_search_score_threshold,
-                    distance_metric=config.distance_metric,
-                    text_chunk_size=config.text_chunk_size,
-                    use_weighted_average_of_text_chunks=config.use_weighted_average_of_text_chunks,
-                    _normalize_L2=normalize_L2,
-                )
-                index_filename = ""
-                rag.save_local(folder_path, index_filename)
+            rag = _get_rag(_ROOT_DIR / "embeddings" / "semantic", "semantic", config, texts)
         elif config.retriever == RAGRetriever.CoALA:
-            pass
-        for test_case in tqdm(test_cases):
-            answer = config.agent.run(test_case.prompt)
+            rag = _get_coala(config, texts)
+        agent = ReActAgent(llm_client=config.llm, tools=None, rag=rag, rag_num_search_results=config.num_search_result)
+        result = _run_tests(agent, test_cases)
