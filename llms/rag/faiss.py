@@ -68,13 +68,14 @@ class FAISS(BaseModel):
             chunk_embeddings.append(chunk_embedding)
             chunk_lens.append(len(chunk))
             chunk_texts.append(chunk_text)
-        # if self.use_weighted_average_of_text_chunks:
-        #     chunk_embeddings = np.average(chunk_embeddings, axis=0, weights=chunk_lens)
-        #     chunk_embeddings = chunk_embeddings / np.linalg.norm(chunk_embeddings)  # normalizes length to 1
-        #     chunk_embeddings = chunk_embeddings.tolist()
+        if self.use_weighted_average_of_text_chunks:
+            chunk_embeddings = np.average(chunk_embeddings, axis=0, weights=chunk_lens)
+            chunk_embeddings = chunk_embeddings / np.linalg.norm(chunk_embeddings)  # normalizes length to 1
+            chunk_embeddings = chunk_embeddings.tolist()
+        print(len(chunk_embeddings), chunk_embeddings)
         return (
             [text] if self.use_weighted_average_of_text_chunks else chunk_texts,
-            chunk_embeddings,
+            [chunk_embeddings] if self.use_weighted_average_of_text_chunks else chunk_embeddings,
         )
 
     def _embed_texts(self, texts: list[str]) -> tuple:
@@ -99,6 +100,7 @@ class FAISS(BaseModel):
         """Adds texts to the FAISS index."""
         documents, embeddings = self._embed_texts(texts)
         vectors = np.array(embeddings, dtype=np.float32)
+        print(len(documents), len(embeddings), vectors.shape, vectors)
         if self.distance_metric == DistanceMetric.EUCLIDEAN_DISTANCE:
             self.index = faiss.IndexFlatL2(vectors.shape[1])
         else:
