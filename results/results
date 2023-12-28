@@ -1,0 +1,143 @@
+result,agent_result,desired_result,agent_error
+false for test case 0,"  col1_a col1_b col2_a col2_b col2_c
+0      1      0      0      1      0
+1      0      1      1      0      0
+2      1      0      0      0      1","  col1 col2
+0    a    b
+1    b    a
+2    a    c",
+correct for test case 1,"       Name  Age  Location
+100   Alice   25   Seattle
+200     Bob   30  New York
+300  Aritra   35      Kona","       Name  Age  Location
+100   Alice   25   Seattle
+200     Bob   30  New York
+300  Aritra   35      Kona",
+correct for test case 2,"      animal
+0  alligator
+1        bee
+2     falcon
+3       lion
+4     monkey
+5     parrot","      animal
+0  alligator
+1        bee
+2     falcon
+3       lion
+4     monkey
+5     parrot",
+correct for test case 3,2017-03-01 09:10:11,2017-03-01 09:10:11,
+correct for test case 4,"a     1.0
+b     3.0
+c     6.0
+d    10.0
+dtype: float64","a     1.0
+b     3.0
+c     6.0
+d    10.0
+dtype: float64",
+false for test case 5,,"    b   c
+a        
+1  16  10
+2  30  72",response_function() takes 1 positional argument but 2 were given
+correct for test case 6,"a    1.0
+b    inf
+c    inf
+d    0.0
+e    NaN
+dtype: float64","a    1.0
+b    inf
+c    inf
+d    0.0
+e    NaN
+dtype: float64",
+false for test case 7,"  level_1 level_2
+        d       f
+        b       b
+0       4     6.0
+1       8    10.0
+2      12     NaN","  level_1     level_2      
+        c   d       e     f
+0       3   4     5.0   6.0
+1       7   8     9.0  10.0
+2      11  12     NaN   NaN",
+correct for test case 8,"0     NaN
+5     NaN
+1     1.0
+2     3.0
+4     5.0
+3    10.0
+dtype: float64","0     NaN
+5     NaN
+1     1.0
+2     3.0
+4     5.0
+3    10.0
+dtype: float64",
+false for test case 9,,23.5,"Can only merge Series or DataFrame objects, a <class 'dict'> was passed"
+false for test case 10,"            Timestamp  User      Page  Session  Session_ID
+0 2023-01-01 12:01:00     1      Home     True           1
+1 2023-01-01 12:10:00     1   Product    False           1
+2 2023-01-01 12:25:00     1  Checkout    False           1
+3 2023-01-01 13:05:00     2      Home     True           2
+4 2023-01-01 13:25:00     2   Product    False           2
+5 2023-01-01 14:00:00     2      Home     True           3
+6 2023-01-02 08:30:00     3      Home     True           4
+7 2023-01-02 09:00:00     3   Product    False           4
+8 2023-01-02 09:35:00     3  Checkout     True           5","            Timestamp  User      Page  Session_ID
+0 2023-01-01 12:01:00     1      Home           0
+1 2023-01-01 12:10:00     1   Product           0
+2 2023-01-01 12:25:00     1  Checkout           0
+3 2023-01-01 13:05:00     2      Home           0
+4 2023-01-01 13:25:00     2   Product           0
+5 2023-01-01 14:00:00     2      Home           1
+6 2023-01-02 08:30:00     3      Home           1
+7 2023-01-02 09:00:00     3   Product           1
+8 2023-01-02 09:35:00     3  Checkout           2",
+correct for test case 11,"0    NaN
+1    NaN
+2    2.0
+3    2.0
+4    3.0
+5    1.5
+dtype: float64","0    NaN
+1    NaN
+2    2.0
+3    2.0
+4    3.0
+5    1.5
+dtype: float64",
+false for test case 12,"{('x', 1): {('a', 'b'): 1, ('a', 'c'): 2}, ('y', 2): {('a', 'b'): 3, ('a', 'c'): 4}}","{'index': [('a', 'b'), ('a', 'c')], 'columns': [('x', 1), ('y', 2)], 'data': [[1, 3], [2, 4]], 'index_names': ['n1', 'n2'], 'column_names': ['z1', 'z2']}",
+false for test case 13,"     A   B
+A         
+g 0  g  g0
+  1  g  g1
+  2  g  g2
+h 4  h  h0","   A   B
+0  g  g0
+1  g  g1
+2  g  g2
+4  h  h0",
+false for test case 14,"0          foo_str
+1         _strhead
+2    text_str_text
+3          bar_str
+4        no_suffix
+dtype: object","0              foo
+1         _strhead
+2    text_str_text
+3              bar
+4        no_suffix
+dtype: object",
+false for test case 15,"  key   A   B
+0  K0  A0  B0
+1  K0  A4  B0
+2  K1  A1  B1
+3  K1  A2  B1
+4  K1  A5  B1","  key   A    B
+0  K0  A0   B0
+1  K1  A1   B1
+2  K1  A2   B1
+3  K3  A3  NaN
+4  K0  A4   B0
+5  K1  A5   B1",

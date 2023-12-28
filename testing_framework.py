@@ -3,6 +3,7 @@ from tests.pandas import TEST_CASES
 from llms.agents.react import ReActAgent
 from llms.clients.gpt import GPTClient
 from llms.settings import settings
+import csv
 
 client = GPTClient(
     client_id=settings.CLIENT_ID,
@@ -91,3 +92,21 @@ for test_case in TEST_CASES:
         else:
             print(f"Agent output was not correct for test case {test_case['id']}.")
             test_results.append({'result': f"false for test case {test_case['id']}", 'agent_result': agent_result, 'desired_result': desired_result, 'agent_error': agent_error})
+
+# write test results to csv file
+destination_path = './results/results'
+
+with open(destination_path, 'w', newline='') as csv_file:
+    # Extract field names from the first dictionary
+    fieldnames = test_results[0].keys()
+
+    # Create a CSV writer object
+    csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+
+    # Write the header (field names)
+    csv_writer.writeheader()
+
+    # Write the data from the list of dictionaries
+    csv_writer.writerows(test_results)
+
+print(f'Test is finished. Results have been written to {destination_path}.')
