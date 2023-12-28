@@ -101,7 +101,9 @@ def _get_rag(folder_path, prefix, config, texts) -> FAISS:
         + f"{config.distance_metric}_"
         + f"{config.similarity_search_score_threshold}_"
         + f"{config.text_chunk_size}_"
-        + f"{config.use_weighted_average_of_text_chunks}"
+        + "use_weighted_average_of_text_chunks"
+        if config.use_weighted_average_of_text_chunks
+        else ""
     )
     try:
         rag = FAISS.load_local(folder_path, index_filename, config.llm)
@@ -128,12 +130,14 @@ def _get_coala(config, texts) -> CoALA:
         + f"{config.distance_metric}_"
         + f"{config.similarity_search_score_threshold}_"
         + f"{config.text_chunk_size}_"
-        + f"{config.use_weighted_average_of_text_chunks}"
+        + "use_weighted_average_of_text_chunks"
+        if config.use_weighted_average_of_text_chunks
+        else ""
     )
     try:
         code_vector_store = FAISS.load_local(_ROOT_DIR / "embeddings" / "episodic", index_filename, config.llm)
     except RuntimeError:
-        normalize_L2 = config.distance_metric == DistanceMetric.EUCLIDEAN_DISTANCE
+        normalize_L2 = config.distance_metric == DistanceMetric.COSINE_SIMILARITY
         code_vector_store = FAISS(
             llm_client=config.llm,
             similarity_search_score_threshold=config.similarity_search_score_threshold,
