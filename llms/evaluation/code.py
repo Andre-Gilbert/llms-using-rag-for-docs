@@ -19,11 +19,12 @@ class CodeTestCase(BaseModel):
     """Class that represents a code generation test case.
 
     Attributes:
+        id: ID of the test case.
         prompt: The user question.
         data: The data provided as a function argument.
         correct_function: The correct Python function.
     """
-
+    id: int
     prompt: str
     data: str
     correct_function: str
