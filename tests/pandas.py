@@ -42,7 +42,7 @@ TEST_CASES = [
         id = 6,
         prompt = """a = pd.Series([1, 1, 1, np.nan], index=['a', 'b', 'c', 'd']) b = pd.Series([1, np.nan, 1, np.nan], index=['a', 'b', 'd', 'e'])  Please take a and b as your arguments and divide a by b. Please also use the fill value 0.""",
         data = """import numpy as np\ndata_1 = pd.Series([1, 1, 1, np.nan], index=['a', 'b', 'c', 'd'])\ndata_2 = pd.Series([1, np.nan, 1, np.nan], index=['a', 'b', 'd', 'e'])""",
-        correct_function = """import pandas as pd\nimport numpy as np\ndef correct_function(data_1, data_2):\n    result = data_1.div(data_2, fill_value=0)\n    return result""",
+        correct_function = """import pandas as pd\nimport numpy as np\ndef correct_function(*args):\n    data_1, data_2 = args[1:]\n    result = data_1.div(data_2, fill_value=0)\n    return result""",
     ),
     CodeTestCase(
         id = 7,
@@ -54,7 +54,7 @@ TEST_CASES = [
         id = 8,
         prompt = """Please take following Series and order it ascending while making sure NAN values are at the beginning s = pd.Series([np.nan, 1, 3, 10, 5, np.nan]) """,
         data = """import numpy as np\ndata = pd.Series([np.nan, 1, 3, 10, 5, np.nan])""",
-        correct_function = """import pandas as pd\ndef correct_function(data):\n    result = data.sort_values(na_position='first')\n    return result""",
+        correct_function = """import pandas as pd\ndef correct_function(*args):\n    temp = args[1:]\n    data = pd.Series(temp)\n    result = data.sort_values(na_position='first')\n    return result""",
     ),
     CodeTestCase(
         id = 9,
@@ -102,7 +102,7 @@ TEST_CASES = [
         id = 16,
         prompt = """This is your Index:pd.MultiIndex.from_tuples([('bird', 'falcon'),('bird', 'parrot'),('mammal', 'lion'),('mammal', 'monkey')],names=['class', 'name']) These are your columns: pd.MultiIndex.from_tuples([('speed', 'max'),('species', 'type')]) And this is your input: pd.DataFrame([(389.0, 'fly'),(24.0, 'fly'),(80.5, 'run'),(np.nan, 'jump')],index=index,columns=columns).Index, Columns and Input are your arguments. Please create a dataframe and rename the index to classes and names""",
         data = """import numpy as np\ndata_1 = pd.MultiIndex.from_tuples([('bird', 'falcon'),('bird', 'parrot'),('mammal', 'lion'),('mammal', 'monkey')],names=['class', 'name'])\ndata_2 = pd.MultiIndex.from_tuples([('speed', 'max'),('species', 'type')])\ndata_3 = pd.DataFrame([(389.0, 'fly'),(24.0, 'fly'),(80.5, 'run'),(np.nan, 'jump')],index=data_1,columns=data_2)""",
-        correct_function = """import pandas as pd\ndef correct_function(data_1, data_2, data_3):\n    result = data_3.reset_index(names=['classes', 'names'])\n    return result""",
+        correct_function = """import pandas as pd\ndef correct_function(*args):\n    data_1, data_2, data_3 = args[1:]\n    result = data_3.reset_index(names=['classes', 'names'])\n    return result""",
     ),
     CodeTestCase(
         id = 17,
@@ -118,8 +118,8 @@ TEST_CASES = [
     ),
     CodeTestCase(
         id = 19,
-        prompt = """df = pd.DataFrame({"a": [1, 1, 2, 1], "b": [np.nan, 2.0, 3.0, 4.0]}, dtype="Int64") This is my Dataframe. Please convert the Int64 to Int64[pyarrow] and use df.sum() at the end.""",
-        data = """import numpy as np\ndata = pd.DataFrame({"a": [1, 1, 2, 1], "b": [np.nan, 2.0, 3.0, 4.0]}, dtype="Int64")""",
+        prompt = """df = pd.DataFrame({"a": [1, 1, 2, 1], "b": [None, 2.0, 3.0, 4.0]}, dtype="Int64") This is my Dataframe. Please convert the Int64 to Int64[pyarrow] and use df.sum() at the end.""",
+        data = """data = pd.DataFrame({"a": [1, 1, 2, 1], "b": [None, 2.0, 3.0, 4.0]}, dtype="Int64")""",
         correct_function = """\nimport pandas as pd\nimport pyarrow as pa\ndef correct_function(data):\n    data = data.astype("int64[pyarrow]")\n    data.sum()\n    return data""",
     )
 ]
