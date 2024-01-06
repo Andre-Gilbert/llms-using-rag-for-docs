@@ -72,7 +72,7 @@ class FAISS(BaseModel):
             chunk_embeddings = np.average(chunk_embeddings, axis=0, weights=chunk_lens)
             chunk_embeddings = chunk_embeddings / np.linalg.norm(chunk_embeddings)  # normalizes length to 1
             chunk_embeddings = chunk_embeddings.tolist()
-        print(len(chunk_embeddings), chunk_embeddings)
+        
         return (
             [text] if self.use_weighted_average_of_text_chunks else chunk_texts,
             [chunk_embeddings] if self.use_weighted_average_of_text_chunks else chunk_embeddings,

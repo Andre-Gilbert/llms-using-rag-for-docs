@@ -24,7 +24,12 @@ code_storage = FAISS.create_index_from_texts(
 )
 coala_rag = CoALA(docs_storage=rag, code_storage=code_storage)
 
-agent = ReActAgent(client, rag=coala_rag)
+tools = {
+    "RAG": rag,
+    "CoALA": coala_rag
+}
+
+agent = ReActAgent(client, rag=None, tools=tools) # Either use RAG by giving tools or assign a specific rag to the rag argument
 
 # Get the user's order
 while True:

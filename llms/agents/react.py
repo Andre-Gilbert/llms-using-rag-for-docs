@@ -25,7 +25,7 @@ class ReActAgent:
     def __init__(
         self,
         llm_client: GPTClient,
-        tools: dict or None = None,
+        tools: dict[FAISS, CoALA] or None = None,
         system_prompt: str = settings.STANDARD_SYSTEM_INSTRUCTION,
         rag: FAISS or CoALA = None,
         rag_num_search_results: int or None = 3,
@@ -34,7 +34,7 @@ class ReActAgent:
         self.tools = tools
         self.rag = rag
         self.rag_num_search_results = rag_num_search_results
-        self.conversation = [{"role": "system", "content": system_prompt}]
+        self.conversation = [{"role": "system", "content": system_prompt if self.tools is None else system_prompt + settings.TOOL_INSTRUCTION}]
 
     def _parse_response(self, response: requests.Response) -> tuple:
         try:
@@ -83,30 +83,41 @@ class ReActAgent:
             logging.debug(f"Final answer log: \n{answer}")
 
             # Now the model created a step in the chain of thought and will evaluate and potentially automatically refine it.
+            if thought is not None:
+                observation = {
+                    "Observation": "I only expressed a thought. Next up, I will make use of one of my tools or write an answer."
+                }
             if parsed and action is not None:
-                # Check if the code is valid
-                # TODO: When testing with the test cases, we might want to check the number of arguments at this point.
-
-                # Parse code and look for syntax or schema errors.
-                logging.debug("Now checking the code for syntax errors.")
-                code_validity, code_error = self._code_is_valid(action)
-                if code_validity:
-                    observation = {
-                        "Observation": "Your response format was correct and the code does not have any syntax errors."
-                    }
+                observation = {
+                    "Observation": ""
+                }
+                if "RAG" in action:
+                    observation["Observation"] += str(self.tools["RAG"].similarity_search(text=user_prompt, num_search_results=self.rag_num_search_results))
+                elif "CoALA" in action:
+                    logging.debug(f"Action contains CoALA: {'CoALA' in action}")
+                    observation["Observation"] += self.tools["CoALA"].similarity_search(text=user_prompt, num_search_results=self.rag_num_search_results)
                 else:
-                    observation = {
-                        "Observation": f"Your response format was correct but there seems to be a syntax error: {code_error}"
-                    }
+                    # Check if the code is valid
+                    # Parse code and look for syntax or schema errors.
+                    logging.debug("Now checking the code for syntax errors.")
+                    code_validity, code_error = self._code_is_valid(action)
+                    if code_validity:
+                        observation = {
+                            "Observation": "Your response format was correct and the code does not have any syntax errors."
+                        }
+                    else:
+                        observation = {
+                            "Observation": f"Your response format was correct but there seems to be a syntax error: {code_error}"
+                        }
             if action is None and answer is not None:
                 # TODO: Remove this and embed it in the test framework in case the generated function's output is correct.
                 if isinstance(self.rag, CoALA):
                     # Push result into the long-term memory (i.e. the FAISS code storage)
                     logging.info("Assuming that the answer was correct, I'll add that to the long-term storage.")
                     self.rag.add_answer_to_code_storage(f"Question: \n{user_prompt}\nFinal Answer: \n{answer}")
-                    print("Documents: ", self.rag.code.documents)
                 return answer
             # logging.debug("Final observation: ", observation)
+            print(f"\n\nThe entire conversation: \n{self.conversation}")
             self.conversation.append({"role": "assistant", "content": str(observation)})
 
     def _code_is_valid(self, code: str) -> tuple:

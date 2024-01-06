@@ -21,8 +21,8 @@ class BaseLLMClient(BaseModel):
     auth_url: str
     api_base: str
 
-    access_token: str | None = None
-    access_token_expiry: str | None = None
+    access_token: str or None = None
+    access_token_expiry: str or None = None
     headers: dict = {
         "Content-Type": "application/json",
         "Authorization": None,
