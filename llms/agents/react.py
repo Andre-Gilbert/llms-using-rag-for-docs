@@ -28,13 +28,18 @@ class ReActAgent:
         tools: dict[FAISS, CoALA] or None = None,
         system_prompt: str = settings.STANDARD_SYSTEM_INSTRUCTION,
         rag: FAISS or CoALA = None,
-        rag_num_search_results: int or None = 3,
+        rag_num_search_results: int = 3,
     ):
         self.llm_client = llm_client
         self.tools = tools
         self.rag = rag
         self.rag_num_search_results = rag_num_search_results
-        self.conversation = [{"role": "system", "content": system_prompt if self.tools is None else system_prompt + settings.TOOL_INSTRUCTION}]
+        self.conversation = [
+            {
+                "role": "system",
+                "content": system_prompt if self.tools is None else system_prompt + settings.TOOL_INSTRUCTION,
+            }
+        ]
 
     def _parse_response(self, response: requests.Response) -> tuple:
         try:
@@ -77,7 +82,7 @@ class ReActAgent:
             # Now get the response from the LLM
             response = self.llm_client.get_completion(self.conversation)
             response_content = response["choices"][0]["message"]["content"]
-            # logging.debug(response_content)
+            logging.debug(response_content)
             thought, action, answer, parsed, observation = self._parse_response(response_content)
             self.conversation.append({"role": "assistant", "content": response_content})
             logging.debug(f"Final answer log: \n{answer}")
@@ -88,14 +93,18 @@ class ReActAgent:
                     "Observation": "I only expressed a thought. Next up, I will make use of one of my tools or write an answer."
                 }
             if parsed and action is not None:
-                observation = {
-                    "Observation": ""
-                }
+                observation = {"Observation": ""}
                 if "RAG" in action:
-                    observation["Observation"] += str(self.tools["RAG"].similarity_search(text=user_prompt, num_search_results=self.rag_num_search_results))
+                    observation["Observation"] += str(
+                        self.tools["RAG"].similarity_search(
+                            text=user_prompt, num_search_results=self.rag_num_search_results
+                        )
+                    )
                 elif "CoALA" in action:
                     logging.debug(f"Action contains CoALA: {'CoALA' in action}")
-                    observation["Observation"] += self.tools["CoALA"].similarity_search(text=user_prompt, num_search_results=self.rag_num_search_results)
+                    observation["Observation"] += self.tools["CoALA"].similarity_search(
+                        text=user_prompt, num_search_results=self.rag_num_search_results
+                    )
                 else:
                     # Check if the code is valid
                     # Parse code and look for syntax or schema errors.

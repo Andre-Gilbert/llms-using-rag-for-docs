@@ -15,13 +15,12 @@ class Settings(BaseSettings):
     AGENT_MAX_RESPONSE_TOKENS: int = 1000
 
     API_MAX_RETRIES: int = 3
-    API_REQUEST_TIMEOUT_SECONDS: int = 60
+    API_REQUEST_TIMEOUT_SECONDS: int = 90
     API_MIN_REQUEST_TIMEOUT_SECONDS: int = 4
     API_MAX_REQUEST_TIMEOUT_SECONDS: int = 10
     API_ACCESS_TOKEN_EXPIRY_MINUTES: int = 60
 
     TOOL_INSTRUCTION: str = """
-    
     Beyond your own knowledge, you can use the following two tools:
     RAG: let's you access additional information from a documentation on pandas.
     CoALA: let's you access question & correct answer pairs and pandas docs as well.
