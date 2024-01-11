@@ -129,11 +129,9 @@ def _get_rag(folder_path, prefix, config, texts) -> FAISS:
         f"{prefix}_"
         + "embeddings_"
         + f"{config.distance_metric}_"
-        + f"{config.similarity_search_score_threshold}_"
-        + f"{config.text_chunk_size}_"
-        + "use_weighted_average_of_text_chunks"
-        if config.use_weighted_average_of_text_chunks
-        else ""
+        + f"similarity_search_score_threshold_{config.similarity_search_score_threshold}_"
+        + f"text_chunk_size_{config.text_chunk_size}_"
+        + f"use_weighted_average_of_text_chunks_{config.use_weighted_average_of_text_chunks}"
     )
     try:
         rag = FAISS.load_local(folder_path, index_filename, config.llm)
@@ -158,11 +156,9 @@ def _get_coala(config, texts) -> CoALA:
         "episodic_"
         + "embeddings_"
         + f"{config.distance_metric}_"
-        + f"{config.similarity_search_score_threshold}_"
-        + f"{config.text_chunk_size}_"
-        + "use_weighted_average_of_text_chunks"
-        if config.use_weighted_average_of_text_chunks
-        else ""
+        + f"similarity_search_score_threshold_{config.similarity_search_score_threshold}_"
+        + f"text_chunk_size_{config.text_chunk_size}_"
+        + f"use_weighted_average_of_text_chunks_{config.use_weighted_average_of_text_chunks}"
     )
     try:
         code_vector_store = FAISS.load_local(_ROOT_DIR / "embeddings" / "episodic", index_filename, config.llm)
@@ -255,13 +251,11 @@ def _run_tests(agent: ReActAgent, test_cases: list[CodeTestCase], config: Config
         agent.reset_conversation()
     path = Path(_ROOT_DIR / "results" / "details")
     path.mkdir(exist_ok=True, parents=True)
-    filename = (
+    filename = filename = (
         f"{config.distance_metric}_"
-        + f"{config.similarity_search_score_threshold}_"
-        + f"{config.text_chunk_size}_"
-        + "use_weighted_average_of_text_chunks"
-        if config.use_weighted_average_of_text_chunks
-        else ""
+        + f"similarity_search_score_threshold_{config.similarity_search_score_threshold}_"
+        + f"text_chunk_size_{config.text_chunk_size}_"
+        + f"use_weighted_average_of_text_chunks_{config.use_weighted_average_of_text_chunks}"
     )
     df = pd.DataFrame([test_result.model_dump() for test_result in test_results])
     df.to_csv(path / f"{filename}_details.csv", index=False)
@@ -326,11 +320,9 @@ def evaluate_code_generation(config_grid: ConfigGrid, test_cases: list[CodeTestC
         metrics = _run_tests(agent, test_cases, config)
         filename = (
             f"{config.distance_metric}_"
-            + f"{config.similarity_search_score_threshold}_"
-            + f"{config.text_chunk_size}_"
-            + "use_weighted_average_of_text_chunks"
-            if config.use_weighted_average_of_text_chunks
-            else ""
+            + f"similarity_search_score_threshold_{config.similarity_search_score_threshold}_"
+            + f"text_chunk_size_{config.text_chunk_size}_"
+            + f"use_weighted_average_of_text_chunks_{config.use_weighted_average_of_text_chunks}"
         )
         results.append(
             Result(
