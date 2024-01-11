@@ -13,15 +13,15 @@ class CoALA:
         self.docs = docs_storage
         self.code = code_storage
 
-    def similarity_search(self, text: str, num_search_results: int = 3) -> str:
+    def similarity_search(self, text: str) -> str:
         "Returns the similarity search results for both the docs storage and the code storage as a tuple."
-
-        docs_result = self.docs.similarity_search(text=text, num_search_results=num_search_results)
-        code_result = self.code.similarity_search(text=text, num_search_results=num_search_results)
+        docs_result = self.docs.similarity_search(text=text)
         result = (
             f"Relevant documentation, sorted by similarity of the embedding in descending order:\n{docs_result}\n\n"
         )
-        result += f"Relevant previous answers with code, sorted by similarity of the embedding in descending order:\n{code_result}"
+        if self.code.index is not None:
+            code_result = self.code.similarity_search(text=text)
+            result += f"Relevant previous answers with code, sorted by similarity of the embedding in descending order:\n{code_result}"
         return result
 
     def add_answer_to_code_storage(self, text: str) -> None:
