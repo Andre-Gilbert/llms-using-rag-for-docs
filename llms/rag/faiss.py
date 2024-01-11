@@ -42,6 +42,7 @@ class FAISS(BaseModel):
     llm_client: GPTClient
     index: Any = None
     documents: dict = {}
+    num_search_results: int = 3
     similarity_search_score_threshold: float = 0.0
     distance_metric: DistanceMetric = DistanceMetric.EUCLIDEAN_DISTANCE
     text_chunk_size: int = 512
@@ -72,7 +73,7 @@ class FAISS(BaseModel):
             chunk_embeddings = np.average(chunk_embeddings, axis=0, weights=chunk_lens)
             chunk_embeddings = chunk_embeddings / np.linalg.norm(chunk_embeddings)  # normalizes length to 1
             chunk_embeddings = chunk_embeddings.tolist()
-        
+
         return (
             [text] if self.use_weighted_average_of_text_chunks else chunk_texts,
             [chunk_embeddings] if self.use_weighted_average_of_text_chunks else chunk_embeddings,
@@ -162,6 +163,7 @@ class FAISS(BaseModel):
             pickle.dump(
                 (
                     self.documents,
+                    self.num_search_results,
                     self.similarity_search_score_threshold,
                     self.distance_metric,
                     self.text_chunk_size,
@@ -188,6 +190,7 @@ class FAISS(BaseModel):
         with open(path / f"{index_filename}.pkl", "rb") as file:
             (
                 documents,
+                num_search_results,
                 similarity_search_score_threshold,
                 distance_metric,
                 text_chunk_size,
@@ -198,6 +201,7 @@ class FAISS(BaseModel):
             llm_client=llm_client,
             index=index,
             documents=documents,
+            num_search_results=num_search_results,
             similarity_search_score_threshold=similarity_search_score_threshold,
             distance_metric=distance_metric,
             text_chunk_size=text_chunk_size,
@@ -205,7 +209,7 @@ class FAISS(BaseModel):
             _normalize_L2=normalize_L2,
         )
 
-    def similarity_search(self, text: str, num_search_results: int = 3) -> list[tuple[str, float]]:
+    def similarity_search(self, text: str) -> list[tuple[str, float]]:
         """Gets relevant context.
 
         Args:
@@ -219,12 +223,12 @@ class FAISS(BaseModel):
         vector = np.array([embedding], dtype=np.float32)
         if self._normalize_L2:
             faiss.normalize_L2(vector)
-        scores, indices = self.index.search(vector, num_search_results)
+        scores, indices = self.index.search(vector, self.num_search_results)
         documents = [
             (self.documents[index], score) for index, score in zip(indices[0], scores[0]) if index in self.documents
         ]
         if self.similarity_search_score_threshold:
-            cmp = operator.ge if self.distance_metric == DistanceMetric.MAX_INNER_PRODUCT else operator.le
+            cmp = operator.le if self.distance_metric == DistanceMetric.EUCLIDEAN_DISTANCE else operator.gt
             documents = [
                 (document, score) for document, score in documents if cmp(score, self.similarity_search_score_threshold)
             ]

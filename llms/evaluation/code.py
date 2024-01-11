@@ -64,7 +64,7 @@ class Config(BaseModel):
     llm: GPTClient
     retriever: RAGRetriever
     distance_metric: DistanceMetric
-    num_search_result: int
+    num_search_results: int
     similarity_search_score_threshold: float
     text_chunk_size: int
     use_weighted_average_of_text_chunks: bool
@@ -82,15 +82,11 @@ class TestCaseResult(BaseModel):
     agent_error: str | None = None
 
 
-class Metrics(BaseModel):
+class Result(BaseModel):
+    config: dict
     accuracy: float
     total_time: float
     total_cost: float
-
-
-class Result(BaseModel):
-    config: dict
-    metrics: Metrics
     details_csv_filepath: str
 
 
@@ -100,7 +96,7 @@ def _get_config(config_grid: ConfigGrid) -> Generator[Config, None, None]:
         llm,
         retriever,
         distance_metric,
-        num_search_result,
+        num_search_results,
         similarity_search_score_threshold,
         text_chunk_size,
         use_weighted_average_of_text_chunks,
@@ -117,22 +113,25 @@ def _get_config(config_grid: ConfigGrid) -> Generator[Config, None, None]:
             llm=llm,
             retriever=retriever,
             distance_metric=distance_metric,
-            num_search_result=num_search_result,
+            num_search_results=num_search_results,
             similarity_search_score_threshold=similarity_search_score_threshold,
             text_chunk_size=text_chunk_size,
             use_weighted_average_of_text_chunks=use_weighted_average_of_text_chunks,
         )
 
 
-def _get_rag(folder_path, prefix, config, texts) -> FAISS:
-    index_filename = (
-        f"{prefix}_"
-        + "embeddings_"
-        + f"{config.distance_metric}_"
+def _get_filename_from_config(config: Config) -> str:
+    return (
+        f"{config.distance_metric}_"
+        + f"num_search_results_{config.num_search_results}_"
         + f"similarity_search_score_threshold_{config.similarity_search_score_threshold}_"
         + f"text_chunk_size_{config.text_chunk_size}_"
         + f"use_weighted_average_of_text_chunks_{config.use_weighted_average_of_text_chunks}"
     )
+
+
+def _get_rag(folder_path, config, texts) -> FAISS:
+    index_filename = "embeddings_" + _get_filename_from_config(config)
     try:
         rag = FAISS.load_local(folder_path, index_filename, config.llm)
     except RuntimeError:
@@ -140,6 +139,7 @@ def _get_rag(folder_path, prefix, config, texts) -> FAISS:
         rag = FAISS.create_index_from_texts(
             texts,
             config.llm,
+            num_search_results=config.num_search_results,
             similarity_search_score_threshold=config.similarity_search_score_threshold,
             distance_metric=config.distance_metric,
             text_chunk_size=config.text_chunk_size,
@@ -151,28 +151,21 @@ def _get_rag(folder_path, prefix, config, texts) -> FAISS:
 
 
 def _get_coala(config, texts) -> CoALA:
-    docs_vector_store = _get_rag(_ROOT_DIR / "embeddings" / "semantic", "semantic", config, texts)
-    index_filename = (
-        "episodic_"
-        + "embeddings_"
-        + f"{config.distance_metric}_"
-        + f"similarity_search_score_threshold_{config.similarity_search_score_threshold}_"
-        + f"text_chunk_size_{config.text_chunk_size}_"
-        + f"use_weighted_average_of_text_chunks_{config.use_weighted_average_of_text_chunks}"
-    )
+    docs_vector_store = _get_rag(_ROOT_DIR / "embeddings" / "semantic", config, texts)
+    index_filename = "embeddings_" + _get_filename_from_config(config)
     try:
         code_vector_store = FAISS.load_local(_ROOT_DIR / "embeddings" / "episodic", index_filename, config.llm)
     except RuntimeError:
         normalize_L2 = config.distance_metric == DistanceMetric.COSINE_SIMILARITY
         code_vector_store = FAISS(
             llm_client=config.llm,
+            num_search_results=config.num_search_results,
             similarity_search_score_threshold=config.similarity_search_score_threshold,
             distance_metric=config.distance_metric,
             text_chunk_size=config.text_chunk_size,
             use_weighted_average_of_text_chunks=config.use_weighted_average_of_text_chunks,
             _normalize_L2=normalize_L2,
         )
-    print(type(code_vector_store))
     return CoALA(docs_vector_store, code_vector_store)
 
 
@@ -251,63 +244,31 @@ def _run_tests(agent: ReActAgent, test_cases: list[CodeTestCase], config: Config
         agent.reset_conversation()
     path = Path(_ROOT_DIR / "results" / "details")
     path.mkdir(exist_ok=True, parents=True)
-    filename = filename = (
-        f"{config.distance_metric}_"
-        + f"similarity_search_score_threshold_{config.similarity_search_score_threshold}_"
-        + f"text_chunk_size_{config.text_chunk_size}_"
-        + f"use_weighted_average_of_text_chunks_{config.use_weighted_average_of_text_chunks}"
-    )
+    filename = f"{config.retriever}_" + _get_filename_from_config(config)
     df = pd.DataFrame([test_result.model_dump() for test_result in test_results])
     df.to_csv(path / f"{filename}_details.csv", index=False)
-    return Metrics(
-        accuracy=num_correct_code / len(test_cases),
-        total_time=df.time_taken.sum(),
-        total_cost=df.cost.sum(),
+    return (
+        num_correct_code / len(test_cases),
+        df.time_taken.sum(),
+        df.cost.sum(),
     )
-
-
-def _save_results_to_csv(results: list[Result]) -> None:
-    path = Path(_ROOT_DIR / "results")
-    path.mkdir(exist_ok=True, parents=True)
-    df = pd.DataFrame([result.model_dump() for result in results])
-    df.to_csv(path / "results.csv", index=False)
 
 
 def _get_agent(config: Config, texts):
     if config.retriever == RAGRetriever.RAG:
-        rag = _get_rag(_ROOT_DIR / "embeddings" / "semantic", "semantic", config, texts)
-        return ReActAgent(
-            llm_client=config.llm,
-            tools=None,
-            rag=rag,
-            rag_num_search_results=config.num_search_result,
-        )
+        rag = _get_rag(_ROOT_DIR / "embeddings" / "semantic", config, texts)
+        return ReActAgent(llm_client=config.llm, tools=None, rag=rag)
     elif config.retriever == RAGRetriever.CoALA:
         rag = _get_coala(config, texts)
-        return ReActAgent(
-            llm_client=config.llm,
-            tools=None,
-            rag=rag,
-            rag_num_search_results=config.num_search_result,
-        )
+        return ReActAgent(llm_client=config.llm, tools=None, rag=rag)
     elif config.retriever == RAGRetriever.RAG_AS_TOOL:
-        rag = _get_rag(_ROOT_DIR / "embeddings" / "semantic", "semantic", config, texts)
+        rag = _get_rag(_ROOT_DIR / "embeddings" / "semantic", config, texts)
         tools = {"RAG": rag}
-        return ReActAgent(
-            llm_client=config.llm,
-            tools=tools,
-            rag=None,
-            rag_num_search_results=config.num_search_result,
-        )
+        return ReActAgent(llm_client=config.llm, tools=tools, rag=None)
     elif config.retriever == RAGRetriever.CoALA_AS_TOOL:
         rag = _get_coala(config, texts)
         tools = {"CoALA": rag}
-        return ReActAgent(
-            llm_client=config.llm,
-            tools=tools,
-            rag=None,
-            rag_num_search_results=config.num_search_result,
-        )
+        return ReActAgent(llm_client=config.llm, tools=tools, rag=None)
     elif config.retriever == RAGRetriever.NONE:
         return ReActAgent(llm_client=config.llm)
 
@@ -317,26 +278,27 @@ def evaluate_code_generation(config_grid: ConfigGrid, test_cases: list[CodeTestC
     texts = config_grid.rag.texts
     for config in _get_config(config_grid):
         agent = _get_agent(config, texts)
-        metrics = _run_tests(agent, test_cases, config)
-        filename = (
-            f"{config.distance_metric}_"
-            + f"similarity_search_score_threshold_{config.similarity_search_score_threshold}_"
-            + f"text_chunk_size_{config.text_chunk_size}_"
-            + f"use_weighted_average_of_text_chunks_{config.use_weighted_average_of_text_chunks}"
-        )
+        accuracy, total_time, total_cost = _run_tests(agent, test_cases, config)
+        filename = f"{config.retriever}_" + _get_filename_from_config(config)
         results.append(
             Result(
                 config={
                     "retriever": config.retriever,
                     "distance_metric": config.distance_metric,
-                    "num_search_result": config.num_search_result,
+                    "num_search_results": config.num_search_results,
                     "similarity_search_score_threshold": config.similarity_search_score_threshold,
                     "text_chunk_size": config.text_chunk_size,
                     "use_weighted_average_of_text_chunks": config.use_weighted_average_of_text_chunks,
                 },
-                metrics=metrics,
+                accuracy=accuracy,
+                total_cost=total_cost,
+                total_time=total_time,
                 details_csv_filepath=f"results/details/{filename}_details.csv",
             ),
         )
-    _save_results_to_csv(results)
+    path = Path(_ROOT_DIR / "results")
+    path.mkdir(exist_ok=True, parents=True)
+    df = pd.DataFrame([result.model_dump() for result in results])
+    df = df.sort_values(by=["accuracy", "total_cost", "total_time"], ascending=[False, True, True])
+    df.to_csv(path / "results.csv", index=False)
     return results

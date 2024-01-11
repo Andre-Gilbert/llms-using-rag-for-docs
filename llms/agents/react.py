@@ -28,12 +28,10 @@ class ReActAgent:
         tools: dict[FAISS, CoALA] or None = None,
         system_prompt: str = settings.STANDARD_SYSTEM_INSTRUCTION,
         rag: FAISS or CoALA = None,
-        rag_num_search_results: int = 3,
     ):
         self.llm_client = llm_client
         self.tools = tools
         self.rag = rag
-        self.rag_num_search_results = rag_num_search_results
         self.conversation = [
             {
                 "role": "system",
@@ -70,9 +68,8 @@ class ReActAgent:
         if self.rag is None:
             self.conversation.append({"role": "user", "content": user_prompt})
         else:
-            context = self.rag.similarity_search(text=user_prompt, num_search_results=self.rag_num_search_results)
+            context = self.rag.similarity_search(text=user_prompt)
             self.conversation.append({"role": "user", "content": f"{user_prompt} \nContext: \n{context}"})
-        print(self.conversation)
         # Make sure the conversation does not exceed the token limit as we iterate to get a final answer.
         iterations = 0
         while iterations <= settings.AGENT_MAX_ITERATIONS:
@@ -95,16 +92,10 @@ class ReActAgent:
             if parsed and action is not None:
                 observation = {"Observation": ""}
                 if "RAG" in action:
-                    observation["Observation"] += str(
-                        self.tools["RAG"].similarity_search(
-                            text=user_prompt, num_search_results=self.rag_num_search_results
-                        )
-                    )
+                    observation["Observation"] += str(self.tools["RAG"].similarity_search(text=user_prompt))
                 elif "CoALA" in action:
                     logging.debug(f"Action contains CoALA: {'CoALA' in action}")
-                    observation["Observation"] += self.tools["CoALA"].similarity_search(
-                        text=user_prompt, num_search_results=self.rag_num_search_results
-                    )
+                    observation["Observation"] += self.tools["CoALA"].similarity_search(text=user_prompt)
                 else:
                     # Check if the code is valid
                     # Parse code and look for syntax or schema errors.
