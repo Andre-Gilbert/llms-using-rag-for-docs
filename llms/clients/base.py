@@ -100,4 +100,6 @@ class BaseLLMClient(BaseModel):
                 )
         except requests.exceptions.RequestException as e:
             raise e
-        return response.json()
+        response = response.json()
+        logging.info("API response: \n%s", response)
+        return response

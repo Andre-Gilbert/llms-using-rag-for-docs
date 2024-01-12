@@ -38,7 +38,6 @@ Pandas, numpy and pyarrow are the only non-standard packages you are allowed to 
 
 Always use the following JSON response format:
 {
-    "Question": the input question you must answer
     "Thought": you should always think about what to do
     "Action": "name of the tool OR for code use the following: def response_function(arguments as required by the user prompt):\ncode goes here\"
 }

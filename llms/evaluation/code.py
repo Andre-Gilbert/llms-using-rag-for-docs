@@ -298,15 +298,6 @@ def _run_tests(agent: ReActAgent, test_cases: list[CodeTestCase], config: Config
         # Reset conversation history to calculate cost per test case
         agent.reset_conversation()
 
-        rate_limit_per_minute = (
-            settings.GPT_4_REQUEST_LIMIT_MINUTES
-            if agent.llm_client.deployment_id == "gpt-4-32k"
-            else settings.GPT_35_REQUEST_LIMIT_MINUTES
-        )
-        delay = 60.0 / rate_limit_per_minute
-        logging.info("Waiting %ss to avoid rate limit", delay)
-        time.sleep(delay)
-
     # Store details of results
     path = Path(_ROOT_DIR / "results" / "details")
     path.mkdir(exist_ok=True, parents=True)
