@@ -1,10 +1,11 @@
 """Test cases."""
 from llms.evaluation.code import CodeTestCase
-
+#Testcase id:0 to id:9 should be solved by both
+#Testcase id:10 to id: 19 RAG should be able to solve
 TEST_CASES = [
     CodeTestCase(
         id=0,
-        prompt="""How can I convert this dataframe: df = pd.DataFrame({"col1_a": [1, 0, 1], "col1_b": [0, 1, 0], "col2_a": [0, 1, 0], "col2_b": [1, 0, 0], "col2_c": [0, 0, 1]}) into a categorical dataframe?""",
+        prompt="""How can I convert this one-hot encoded dataframe: df = pd.DataFrame({"col1_a": [1, 0, 1], "col1_b": [0, 1, 0], "col2_a": [0, 1, 0], "col2_b": [1, 0, 0], "col2_c": [0, 0, 1]}) into a categorical dataframe?""",
         data="""data = pd.DataFrame({"col1_a": [1, 0, 1], "col1_b": [0, 1, 0], "col2_a": [0, 1, 0], "col2_b": [1, 0, 0], "col2_c": [0, 0, 1]})""",
         correct_function="""import pandas as pd\ndef correct_function(data):\n    result = pd.from_dummies(data, sep="_")\n    return result""",
     ),
