@@ -138,7 +138,8 @@ disable=abstract-method,
         using-cmp-argument,
         wrong-import-order,
         xrange-builtin,
-        zip-builtin-not-iterating
+        zip-builtin-not-iterating,
+        exec-used
 
 
 [REPORTS]
@@ -166,7 +167,7 @@ evaluation=10.0 - ((float(5 * error + warning + refactor + convention) / stateme
 [BASIC]
 
 # Good variable names which should always be accepted, separated by a comma
-good-names=main,_,_normalize_L2,normalize_L2,CoALA,CoALA_AS_TOOL
+good-names=main,_,_normalize_L2,normalize_L2,CoALA,CoALA_AS_TOOL,_CoALA_TOOL_INSTRUCTION
 
 # Bad variable names which should always be refused, separated by a comma
 bad-names=

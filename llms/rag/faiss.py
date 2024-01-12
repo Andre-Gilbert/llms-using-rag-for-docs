@@ -31,6 +31,7 @@ class FAISS(BaseModel):
         llm_client: The LLM client to use when generating queries.
         index: The FAISS index.
         documents: Mapping of indices to document.
+        num_search_results: The number of documents to return per query.
         similarity_search_score_threshold: The similarity score for a document to be included in the search results.
         distance_metric: The distance metric for calculating distances between vectors.
         text_chunk_size: Divides the input text into chunks of the specified size.
@@ -101,11 +102,11 @@ class FAISS(BaseModel):
         """Adds texts to the FAISS index."""
         documents, embeddings = self._embed_texts(texts)
         vectors = np.array(embeddings, dtype=np.float32)
-        print(len(documents), len(embeddings), vectors.shape, vectors)
-        if self.distance_metric == DistanceMetric.EUCLIDEAN_DISTANCE:
-            self.index = faiss.IndexFlatL2(vectors.shape[1])
-        else:
-            self.index = faiss.IndexFlatIP(vectors.shape[1])
+        if self.index is None:
+            if self.distance_metric == DistanceMetric.EUCLIDEAN_DISTANCE:
+                self.index = faiss.IndexFlatL2(vectors.shape[1])
+            else:
+                self.index = faiss.IndexFlatIP(vectors.shape[1])
         if self._normalize_L2:
             faiss.normalize_L2(vectors)
         self.index.add(vectors)
@@ -122,6 +123,7 @@ class FAISS(BaseModel):
             texts: A list of texts used for creating the FAISS index.
             llm_client: The LLM client to use when generating queries.
             **kwargs:
+                num_search_results: The number of documents to return per query.
                 similarity_search_score_threshold: The similarity score for a document
                     to be included in the search results.
                 distance_metric: The distance metric for calculating distances between vectors.
@@ -214,7 +216,6 @@ class FAISS(BaseModel):
 
         Args:
             text: The AI agent user input.
-            num_search_results: The number of documents to return from the index.
 
         Returns:
             A list of documents most similar to the query text and L2 distance in float for each.

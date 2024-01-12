@@ -27,15 +27,8 @@ class GPTClient(BaseLLMClient):
     max_response_tokens: int
     temperature: float
     embedding_model: str = "text-embedding-ada-002-v2"
-    chat_usage: dict = {
-        "prompt_tokens": 0,
-        "completion_tokens": 0,
-        "total_tokens": 0,
-    }
-    embeddings_usage: dict = {
-        "prompt_tokens": 0,
-        "total_tokens": 0,
-    }
+    chat_usage: dict = {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0}
+    embeddings_usage: dict = {"prompt_tokens": 0, "total_tokens": 0}
 
     def get_completion(self, messages: list[dict]) -> requests.Response.json:
         """Creates a model response for the given chat conversation.
