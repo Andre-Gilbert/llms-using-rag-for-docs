@@ -67,6 +67,8 @@ class ReActAgent:
         tools: RAG/CoALA as tools the AI agent can use.
         rag: RAG/CoALA implementation the AI agent has access to.
         conversation: The conversation history.
+        token_limit: The context length of the LLM.
+        reasoning: The AI agent Chain-of-Thought.
     """
 
     def __init__(
