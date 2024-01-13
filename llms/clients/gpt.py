@@ -48,7 +48,7 @@ class GPTClient(BaseLLMClient):
             if self.deployment_id == "gpt-4-32k"
             else settings.GPT_35_REQUEST_LIMIT_MINUTES
         )
-        delay = 60.0 / rate_limit_per_minute
+        delay = int(60.0 / rate_limit_per_minute) + 1
         logging.info("Waiting %ss to avoid rate limit", delay)
         time.sleep(delay)
         response = self._request_handler(
@@ -75,7 +75,7 @@ class GPTClient(BaseLLMClient):
             A list of embedding objects.
         """
         rate_limit_per_minute = settings.TEXT_ADA_002_REQUEST_LIMIT_MINUTES
-        delay = 60.0 / rate_limit_per_minute
+        delay = int(60.0 / rate_limit_per_minute) + 1
         logging.info("Waiting %ss to avoid rate limit", delay)
         time.sleep(delay)
         response = self._request_handler(

@@ -6,17 +6,18 @@ import time
 from enum import Enum
 from itertools import product
 from pathlib import Path
+from types import CodeType
 from typing import Any
 
 import pandas as pd
 from pydantic import BaseModel
 from tqdm import tqdm
+from tqdm.contrib.logging import logging_redirect_tqdm
 
 from llms.agents.react import ReActAgent
 from llms.clients.gpt import GPTClient
 from llms.rag.coala import CoALA
 from llms.rag.faiss import FAISS, DistanceMetric
-from llms.settings import settings
 
 _ROOT_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -149,16 +150,16 @@ def _get_filename_from_config(config: Config) -> str:
     """Gets the filename given the current configuration that is evaluated."""
     return (
         f"{config.distance_metric}_"
-        + f"num_search_results_{config.num_search_results}_"
+        + f"search_results_{config.num_search_results}_"
         + f"score_threshold_{config.similarity_search_score_threshold}_"
-        + f"text_chunk_size_{config.text_chunk_size}_"
-        + f"use_weighted_average_{config.use_weighted_average_of_text_chunks}"
+        + f"chunk_size_{config.text_chunk_size}_"
+        + f"weighted_average_{config.use_weighted_average_of_text_chunks}"
     )
 
 
 def _get_rag(folder_path: str, config: Config, texts: list[str]) -> FAISS:
     """Returns a FAISS vector store."""
-    index_filename = f"{config.llm.deployment_id}_embeddings_" + _get_filename_from_config(config)
+    index_filename = "embeddings_" + _get_filename_from_config(config)
     try:
         logging.info("Loading existing FAISS docs vector store.")
         rag = FAISS.load_local(folder_path, index_filename, config.llm)
@@ -182,7 +183,7 @@ def _get_rag(folder_path: str, config: Config, texts: list[str]) -> FAISS:
 def _get_coala(config, texts) -> CoALA:
     """Returns an instance of CoALA"""
     docs_vector_store = _get_rag(f"{_ROOT_DIR}/embeddings/semantic", config, texts)
-    index_filename = f"{config.llm.deployment_id}_embeddings_" + _get_filename_from_config(config)
+    index_filename = "embeddings_" + _get_filename_from_config(config)
     try:
         logging.info("Loading existing FAISS code vector store")
         code_vector_store = FAISS.load_local(f"{_ROOT_DIR}/embeddings/episodic", index_filename, config.llm)
@@ -228,14 +229,18 @@ def _run_tests(agent: ReActAgent, test_cases: list[CodeTestCase], config: Config
     """Runs the defined test cases."""
     num_correct_code = 0
     test_results = []
-    for test_case in tqdm(test_cases, desc="Test cases"):
+    for test_case in test_cases:
         logging.info("Running test: %s", test_case.model_dump())
         agent_error = None
 
         # Get response function from agent
         start = time.time()
         final_answer = agent.run(test_case.prompt)
+        logging.info("Final answer: %s (%d)", final_answer, type(final_answer))
         end = time.time()
+
+        if not isinstance(final_answer, (str, bytes, CodeType)):
+            final_answer = "def response_function():\n    return None"
 
         # Retrieve the generated response function
         namespace_agent = {}
@@ -254,6 +259,7 @@ def _run_tests(agent: ReActAgent, test_cases: list[CodeTestCase], config: Config
         correct_function = namespace_correct["correct_function"]
 
         # Execute correct function with input data
+        logging.info("Running output comparison.")
         desired_result = correct_function(*[local_vars.get(arg, None) for arg in local_vars])
 
         # Execute agent function with input data
@@ -304,6 +310,7 @@ def _run_tests(agent: ReActAgent, test_cases: list[CodeTestCase], config: Config
     filename = f"{config.llm.deployment_id}_{config.retriever}_" + _get_filename_from_config(config)
     logging.info("Saving details of results for test cases to file: %s_details.csv", filename)
     df = pd.DataFrame([test_result.model_dump() for test_result in test_results])
+    df.correct = df.correct.astype(int)
     df.reset_index()
     df.to_csv(path / f"{filename}_details.csv", index=False)
 
@@ -334,53 +341,54 @@ def _get_agent(config: Config, texts: list[str]) -> ReActAgent:
         return ReActAgent(llm_client=config.llm)
 
 
-def evaluate_code_generation(config_grid: ConfigGrid, test_cases: list[CodeTestCase]) -> pd.DataFrame:
+def evaluate_code_generation(config_grid: ConfigGrid, test_cases: list[CodeTestCase], test_name: str) -> pd.DataFrame:
     results = []
     texts = config_grid.rag.texts
-    for config in tqdm(_get_configs_from_grid(config_grid), desc="Configurations"):
-        current_config = {
-            "llm": config.llm.deployment_id,
-            "retriever": config.retriever,
-            "distance_metric": config.distance_metric,
-            "num_search_results": config.num_search_results,
-            "similarity_search_score_threshold": config.similarity_search_score_threshold,
-            "text_chunk_size": config.text_chunk_size,
-            "use_weighted_average_of_text_chunks": config.use_weighted_average_of_text_chunks,
-        }
-        logging.info("Current configuration: %s", current_config)
-        agent = _get_agent(config, texts)
-        accuracy, total_time, total_cost = _run_tests(agent, test_cases, config)
-        logging.info(
-            "Configuration results: %s accuracy, %d total time taken, %f total cost in $",
-            accuracy,
-            total_time,
-            total_cost,
-        )
-        filename = f"{config.llm.deployment_id}_{config.retriever}_" + _get_filename_from_config(config)
-        results.append(
-            Result(
-                config=current_config,
-                accuracy=accuracy,
-                total_cost=total_cost,
-                total_time=total_time,
-                details_csv_filepath=f"results/details/{filename}_details.csv",
-            ),
-        )
-
-        # Store episodic memory after run
-        if isinstance(agent.rag, CoALA):
-            agent.rag.code_vector_store.save_local(
-                folder_path=f"{_ROOT_DIR}/embeddings/episodic",
-                index_filename=f"{config.llm.deployment_id}_embeddings_" + _get_filename_from_config(config),
+    with logging_redirect_tqdm():
+        for config in tqdm(_get_configs_from_grid(config_grid), desc="Configurations"):
+            current_config = {
+                "llm": config.llm.deployment_id,
+                "retriever": config.retriever,
+                "distance_metric": config.distance_metric,
+                "num_search_results": config.num_search_results,
+                "similarity_search_score_threshold": config.similarity_search_score_threshold,
+                "text_chunk_size": config.text_chunk_size,
+                "use_weighted_average_of_text_chunks": config.use_weighted_average_of_text_chunks,
+            }
+            logging.info("Current configuration: %s", current_config)
+            agent = _get_agent(config, texts)
+            accuracy, total_time, total_cost = _run_tests(agent, test_cases, config)
+            logging.info(
+                "Configuration results: %s accuracy, %d total time taken, %f total cost in $",
+                accuracy,
+                total_time,
+                total_cost,
+            )
+            filename = f"{config.llm.deployment_id}_{config.retriever}_" + _get_filename_from_config(config)
+            results.append(
+                Result(
+                    config=current_config,
+                    accuracy=accuracy,
+                    total_cost=total_cost,
+                    total_time=total_time,
+                    details_csv_filepath=f"results/details/{filename}_details.csv",
+                ),
             )
 
-    # Store results
-    path = Path(_ROOT_DIR / "results")
-    path.mkdir(exist_ok=True, parents=True)
-    df = pd.DataFrame([result.model_dump() for result in results])
-    df = df.sort_values(by=["accuracy", "total_cost", "total_time"], ascending=[False, True, True])
-    df.reset_index()
-    df.to_csv(path / "results.csv", index=False)
-    logging.info("Saving details of results for test cases to file: results.csv")
+            # Store episodic memory after run
+            if isinstance(agent.rag, CoALA):
+                agent.rag.code_vector_store.save_local(
+                    folder_path=f"{_ROOT_DIR}/embeddings/episodic",
+                    index_filename="embeddings_" + _get_filename_from_config(config),
+                )
+
+        # Store results
+        path = Path(_ROOT_DIR / "results")
+        path.mkdir(exist_ok=True, parents=True)
+        logging.info("Saving details of results for test cases to file: %s_results.csv", test_name)
+        df = pd.DataFrame([result.model_dump() for result in results])
+        df = df.sort_values(by=["accuracy", "total_cost", "total_time"], ascending=[False, True, True])
+        df.reset_index()
+        df.to_csv(path / f"{test_name}_results.csv", index=False)
 
     return results
