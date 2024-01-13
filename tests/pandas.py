@@ -7,7 +7,7 @@ from llms.evaluation.code import CodeTestCase
 # pylint: disable=all
 TEST_CASES = [
     CodeTestCase(
-        prompt="""How can I convert this dataframe: df = pd.DataFrame({"col1_a": [1, 0, 1], "col1_b": [0, 1, 0], "col2_a": [0, 1, 0], "col2_b": [1, 0, 0], "col2_c": [0, 0, 1]}) into a categorical dataframe?""",
+        prompt="""How can I convert this one-hot encoded dataframe: df = pd.DataFrame({"col1_a": [1, 0, 1], "col1_b": [0, 1, 0], "col2_a": [0, 1, 0], "col2_b": [1, 0, 0], "col2_c": [0, 0, 1]}) into a categorical dataframe?""",
         data="""data = pd.DataFrame({"col1_a": [1, 0, 1], "col1_b": [0, 1, 0], "col2_a": [0, 1, 0], "col2_b": [1, 0, 0], "col2_c": [0, 0, 1]})""",
         correct_function="""import pandas as pd\ndef correct_function(data):\n    result = pd.from_dummies(data, sep="_")\n    return result""",
     ),
@@ -34,7 +34,7 @@ TEST_CASES = [
     CodeTestCase(
         prompt="""data1 = [[1, 8, 2], [1, 2, 5], [2, 5, 8], [2, 6, 9]], data2 = pd.DataFrame(data, columns=["a", "b", "c"] , index=["tiger", "leopard", "cheetah", "lion"]) Given Data is my Data and df is my Dataframe. Both are part of your argument. Please group that dataframe by "a" and compute the product aswell.""",
         data="""data_1 = [[1, 8, 2], [1, 2, 5], [2, 5, 8], [2, 6, 9]]\ndata_2 = pd.DataFrame(data_1, columns=["a", "b", "c"] , index=["tiger", "leopard", "cheetah", "lion"])""",
-        correct_function="""import pandas as pd\ndef correct_function(data_1, data_2):\n    result = data_2.groupby('a').prod()\n    return result""",
+        correct_function="""import pandas as pd\ndef correct_function(data_2):\n    result = data_2.groupby('a').prod()\n    return result""",
     ),
     CodeTestCase(
         prompt="""a = pd.Series([1, 1, 1, np.nan], index=['a', 'b', 'c', 'd']) b = pd.Series([1, np.nan, 1, np.nan], index=['a', 'b', 'd', 'e'])  Please take a and b as your arguments and divide a by b. Please also use the fill value 0.""",
@@ -49,7 +49,7 @@ TEST_CASES = [
     CodeTestCase(
         prompt="""Please take following Series and order it ascending while making sure NAN values are at the beginning s = pd.Series([np.nan, 1, 3, 10, 5, np.nan]) """,
         data="""import numpy as np\ndata = pd.Series([np.nan, 1, 3, 10, 5, np.nan])""",
-        correct_function="""import pandas as pd\ndef correct_function(*args):\n    temp = args[1:]\n    data = pd.Series(temp)\n    result = data.sort_values(na_position='first')\n    return result""",
+        correct_function="""import pandas as pd\ndef correct_function(*args):\n    data = pd.Series(args[1:])\n    result = data.sort_values(na_position='first')\n    return result""",
     ),
     CodeTestCase(
         prompt="""data1 = {'Name': ['Alice', 'Bob', 'Charlie'],'Age': [25, 30, 22],'City': ['New York', 'San Francisco', 'Los Angeles']} data2= {'Name': ['Alice', 'John', 'Charlie'],'Age': [25, 31, 22],'City': ['New York', 'San Francisco', 'Los Angeles']}Please calculate the average age of the people who appear in both dataframes.""",
@@ -107,3 +107,8 @@ TEST_CASES = [
         correct_function="""\nimport pandas as pd\nimport pyarrow as pa\ndef correct_function(data):\n    data = data.astype("int64[pyarrow]")\n    data.sum()\n    return data""",
     ),
 ]
+
+
+#Prompt (old id:13 prompt="""Please take following dataframe (your argument) and group it for column A. Make sure to exclude the last value of each group. This is your argument data = pd.DataFrame(["g", "g0"], ["g", "g1"], ["g", "g2"], ["g", "g3"],["h", "h0"], ["h", "h1"]], columns=["A", "B"]).""",)
+#Prompt (old id:17 prompt="""What are the value counts of this function pd.Series(['quetzal', 'quetzal', 'elk'], name='animal')?""",)
+#Prompt (old id:14 prompt="""Please remove the following suffix “_str” from following Series (["foo_str","_strhead" , "text_str_text" , "bar_str", "no_suffix"]) """,)
