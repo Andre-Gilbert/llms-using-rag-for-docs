@@ -225,7 +225,7 @@ def _calculate_cost(agent: ReActAgent) -> float:
         )
 
 
-def _run_tests(agent: ReActAgent, test_cases: list[CodeTestCase], config: Config) -> tuple:
+def _run_tests(agent: ReActAgent, test_cases: list[CodeTestCase], config: Config, test_name: str) -> tuple:
     """Runs the defined test cases."""
     num_correct_code = 0
     test_results = []
@@ -307,7 +307,7 @@ def _run_tests(agent: ReActAgent, test_cases: list[CodeTestCase], config: Config
     # Store details of results
     path = Path(_ROOT_DIR / "results" / "details")
     path.mkdir(exist_ok=True, parents=True)
-    filename = f"{config.llm.deployment_id}_{config.retriever}_" + _get_filename_from_config(config)
+    filename = f"{test_name}_{config.llm.deployment_id}_{config.retriever}_" + _get_filename_from_config(config)
     logging.info("Saving details of results for test cases to file: %s_details.csv", filename)
     df = pd.DataFrame([test_result.model_dump() for test_result in test_results])
     df.correct = df.correct.astype(int)
@@ -357,7 +357,7 @@ def evaluate_code_generation(config_grid: ConfigGrid, test_cases: list[CodeTestC
             }
             logging.info("Current configuration: %s", current_config)
             agent = _get_agent(config, texts)
-            accuracy, total_time, total_cost = _run_tests(agent, test_cases, config)
+            accuracy, total_time, total_cost = _run_tests(agent, test_cases, config, test_name)
             logging.info(
                 "Configuration results: %s accuracy, %d total time taken, %f total cost in $",
                 accuracy,
