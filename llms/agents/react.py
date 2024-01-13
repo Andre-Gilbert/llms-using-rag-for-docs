@@ -158,18 +158,18 @@ class ReActAgent:
             # Handle AI agent action
             if parsed and action is not None:
                 observation = {"Observation": ""}
-                self.reasoning.append({"Tool": action})
+                self.reasoning.append({"Action": action})
                 if "RAG" in action:
-                    logging.info("AI agent tool: %s", action)
+                    logging.info("AI agent action: %s", action)
                     context = str(self.tools["RAG"].similarity_search(text=user_prompt))
                     observation["Observation"] = context
-                    self.reasoning.append({"Tool response": context})
+                    self.reasoning.append({"Action response": context})
                     logging.info("Additional information from vector store: %s", context)
                 elif "CoALA" in action:
-                    logging.info("AI agent tool: %s", action)
+                    logging.info("AI agent action: %s", action)
                     context = self.tools["CoALA"].similarity_search(text=user_prompt)
                     observation["Observation"] = context
-                    self.reasoning.append({"Tool response": context})
+                    self.reasoning.append({"Action response": context})
                     logging.info("Additional information from vector store: %s", context)
                 else:
                     # Check if the code is valid
