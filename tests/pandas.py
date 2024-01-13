@@ -34,7 +34,7 @@ TEST_CASES = [
     CodeTestCase(
         prompt="""data1 = [[1, 8, 2], [1, 2, 5], [2, 5, 8], [2, 6, 9]], data2 = pd.DataFrame(data, columns=["a", "b", "c"] , index=["tiger", "leopard", "cheetah", "lion"]) Given Data is my Data and df is my Dataframe. Both are part of your argument. Please group that dataframe by "a" and compute the product aswell.""",
         data="""data_1 = [[1, 8, 2], [1, 2, 5], [2, 5, 8], [2, 6, 9]]\ndata_2 = pd.DataFrame(data_1, columns=["a", "b", "c"] , index=["tiger", "leopard", "cheetah", "lion"])""",
-        correct_function="""import pandas as pd\ndef correct_function(data_2):\n    result = data_2.groupby('a').prod()\n    return result""",
+        correct_function="""import pandas as pd\ndef correct_function(data_1, data_2):\n    result = data_2.groupby('a').prod()\n    return result""",
     ),
     CodeTestCase(
         prompt="""a = pd.Series([1, 1, 1, np.nan], index=['a', 'b', 'c', 'd']) b = pd.Series([1, np.nan, 1, np.nan], index=['a', 'b', 'd', 'e'])  Please take a and b as your arguments and divide a by b. Please also use the fill value 0.""",
