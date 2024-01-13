@@ -1,16 +1,21 @@
 """Base LLM client."""
+import logging
 from datetime import datetime, timedelta, timezone
 
 import requests
 from pydantic import BaseModel
 from tenacity import (
+    after_log,
+    before_log,
     retry,
     retry_if_exception_type,
     stop_after_attempt,
-    wait_exponential,
+    wait_random_exponential,
 )
 
 from llms.settings import settings
+
+logger = logging.getLogger(__name__)
 
 
 class BaseLLMClient(BaseModel):
@@ -21,8 +26,8 @@ class BaseLLMClient(BaseModel):
     auth_url: str
     api_base: str
 
-    access_token: str or None = None
-    access_token_expiry: str or None = None
+    access_token: str | None = None
+    access_token_expiry: str | None = None
     headers: dict = {
         "Content-Type": "application/json",
         "Authorization": None,
@@ -55,12 +60,13 @@ class BaseLLMClient(BaseModel):
 
     @retry(
         stop=stop_after_attempt(settings.API_MAX_RETRIES),
-        wait=wait_exponential(
-            multiplier=1,
-            min=settings.API_MIN_REQUEST_TIMEOUT_SECONDS,
-            max=settings.API_MAX_REQUEST_TIMEOUT_SECONDS,
+        wait=wait_random_exponential(
+            min=settings.API_MIN_RETRY_TIMEOUT_SECONDS,
+            max=settings.API_MAX_RETRY_TIMEOUT_SECONDS,
         ),
         retry=retry_if_exception_type(requests.exceptions.RequestException),
+        before=before_log(logger, logging.INFO),
+        after=after_log(logger, logging.INFO),
     )
     def _request_handler(self, api_url: str, data: dict) -> requests.Response.json:
         """Handles the request to the LLM service.
@@ -79,13 +85,21 @@ class BaseLLMClient(BaseModel):
             self._fetch_access_token()
         try:
             response = requests.post(
-                api_url, headers=self.headers, json=data, timeout=settings.API_REQUEST_TIMEOUT_SECONDS
+                api_url,
+                headers=self.headers,
+                json=data,
+                timeout=settings.API_REQUEST_TIMEOUT_SECONDS,
             )
             if response.status_code in (401, 403):
                 self._fetch_access_token()
                 response = requests.post(
-                    api_url, headers=self.headers, json=data, timeout=settings.API_REQUEST_TIMEOUT_SECONDS
+                    api_url,
+                    headers=self.headers,
+                    json=data,
+                    timeout=settings.API_REQUEST_TIMEOUT_SECONDS,
                 )
-        except requests.exceptions.RequestException as exception:
-            raise exception
-        return response.json()
+        except requests.exceptions.RequestException as e:
+            raise e
+        response = response.json()
+        logging.info("API response: \n%s", response)
+        return response

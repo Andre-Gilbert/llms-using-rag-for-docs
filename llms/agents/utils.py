@@ -1,16 +1,13 @@
+"""Agent utils."""
 import tiktoken
 
 
-def extract(d: dict, key: str) -> str:
-    """
-    Get the value to a key from a dict if it is not none and of length larger than 0.
-    Else return None.
-    """
-
-    v = d.get(key)
-    if v != None:
-        if len(v) > 0:
-            return v
+def extract(response: dict, key: str) -> str | None:
+    """Gets the value to a key from a dict if it is not none and of length larger than 0."""
+    value = response.get(key)
+    if value is not None:
+        if len(value) > 0:
+            return value
     return None
 
 

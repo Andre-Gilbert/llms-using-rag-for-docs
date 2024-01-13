@@ -1,7 +1,11 @@
 """OpenAI GPT client."""
+import logging
+import time
+
 import requests
 
 from llms.clients.base import BaseLLMClient
+from llms.settings import settings
 
 
 class GPTClient(BaseLLMClient):
@@ -27,15 +31,8 @@ class GPTClient(BaseLLMClient):
     max_response_tokens: int
     temperature: float
     embedding_model: str = "text-embedding-ada-002-v2"
-    chat_usage: dict = {
-        "prompt_tokens": 0,
-        "completion_tokens": 0,
-        "total_tokens": 0,
-    }
-    embeddings_usage: dict = {
-        "prompt_tokens": 0,
-        "total_tokens": 0,
-    }
+    chat_usage: dict = {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0}
+    embeddings_usage: dict = {"prompt_tokens": 0, "total_tokens": 0}
 
     def get_completion(self, messages: list[dict]) -> requests.Response.json:
         """Creates a model response for the given chat conversation.
@@ -46,6 +43,14 @@ class GPTClient(BaseLLMClient):
         Returns:
             A chat completion object.
         """
+        rate_limit_per_minute = (
+            settings.GPT_4_REQUEST_LIMIT_MINUTES
+            if self.deployment_id == "gpt-4-32k"
+            else settings.GPT_35_REQUEST_LIMIT_MINUTES
+        )
+        delay = 60.0 / rate_limit_per_minute
+        logging.info("Waiting %ss to avoid rate limit", delay)
+        time.sleep(delay)
         response = self._request_handler(
             api_url=f"{self.api_base}/api/v1/completions",
             data={
@@ -69,6 +74,10 @@ class GPTClient(BaseLLMClient):
         Returns:
             A list of embedding objects.
         """
+        rate_limit_per_minute = settings.TEXT_ADA_002_REQUEST_LIMIT_MINUTES
+        delay = 60.0 / rate_limit_per_minute
+        logging.info("Waiting %ss to avoid rate limit", delay)
+        time.sleep(delay)
         response = self._request_handler(
             api_url=f"{self.api_base}/api/v1/embeddings",
             data={
