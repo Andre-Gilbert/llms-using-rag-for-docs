@@ -1,2 +1,0 @@
-config,accuracy,total_time,total_cost,details_csv_filepath
-"{'llm': 'gpt-4-32k', 'retriever': <RAGRetriever.NONE: 'NONE'>, 'distance_metric': None, 'num_search_results': None, 'similarity_search_score_threshold': None, 'text_chunk_size': None, 'use_weighted_average_of_text_chunks': None}",0.25,237.92050886154175,1.6616999999999997,results/details/gpt-4-32k_RAGRetriever.NONE_None_search_results_None_score_threshold_None_chunk_size_None_weighted_average_None_details.csv
