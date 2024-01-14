@@ -311,7 +311,7 @@ def _run_tests(agent: ReActAgent, test_cases: list[CodeTestCase], config: Config
     logging.info("Saving details of results for test cases to file: %s_details.csv", filename)
     df = pd.DataFrame([test_result.model_dump() for test_result in test_results])
     df.correct = df.correct.astype(int)
-    df.reset_index()
+    df = df.reset_index()
     df.to_csv(path / f"{filename}_details.csv", index=False)
 
     return (
@@ -388,7 +388,7 @@ def evaluate_code_generation(config_grid: ConfigGrid, test_cases: list[CodeTestC
         logging.info("Saving details of results for test cases to file: %s_results.csv", test_name)
         df = pd.DataFrame([result.model_dump() for result in results])
         df = df.sort_values(by=["accuracy", "total_cost", "total_time"], ascending=[False, True, True])
-        df.reset_index()
+        df = df.reset_index()
         df.to_csv(path / f"{test_name}_results.csv", index=False)
 
     return results
