@@ -10,7 +10,7 @@ from tenacity import (
     retry,
     retry_if_exception_type,
     stop_after_attempt,
-    wait_random_exponential,
+    wait_exponential,
 )
 
 from llms.settings import settings
@@ -60,13 +60,15 @@ class BaseLLMClient(BaseModel):
 
     @retry(
         stop=stop_after_attempt(settings.API_MAX_RETRIES),
-        wait=wait_random_exponential(
+        wait=wait_exponential(
+            multiplier=1,
             min=settings.API_MIN_RETRY_TIMEOUT_SECONDS,
             max=settings.API_MAX_RETRY_TIMEOUT_SECONDS,
         ),
-        retry=retry_if_exception_type(requests.exceptions.RequestException),
-        before=before_log(logger, logging.INFO),
+        retry=retry_if_exception_type(requests.exceptions.RequestException)
+        | retry_if_exception_type(requests.exceptions.HTTPError),
         after=after_log(logger, logging.INFO),
+        before=before_log(logger, logging.INFO),
     )
     def _request_handler(self, api_url: str, data: dict) -> requests.Response.json:
         """Handles the request to the LLM service.
@@ -98,6 +100,7 @@ class BaseLLMClient(BaseModel):
                     json=data,
                     timeout=settings.API_REQUEST_TIMEOUT_SECONDS,
                 )
+            response.raise_for_status()
         except requests.exceptions.RequestException as e:
             raise e
         response = response.json()

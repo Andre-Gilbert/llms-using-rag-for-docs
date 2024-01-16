@@ -44,11 +44,11 @@ class GPTClient(BaseLLMClient):
             A chat completion object.
         """
         rate_limit_per_minute = (
-            settings.GPT_4_REQUEST_LIMIT_MINUTES
+            settings.GPT_4_REQUEST_LIMIT_PER_MINUTE
             if self.deployment_id == "gpt-4-32k"
-            else settings.GPT_35_REQUEST_LIMIT_MINUTES
+            else settings.GPT_35_REQUEST_LIMIT_PER_MINUTE
         )
-        delay = 60.0 / rate_limit_per_minute
+        delay = int(60.0 / rate_limit_per_minute) + 1
         logging.info("Waiting %ss to avoid rate limit", delay)
         time.sleep(delay)
         response = self._request_handler(
@@ -74,8 +74,8 @@ class GPTClient(BaseLLMClient):
         Returns:
             A list of embedding objects.
         """
-        rate_limit_per_minute = settings.TEXT_ADA_002_REQUEST_LIMIT_MINUTES
-        delay = 60.0 / rate_limit_per_minute
+        rate_limit_per_minute = settings.TEXT_ADA_002_REQUEST_LIMIT_PER_MINUTE
+        delay = int(60.0 / rate_limit_per_minute) + 1
         logging.info("Waiting %ss to avoid rate limit", delay)
         time.sleep(delay)
         response = self._request_handler(

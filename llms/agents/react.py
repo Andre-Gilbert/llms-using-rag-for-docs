@@ -14,17 +14,17 @@ from llms.settings import settings
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s", datefmt="%d/%m/%y %H:%M:%S")
 
 _RAG_TOOL_INSTRUCTION = """
-Beyond your own knowledge, you can use the following tool:
-RAG: let's you access additional information from a documentation on pandas.
+Available tools:
+RAG: use this tool to access additional information from the pandas documentation.
 
-In order to use the tools, just name them in the Action.
+In order to use the tools, just name them in the Action like so 'RAG'.
 """
 
 _CoALA_TOOL_INSTRUCTION = """
-Beyond your own knowledge, you can use the following tool:
-CoALA: let's you access question & correct answer pairs and pandas docs as well.
+Available tools:
+CoALA: use this tool to access question & correct answer (in form of code) pairs and additional information from the pandas documentation.
 
-In order to use the tools, just name them in the Action.
+In order to use the tools, just name them in the Action like so 'CoALA'.
 """
 
 _SYSTEM_PROMPT = """
@@ -67,6 +67,8 @@ class ReActAgent:
         tools: RAG/CoALA as tools the AI agent can use.
         rag: RAG/CoALA implementation the AI agent has access to.
         conversation: The conversation history.
+        token_limit: The context length of the LLM.
+        reasoning: The AI agent Chain-of-Thought.
     """
 
     def __init__(

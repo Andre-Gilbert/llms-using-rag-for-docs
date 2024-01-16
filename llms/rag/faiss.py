@@ -36,7 +36,7 @@ class FAISS(BaseModel):
         distance_metric: The distance metric for calculating distances between vectors.
         text_chunk_size: Divides the input text into chunks of the specified size.
         use_weighted_average_of_text_chunks: Whether the weighted average of the chunk embeddings should be used.
-            Defaults to False.
+            Defaults to True.
         _normalize_L2: Whether the vectors should be normalized before storing.
     """
 
@@ -47,7 +47,7 @@ class FAISS(BaseModel):
     similarity_search_score_threshold: float = 0.0
     distance_metric: DistanceMetric = DistanceMetric.EUCLIDEAN_DISTANCE
     text_chunk_size: int = 512
-    use_weighted_average_of_text_chunks: bool = False
+    use_weighted_average_of_text_chunks: bool = True
     _normalize_L2: bool = False
 
     def _len_safe_get_embedding(self, text: str) -> tuple:
@@ -129,7 +129,7 @@ class FAISS(BaseModel):
                 distance_metric: The distance metric for calculating distances between vectors.
                 text_chunk_size: Divides the input text into chunks of the specified size.
                 use_weighted_average_of_text_chunks: Whether the weighted average of the
-                    chunk embeddings should be used. Defaults to False.
+                    chunk embeddings should be used. Defaults to True.
                 normalize_L2: Whether the vectors should be normalized before storing.
 
         Returns:
