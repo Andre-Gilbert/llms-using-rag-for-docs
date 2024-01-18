@@ -1,8 +1,7 @@
 """Test cases."""
 from llms.evaluation.code import CodeTestCase
 
-# Testcase id:0 to id:9 should be solved by both
-# Testcase id:10 to id: 19 RAG should be able to solve
+
 
 # pylint: disable=all
 TEST_CASES = [
@@ -12,12 +11,12 @@ TEST_CASES = [
         correct_function="""import pandas as pd\ndef correct_function(data):\n    result = pd.from_dummies(data, sep="_")\n    return result""",
     ),
     CodeTestCase(
-        prompt="""This is my Dataframe:({'Name': ['Alice', 'Bob', 'Aritra'], 'Age': [25, 30, 35], 'Location': ['Seattle', 'New York', 'Kona']},index=([10, 20, 30])) Please display the dataframe while making sure to change the index to 100, 200 and 300.""",
+        prompt="""This is my Dataframe:({'Name': ['Alice', 'Bob', 'Aritra'], 'Age': [25, 30, 35], 'Location': ['Seattle', 'New York', 'Kona']},index=([10, 20, 30])) Please take this dataframe as your argument and display the dataframe while making sure to change the index to 100, 200 and 300.""",
         data="""data = pd.DataFrame({'Name': ['Alice', 'Bob', 'Aritra'], 'Age': [25, 30, 35], 'Location': ['Seattle', 'New York', 'Kona']},index=([10, 20, 30]))""",
         correct_function="""import pandas as pd\ndef correct_function(data):\n    data.index = [100, 200, 300]\n    return data""",
     ),
     CodeTestCase(
-        prompt="""({'animal': ['alligator', 'bee', 'falcon', 'lion','monkey', 'parrot', 'shark', 'whale', 'zebra']}) This is my dataframe. Please display all but the last 3 rows of the dataframe.""",
+        prompt="""({'animal': ['alligator', 'bee', 'falcon', 'lion','monkey', 'parrot', 'shark', 'whale', 'zebra']}) This is my dataframe, your argument. Please display all but the last 3 rows of the dataframe.""",
         data="""data = pd.DataFrame({'animal': ['alligator', 'bee', 'falcon', 'lion','monkey', 'parrot', 'shark', 'whale', 'zebra']})""",
         correct_function="""import pandas as pd\ndef correct_function(data):\n    result = data.iloc[:-3, :]\n    return result""",
     ),
@@ -27,7 +26,7 @@ TEST_CASES = [
         correct_function="""import pandas as pd\ndef correct_function(data):\n    result = data + pd.DateOffset(months=2)\n    return result""",
     ),
     CodeTestCase(
-        prompt="""ser = pd.Series([1, 2, 3, 4], index=['a', 'b', 'c', 'd']). Please calculate the expending sum of that series. Make sure to display each row.""",
+        prompt="""ser = pd.Series([1, 2, 3, 4], index=['a', 'b', 'c', 'd']). Please calculate the expending sum of that series (which is your argument). Make sure to display each row.""",
         data="""data = pd.Series([1, 2, 3, 4], index=['a', 'b', 'c', 'd'])""",
         correct_function="""import pandas as pd\ndef correct_function(data):\n    result = data.expanding().sum()\n    return result""",
     ),
@@ -42,27 +41,27 @@ TEST_CASES = [
         correct_function="""import pandas as pd\nimport numpy as np\ndef correct_function(*args):\n    data_1, data_2 = args[1:]\n    result = data_1.div(data_2, fill_value=0)\n    return result""",
     ),
     CodeTestCase(
-        prompt="""data = {('level_1', 'c', 'a'): [3, 7, 11],('level_1', 'd', 'b'): [4, 8, 12],('level_2', 'e', 'a'): [5, 9, None],('level_2', 'f', 'b'): [6, 10, None],}Please drop column a.""",
+        prompt="""data = {('level_1', 'c', 'a'): [3, 7, 11],('level_1', 'd', 'b'): [4, 8, 12],('level_2', 'e', 'a'): [5, 9, None],('level_2', 'f', 'b'): [6, 10, None],}Please drop column a and make sure to take data as your argument.""",
         data="""data = pd.DataFrame({('level_1', 'c', 'a'): [3, 7, 11],('level_1', 'd', 'b'): [4, 8, 12],('level_2', 'e', 'a'): [5, 9, None],('level_2', 'f', 'b'): [6, 10, None],})""",
         correct_function="""import pandas as pd\ndef correct_function(data):\n    result = data.droplevel(2, axis=1)\n    return result""",
     ),
     CodeTestCase(
-        prompt="""Please take following Series and order it ascending while making sure NAN values are at the beginning s = pd.Series([np.nan, 1, 3, 10, 5, np.nan]) """,
+        prompt="""Please take following Series, which serves as your agrument, and order it ascending while making sure NAN values are at the beginning s = pd.Series([np.nan, 1, 3, 10, 5, np.nan]) """,
         data="""import numpy as np\ndata = pd.Series([np.nan, 1, 3, 10, 5, np.nan])""",
         correct_function="""import pandas as pd\ndef correct_function(*args):\n    data = pd.Series(args[1:])\n    result = data.sort_values(na_position='first')\n    return result""",
     ),
     CodeTestCase(
-        prompt="""data1 = {'Name': ['Alice', 'Bob', 'Charlie'],'Age': [25, 30, 22],'City': ['New York', 'San Francisco', 'Los Angeles']} data2= {'Name': ['Alice', 'John', 'Charlie'],'Age': [25, 31, 22],'City': ['New York', 'San Francisco', 'Los Angeles']}Please calculate the average age of the people who appear in both dataframes.""",
+        prompt="""data1 = {'Name': ['Alice', 'Bob', 'Charlie'],'Age': [25, 30, 22],'City': ['New York', 'San Francisco', 'Los Angeles']} data2= {'Name': ['Alice', 'John', 'Charlie'],'Age': [25, 31, 22],'City': ['New York', 'San Francisco', 'Los Angeles']}Please calculate the average age of the people who appear in both dataframes. Make sure to take data1 and data2 as your arguments.""",
         data="""data_1 = {'Name': ['Alice', 'Bob', 'Charlie'],'Age': [25, 30, 22],'City': ['New York', 'San Francisco', 'Los Angeles']}\ndata_2 = {'Name': ['Alice', 'John', 'Charlie'],'Age': [25, 31, 22],'City': ['New York', 'San Francisco', 'Los Angeles']}""",
         correct_function="""import pandas as pd\ndef correct_function(data_1, data_2):\n    df_1 = pd.DataFrame(data_1)\n    df_2 = pd.DataFrame(data_2)\n    merged_df = pd.merge(df_1, df_2, on='Name')\n    result = merged_df['Age_x'].mean()\n    return result""",
     ),
     CodeTestCase(
-        prompt="""data = { 'Timestamp': [ '2023-01-01 12:01:00', '2023-01-01 12:10:00', '2023-01-01 12:25:00', '2023-01-01 13:05:00', '2023-01-01 13:25:00', '2023-01-01 14:00:00', '2023-01-02 08:30:00', '2023-01-02 09:00:00', '2023-01-02 09:35:00' ], 'User': [1, 1, 1, 2, 2, 2, 3, 3, 3], 'Page': ['Home', 'Product', 'Checkout', 'Home', 'Product', 'Home', 'Home', 'Product', 'Checkout'] } Using the pandas DataFrame df provided, implement the following operation: Create a new column called 'Session_ID' that labels each row with a unique session identifier. Define a session as a series of consecutive interactions by the same user with no gap greater than 30 minutes between interactions. Ensure that each session has a unique identifier. Make sure to give me the full code.""",
+        prompt="""data = { 'Timestamp': [ '2023-01-01 12:01:00', '2023-01-01 12:10:00', '2023-01-01 12:25:00', '2023-01-01 13:05:00', '2023-01-01 13:25:00', '2023-01-01 14:00:00', '2023-01-02 08:30:00', '2023-01-02 09:00:00', '2023-01-02 09:35:00' ], 'User': [1, 1, 1, 2, 2, 2, 3, 3, 3], 'Page': ['Home', 'Product', 'Checkout', 'Home', 'Product', 'Home', 'Home', 'Product', 'Checkout'] } Using the pandas DataFrame, wich is your argument, implement the following operation: Create a new column called 'Session_ID' that labels each row with a unique session identifier. Define a session as a series of consecutive interactions by the same user with no gap greater than 30 minutes between interactions. Ensure that each session has a unique identifier. Make sure to give me the full code.""",
         data="""data = pd.DataFrame({'Timestamp': ['2023-01-01 12:01:00', '2023-01-01 12:10:00', '2023-01-01 12:25:00', '2023-01-01 13:05:00','2023-01-01 13:25:00', '2023-01-01 14:00:00', '2023-01-02 08:30:00', '2023-01-02 09:00:00','2023-01-02 09:35:00'],'User': [1, 1, 1, 2, 2, 2, 3, 3, 3],'Page': ['Home', 'Product', 'Checkout', 'Home', 'Product', 'Home', 'Home', 'Product', 'Checkout']})""",
         correct_function="""import pandas as pd\ndef correct_function(data):\n    data['Timestamp'] = pd.to_datetime(data['Timestamp'])\n    data = data.sort_values(by=['User', 'Timestamp'])\n    data['TimeDiff'] = data.groupby('User')['Timestamp'].diff()\n    data['Session_ID'] = (data['TimeDiff'] > pd.Timedelta(minutes=30)).cumsum()\n    data = data.drop('TimeDiff', axis=1)\n    return data""",
     ),
     CodeTestCase(
-        prompt="""Please return the rolling rank(3) of this Series [1, 4, 2, 3, 5, 3]. Make sure to code your solution using the pandas lib.""",
+        prompt="""Please return the rolling rank(3) of this Series [1, 4, 2, 3, 5, 3]. Make sure to take this Series as your argument as well as using the pandas lib.""",
         data="""data = pd.Series([1, 4, 2, 3, 5, 3])""",
         correct_function="""import pandas as pd\ndef correct_function(data):\n    result = data.rolling(3).rank()\n    return result""",
     ),
@@ -77,7 +76,7 @@ TEST_CASES = [
         correct_function="""import pandas as pd\ndef correct_function(data):\n    result = data.groupby("A").head(-1)\n    return result""",
     ),
     CodeTestCase(
-        prompt="""Please remove the following suffix “_str” from following Series (["foo_str","_strhead" , "text_str_text" , "bar_str", "no_suffix"]) """,
+        prompt="""Please remove the following suffix “_str” from following Series(which is your argument)= (["foo_str","_strhead" , "text_str_text" , "bar_str", "no_suffix"]) """,
         data="""data = pd.Series(["foo_str","_strhead" , "text_str_text" , "bar_str", "no_suffix"])""",
         correct_function="""import pandas as pd\ndef correct_function(data):\n    result = data.str.removesuffix("_str")\n    return result""",
     ),
@@ -92,23 +91,21 @@ TEST_CASES = [
         correct_function="""import pandas as pd\ndef correct_function(*args):\n    data_1, data_2, data_3 = args[1:]\n    result = data_3.reset_index(names=['classes', 'names'])\n    return result""",
     ),
     CodeTestCase(
-        prompt="""What are the value counts of this function pd.Series(['quetzal', 'quetzal', 'elk'], name='animal')?""",
+        prompt="""What are the value counts of this function pd.Series(['quetzal', 'quetzal', 'elk'], name='animal')? Please take the Series as your argument""",
         data="""data = pd.Series(['quetzal', 'quetzal', 'elk'], name='animal')""",
         correct_function="""import pandas as pd\ndef correct_function(data):\n    result = data.value_counts()\n    return data""",
     ),
     CodeTestCase(
-        prompt="""Please compute the difference between these consecutive values as an index object: pd.Index([10, 20, 30, 40, 50]).""",
+        prompt="""Please compute the difference between these consecutive values as an index object: pd.Index([10, 20, 30, 40, 50]). Let this object be ypur argument""",
         data="""data = pd.Index([10, 20, 30, 40, 50])""",
         correct_function="""import pandas as pd\ndef correct_function(data):\n    sum = data.diff()\n    return sum""",
     ),
     CodeTestCase(
-        prompt="""df = pd.DataFrame({"a": [1, 1, 2, 1], "b": [None, 2.0, 3.0, 4.0]}, dtype="Int64") This is my Dataframe. Please convert the Int64 to Int64[pyarrow] and use df.sum() at the end.""",
+        prompt="""df = pd.DataFrame({"a": [1, 1, 2, 1], "b": [None, 2.0, 3.0, 4.0]}, dtype="Int64") This is my Dataframe which is also your argument. Please convert the Int64 to Int64[pyarrow] and use df.sum() at the end.""",
         data="""data = pd.DataFrame({"a": [1, 1, 2, 1], "b": [None, 2.0, 3.0, 4.0]}, dtype="Int64")""",
         correct_function="""\nimport pandas as pd\nimport pyarrow as pa\ndef correct_function(data):\n    data = data.astype("int64[pyarrow]")\n    data.sum()\n    return data""",
     ),
 ]
 
 
-#Prompt (old id:13 prompt="""Please take following dataframe (your argument) and group it for column A. Make sure to exclude the last value of each group. This is your argument data = pd.DataFrame(["g", "g0"], ["g", "g1"], ["g", "g2"], ["g", "g3"],["h", "h0"], ["h", "h1"]], columns=["A", "B"]).""",)
-#Prompt (old id:17 prompt="""What are the value counts of this function pd.Series(['quetzal', 'quetzal', 'elk'], name='animal')?""",)
-#Prompt (old id:14 prompt="""Please remove the following suffix “_str” from following Series (["foo_str","_strhead" , "text_str_text" , "bar_str", "no_suffix"]) """,)
+
