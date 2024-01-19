@@ -129,7 +129,7 @@ class ReActAgent:
             self.conversation.append({"role": "user", "content": user_prompt})
         else:
             context = self.rag.similarity_search(text=user_prompt)
-            logging.info("Additional information from vector store: %s", context)
+            logging.info("Use the additional information to solve the user's question: %s", context)
             self.conversation.append({"role": "user", "content": f"{user_prompt} \nContext: \n{context}"})
 
         iterations = 0
