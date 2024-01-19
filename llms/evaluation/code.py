@@ -86,6 +86,7 @@ class TestCaseResult(BaseModel):
     test_case: str
     test_case_output: Any
     test_case_input_data: str
+    test_case_correct_function: str
     generated_code: str
     generated_code_output: Any
     agent_error: str | None = None
@@ -293,6 +294,7 @@ def _run_tests(agent: ReActAgent, test_cases: list[CodeTestCase], config: Config
                 cost=cost,
                 test_case=test_case.prompt,
                 test_case_input_data=test_case.data,
+                test_case_correct_function=test_case.correct_function,
                 generated_code=final_answer,
                 test_case_output=desired_result,
                 generated_code_output=agent_result,
@@ -307,12 +309,17 @@ def _run_tests(agent: ReActAgent, test_cases: list[CodeTestCase], config: Config
     # Store details of results
     path = Path(_ROOT_DIR / "results" / "details")
     path.mkdir(exist_ok=True, parents=True)
-    filename = f"{test_name}_{config.llm.deployment_id}_{config.retriever}_" + _get_filename_from_config(config)
-    logging.info("Saving details of results for test cases to file: %s_details.csv", filename)
+    if config.retriever == RAGRetriever.NONE:
+        filename = f"{test_name}_{config.llm.deployment_id}_NO_RAG"
+    else:
+        filename = f"{test_name}_{config.llm.deployment_id}_{config.retriever.value}_" + _get_filename_from_config(
+            config
+        )
+    logging.info("Saving details of results for test cases to file: %s.csv", filename)
     df = pd.DataFrame([test_result.model_dump() for test_result in test_results])
     df.correct = df.correct.astype(int)
     df = df.reset_index()
-    df.to_csv(path / f"{filename}_details.csv", index=False)
+    df.to_csv(path / f"{filename}.csv", index=False)
 
     return (
         num_correct_code / len(test_cases),
@@ -364,14 +371,20 @@ def evaluate_code_generation(config_grid: ConfigGrid, test_cases: list[CodeTestC
                 total_time,
                 total_cost,
             )
-            filename = f"{config.llm.deployment_id}_{config.retriever}_" + _get_filename_from_config(config)
+            if config.retriever == RAGRetriever.NONE:
+                filename = f"{test_name}_{config.llm.deployment_id}_NO_RAG"
+            else:
+                filename = (
+                    f"{test_name}_{config.llm.deployment_id}_{config.retriever.value}_"
+                    + _get_filename_from_config(config)
+                )
             results.append(
                 Result(
                     config=current_config,
                     accuracy=accuracy,
                     total_cost=total_cost,
                     total_time=total_time,
-                    details_csv_filepath=f"results/details/{filename}_details.csv",
+                    details_csv_filepath=f"results/details/{filename}.csv",
                 ),
             )
 
@@ -385,10 +398,10 @@ def evaluate_code_generation(config_grid: ConfigGrid, test_cases: list[CodeTestC
         # Store results
         path = Path(_ROOT_DIR / "results")
         path.mkdir(exist_ok=True, parents=True)
-        logging.info("Saving details of results for test cases to file: %s_results.csv", test_name)
+        logging.info("Saving details of results for test cases to file: %s.csv", test_name)
         df = pd.DataFrame([result.model_dump() for result in results])
         df = df.sort_values(by=["accuracy", "total_cost", "total_time"], ascending=[False, True, True])
         df = df.reset_index()
-        df.to_csv(path / f"{test_name}_results.csv", index=False)
+        df.to_csv(path / f"{test_name}.csv", index=False)
 
     return results

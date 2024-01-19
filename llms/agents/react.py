@@ -2,6 +2,7 @@
 import ast
 import json
 import logging
+import traceback
 
 import requests
 
@@ -102,19 +103,15 @@ class ReActAgent:
             action = extract(response, "Action")
             answer = extract(response, "Answer")
             parsed = True
-            observation = {"Observation": "Your response format was correct."}
+            observation = "Your response format was correct."
         except json.decoder.JSONDecodeError as e:
-            import traceback
-
             logging.error(traceback.format_exc())
             parsed = False
             thought = None
             action = None
             answer = None
-            observation = {
-                "Observation": f"Your response format was incorrect. Please correct as specified in the first message. \
-                    The error was: {e}"
-            }
+            observation = f"Your response format was incorrect. Please correct as specified in the first message. \
+            The error was: {e}"
         return thought, action, answer, parsed, observation
 
     def run(self, user_prompt: str) -> str:
@@ -152,25 +149,24 @@ class ReActAgent:
             if thought is not None:
                 logging.info("AI agent thought: %s", thought)
                 self.reasoning.append({"Thought": thought})
-                observation = {
-                    "Observation": "I only expressed a thought. \
-                        Next up, I will make use of one of my tools or write an answer."
-                }
+                observation = (
+                    "I only expressed a thought. Next up, I will make use of one of my tools or write an answer."
+                )
 
             # Handle AI agent action
             if parsed and action is not None:
-                observation = {"Observation": ""}
+                observation = None
                 self.reasoning.append({"Tool": action})
                 if "RAG" in action:
                     logging.info("AI agent tool: %s", action)
                     context = str(self.tools["RAG"].similarity_search(text=user_prompt))
-                    observation["Observation"] = context
+                    observation = context
                     self.reasoning.append({"Tool response": context})
                     logging.info("Additional information from vector store: %s", context)
                 elif "CoALA" in action:
                     logging.info("AI agent tool: %s", action)
                     context = self.tools["CoALA"].similarity_search(text=user_prompt)
-                    observation["Observation"] = context
+                    observation = context
                     self.reasoning.append({"Tool response": context})
                     logging.info("Additional information from vector store: %s", context)
                 else:
@@ -180,16 +176,12 @@ class ReActAgent:
                     code_is_valid, code_error = self._code_is_valid(action)
                     if code_is_valid:
                         logging.info("Code is valid.")
-                        observation = {
-                            "Observation": "Your response format was correct and \
-                                the code does not have any syntax errors."
-                        }
+                        observation = "Your response format was correct and the code does not have any syntax errors."
                     else:
                         logging.info("Code is not valid. Error: %s", code_error)
-                        observation = {
-                            "Observation": f"Your response format was correct \
-                                but there seems to be a syntax error: {code_error}"
-                        }
+                        observation = (
+                            f"Your response format was correct but there seems to be a syntax error: {code_error}"
+                        )
 
             # Handle AI agent answer
             if action is None and answer is not None:
@@ -204,7 +196,7 @@ class ReActAgent:
 
             # Handle environment observation
             logging.info("Appending observation to the conversation history. Observation: %s", observation)
-            self.conversation.append({"role": "assistant", "content": str(observation)})
+            self.conversation.append({"role": "assistant", "content": f"Observation: {observation}"})
 
     def _code_is_valid(self, code: str) -> tuple:
         """Checks the code for syntax errors.

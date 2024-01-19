@@ -26,7 +26,7 @@ class CoALA:
         if self.code_vector_store.index is not None:
             code_result = self.code_vector_store.similarity_search(text=text)
             result += f"Relevant previous answers with code, sorted by \
-                similarity of the embedding in descending order:\n{code_result}"
+        similarity of the embedding in descending order:\n{code_result}"
         return result
 
     def add_answer_to_code_storage(self, text: str) -> None:
