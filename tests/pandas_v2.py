@@ -81,11 +81,11 @@ TEST_CASES = [
         Divide the Series 'a' by the Series 'b'. Use 0 as the fill value.
 
         The following 2 Series will be the only function arguments:
-        a = pd.Series([1, 1, 1, np.nan], index=['a', 'b', 'c', 'd'])
-        b = pd.Series([1, np.nan, 1, np.nan], index=['a', 'b', 'd', 'e'])
+        a = pd.Series([1, 1, 1, None], index=['a', 'b', 'c', 'd'])
+        b = pd.Series([1, None, 1, None], index=['a', 'b', 'd', 'e'])
         """,
-        data="""import numpy as np\ndata_1 = pd.Series([1, 1, 1, np.nan], index=['a', 'b', 'c', 'd'])\ndata_2 = pd.Series([1, np.nan, 1, np.nan], index=['a', 'b', 'd', 'e'])""",
-        correct_function="""import pandas as pd\nimport numpy as np\ndef correct_function(*args):\n    data_1, data_2 = args[1:]\n    result = data_1.div(data_2, fill_value=0)\n    return result""",
+        data="""data_1 = pd.Series([1, 1, 1, None], index=['a', 'b', 'c', 'd'])\ndata_2 = pd.Series([1, None, 1, None], index=['a', 'b', 'd', 'e'])""",
+        correct_function="""import pandas as pd\nimport numpy as np\ndef correct_function(*args):\n    data_1, data_2 = args\n    result = data_1.div(data_2, fill_value=0)\n    return result""",
     ),
     CodeTestCase(
         prompt="""
@@ -107,10 +107,10 @@ TEST_CASES = [
         Sort the Series in ascending order and make sure 'NAN' values are at the beginning.
 
         The following Series will be the only function argument:
-        ser = pd.Series([np.nan, 1, 3, 10, 5, np.nan])
+        ser = pd.Series([None, 1, 3, 10, 5, None])
         """,
-        data="""import numpy as np\ndata = pd.Series([np.nan, 1, 3, 10, 5, np.nan])""",
-        correct_function="""import pandas as pd\ndef correct_function(*args):\n    data = pd.Series(args[1:])\n    result = data.sort_values(na_position='first')\n    return result""",
+        data="""data = pd.Series([None, 1, 3, 10, 5, None])""",
+        correct_function="""import pandas as pd\ndef correct_function(*args):\n    data = pd.Series(args)\n    result = data.sort_values(na_position='first')\n    return result""",
     ),
     CodeTestCase(
         prompt="""
@@ -220,10 +220,10 @@ TEST_CASES = [
         The following 3 variables will be the only function arguments
         index = pd.MultiIndex.from_tuples([('bird', 'falcon'), ('bird', 'parrot'), ('mammal', 'lion'), ('mammal', 'monkey')], names=['class', 'name'])
         columns = pd.MultiIndex.from_tuples([('speed', 'max'), ('species', 'type')])
-        df = pd.DataFrame([(389.0, 'fly'), (24.0, 'fly'), (80.5, 'run'), (np.nan, 'jump')], index=index, columns=columns)
+        df = pd.DataFrame([(389.0, 'fly'), (24.0, 'fly'), (80.5, 'run'), (None, 'jump')], index=index, columns=columns)
         """,
-        data="""import numpy as np\ndata_1 = pd.MultiIndex.from_tuples([('bird', 'falcon'),('bird', 'parrot'),('mammal', 'lion'),('mammal', 'monkey')],names=['class', 'name'])\ndata_2 = pd.MultiIndex.from_tuples([('speed', 'max'),('species', 'type')])\ndata_3 = pd.DataFrame([(389.0, 'fly'),(24.0, 'fly'),(80.5, 'run'),(np.nan, 'jump')],index=data_1,columns=data_2)""",
-        correct_function="""import pandas as pd\ndef correct_function(*args):\n    data_1, data_2, data_3 = args[1:]\n    result = data_3.reset_index(names=['classes', 'names'])\n    return result""",
+        data="""data_1 = pd.MultiIndex.from_tuples([('bird', 'falcon'),('bird', 'parrot'),('mammal', 'lion'),('mammal', 'monkey')],names=['class', 'name'])\ndata_2 = pd.MultiIndex.from_tuples([('speed', 'max'),('species', 'type')])\ndata_3 = pd.DataFrame([(389.0, 'fly'),(24.0, 'fly'),(80.5, 'run'),(None, 'jump')],index=data_1,columns=data_2)""",
+        correct_function="""import pandas as pd\ndef correct_function(*args):\n    data_1, data_2, data_3 = args\n    result = data_3.reset_index(names=['classes', 'names'])\n    return result""",
     ),
     CodeTestCase(
         prompt="""

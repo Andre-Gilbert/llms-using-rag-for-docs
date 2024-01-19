@@ -36,9 +36,9 @@ TEST_CASES = [
         correct_function="""import pandas as pd\ndef correct_function(data_1, data_2):\n    result = data_2.groupby('a').prod()\n    return result""",
     ),
     CodeTestCase(
-        prompt="""a = pd.Series([1, 1, 1, np.nan], index=['a', 'b', 'c', 'd']) b = pd.Series([1, np.nan, 1, np.nan], index=['a', 'b', 'd', 'e'])  Please take a and b as your arguments and divide a by b. Please also use the fill value 0.""",
-        data="""import numpy as np\ndata_1 = pd.Series([1, 1, 1, np.nan], index=['a', 'b', 'c', 'd'])\ndata_2 = pd.Series([1, np.nan, 1, np.nan], index=['a', 'b', 'd', 'e'])""",
-        correct_function="""import pandas as pd\nimport numpy as np\ndef correct_function(*args):\n    data_1, data_2 = args[1:] # to avoid declaring numpy from the import above as an argument\n    result = data_1.div(data_2, fill_value=0)\n    return result""",
+        prompt="""a = pd.Series([1, 1, 1, None], index=['a', 'b', 'c', 'd']) b = pd.Series([1, None, 1, None], index=['a', 'b', 'd', 'e'])  Please take a and b as your arguments and divide a by b. Please also use the fill value 0.""",
+        data="""data_1 = pd.Series([1, 1, 1, None], index=['a', 'b', 'c', 'd'])\ndata_2 = pd.Series([1, None, 1, None], index=['a', 'b', 'd', 'e'])""",
+        correct_function="""import pandas as pd\nimport numpy as np\ndef correct_function(*args):\n    data_1, data_2 = args\n    result = data_1.div(data_2, fill_value=0)\n    return result""",
     ),
     CodeTestCase(
         prompt="""data = {('level_1', 'c', 'a'): [3, 7, 11],('level_1', 'd', 'b'): [4, 8, 12],('level_2', 'e', 'a'): [5, 9, None],('level_2', 'f', 'b'): [6, 10, None],}Please drop column a and make sure to take data as your argument.""",
@@ -46,9 +46,9 @@ TEST_CASES = [
         correct_function="""import pandas as pd\ndef correct_function(data):\n    result = data.droplevel(2, axis=1)\n    return result""",
     ),
     CodeTestCase(
-        prompt="""Please take following Series, which serves as your agrument, and order it ascending while making sure NAN values are at the beginning s = pd.Series([np.nan, 1, 3, 10, 5, np.nan]) """,
-        data="""import numpy as np\ndata = pd.Series([np.nan, 1, 3, 10, 5, np.nan])""",
-        correct_function="""import pandas as pd\ndef correct_function(*args):\n    data = pd.Series(args[1:]) # to avoid declaring numpy from the import above as an argument\n    result = data.sort_values(na_position='first')\n    return result""",
+        prompt="""Please take following Series, which serves as your agrument, and order it ascending while making sure NAN values are at the beginning s = pd.Series([None, 1, 3, 10, 5, None]) """,
+        data="""data = pd.Series([None, 1, 3, 10, 5, None])""",
+        correct_function="""import pandas as pd\ndef correct_function(*args):\n    data = pd.Series(args)\n    result = data.sort_values(na_position='first')\n    return result""",
     ),
     CodeTestCase(
         prompt="""data1 = {'Name': ['Alice', 'Bob', 'Charlie'],'Age': [25, 30, 22],'City': ['New York', 'San Francisco', 'Los Angeles']} data2= {'Name': ['Alice', 'John', 'Charlie'],'Age': [25, 31, 22],'City': ['New York', 'San Francisco', 'Los Angeles']}Please calculate the average age of the people who appear in both dataframes. Make sure to take data1 and data2 as your arguments.""",
@@ -86,9 +86,9 @@ TEST_CASES = [
         correct_function="""import pandas as pd\ndef correct_function(data_1, data_2):\n    result = data_1.join(data_2.set_index('key'), on='key', validate='m:1')\n    return result""",
     ),
     CodeTestCase(
-        prompt="""This is your Index:pd.MultiIndex.from_tuples([('bird', 'falcon'),('bird', 'parrot'),('mammal', 'lion'),('mammal', 'monkey')],names=['class', 'name']) These are your columns: pd.MultiIndex.from_tuples([('speed', 'max'),('species', 'type')]) And this is your input: pd.DataFrame([(389.0, 'fly'),(24.0, 'fly'),(80.5, 'run'),(np.nan, 'jump')],index=index,columns=columns).Index, Columns and Input are your arguments. Please create a dataframe and rename the index to classes and names""",
-        data="""import numpy as np\ndata_1 = pd.MultiIndex.from_tuples([('bird', 'falcon'),('bird', 'parrot'),('mammal', 'lion'),('mammal', 'monkey')],names=['class', 'name'])\ndata_2 = pd.MultiIndex.from_tuples([('speed', 'max'),('species', 'type')])\ndata_3 = pd.DataFrame([(389.0, 'fly'),(24.0, 'fly'),(80.5, 'run'),(np.nan, 'jump')],index=data_1,columns=data_2)""",
-        correct_function="""import pandas as pd\ndef correct_function(*args):\n    data_1, data_2, data_3 = args[1:] # to avoid declaring numpy from the import above as an argument\n    result = data_3.reset_index(names=['classes', 'names'])\n    return result""",
+        prompt="""This is your Index:pd.MultiIndex.from_tuples([('bird', 'falcon'),('bird', 'parrot'),('mammal', 'lion'),('mammal', 'monkey')],names=['class', 'name']) These are your columns: pd.MultiIndex.from_tuples([('speed', 'max'),('species', 'type')]) And this is your input: pd.DataFrame([(389.0, 'fly'),(24.0, 'fly'),(80.5, 'run'),(None, 'jump')],index=index,columns=columns).Index, Columns and Input are your arguments. Please create a dataframe and rename the index to classes and names""",
+        data="""data_1 = pd.MultiIndex.from_tuples([('bird', 'falcon'),('bird', 'parrot'),('mammal', 'lion'),('mammal', 'monkey')],names=['class', 'name'])\ndata_2 = pd.MultiIndex.from_tuples([('speed', 'max'),('species', 'type')])\ndata_3 = pd.DataFrame([(389.0, 'fly'),(24.0, 'fly'),(80.5, 'run'),(None, 'jump')],index=data_1,columns=data_2)""",
+        correct_function="""import pandas as pd\ndef correct_function(*args):\n    data_1, data_2, data_3 = args\n    result = data_3.reset_index(names=['classes', 'names'])\n    return result""",
     ),
     CodeTestCase(
         prompt="""What are the value counts of this function pd.Series(['quetzal', 'quetzal', 'elk'], name='animal')? Please take the Series as your argument""",
