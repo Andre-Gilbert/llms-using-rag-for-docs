@@ -149,11 +149,11 @@ def _get_configs_from_grid(config_grid: ConfigGrid) -> list[Config]:
 def _get_filename_from_config(config: Config) -> str:
     """Gets the filename given the current configuration that is evaluated."""
     return (
-        f"{config.distance_metric}_"
-        + f"search_results_{config.num_search_results}_"
-        + f"score_threshold_{config.similarity_search_score_threshold}_"
+        f"{config.distance_metric.value}_"
+        + f"k_results_{config.num_search_results}_"
+        + f"threshold_{config.similarity_search_score_threshold}_"
         + f"chunk_size_{config.text_chunk_size}_"
-        + f"weighted_average_{config.use_weighted_average_of_text_chunks}"
+        + f"avg_{config.use_weighted_average_of_text_chunks}"
     )
 
 

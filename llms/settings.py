@@ -12,7 +12,7 @@ class Settings(BaseSettings):
 
     AGENT_MAX_ITERATIONS: int = 30
 
-    API_MAX_RETRIES: int = 5
+    API_MAX_RETRIES: int = 30
     API_MIN_RETRY_TIMEOUT_SECONDS: int = 3
     API_MAX_RETRY_TIMEOUT_SECONDS: int = 60
     API_REQUEST_TIMEOUT_SECONDS: int = 180
