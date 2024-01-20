@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import logging
+import re
 import time
 from enum import Enum
 from itertools import product
@@ -226,6 +227,12 @@ def _calculate_cost(agent: ReActAgent) -> float:
         )
 
 
+def parse_function_name(function_string: str) -> str | None:
+    """Parses the function name from the LLMs response."""
+    match = re.match(r"^\s*def\s+([a-zA-Z_]\w*)\s*\(", function_string)
+    return match.group(1) if match else None
+
+
 def _run_tests(agent: ReActAgent, test_cases: list[CodeTestCase], config: Config, test_name: str) -> tuple:
     """Runs the defined test cases."""
     num_correct_code = 0
@@ -237,16 +244,19 @@ def _run_tests(agent: ReActAgent, test_cases: list[CodeTestCase], config: Config
         # Get response function from agent
         start = time.time()
         final_answer = agent.run(test_case.prompt)
-        logging.info("Final answer: %s (%d)", final_answer, type(final_answer))
         end = time.time()
 
+        # Default function in case LLM doesn't output these data types.
         if not isinstance(final_answer, (str, bytes, CodeType)):
-            final_answer = "def response_function():\n    return None"
+            final_answer = "def response_function():\n    return"
+
+        # Parse the function name in case the LLM doesn't name the function 'response_function'
+        function_name = parse_function_name(final_answer)
 
         # Retrieve the generated response function
         namespace_agent = {}
         exec(final_answer, namespace_agent)
-        response_function = namespace_agent["response_function"]
+        response_function = namespace_agent[function_name]
 
         # Get input data
         data_string = test_case.data

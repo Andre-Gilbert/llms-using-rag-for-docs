@@ -10,9 +10,9 @@ class Settings(BaseSettings):
     AUTH_URL: str
     API_BASE: str
 
-    AGENT_MAX_ITERATIONS: int = 30
+    AGENT_MAX_ITERATIONS: int = 15
 
-    API_MAX_RETRIES: int = 30
+    API_MAX_RETRIES: int = 15
     API_MIN_RETRY_TIMEOUT_SECONDS: int = 3
     API_MAX_RETRY_TIMEOUT_SECONDS: int = 60
     API_REQUEST_TIMEOUT_SECONDS: int = 180

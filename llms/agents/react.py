@@ -128,8 +128,16 @@ class ReActAgent:
             self.conversation.append({"role": "user", "content": user_prompt})
         else:
             context = self.rag.similarity_search(text=user_prompt)
-            logging.info("Use the additional information to solve the user's question: %s", context)
-            self.conversation.append({"role": "user", "content": f"{user_prompt} \nContext: \n{context}"})
+            if isinstance(self.rag, FAISS):
+                context = "\n\n".join([doc for doc, _ in context])
+                context = "\n\npandas documentation, sorted by relevancy:\n" + context
+            logging.info("Additional information from docs vector store: %s", context)
+            self.conversation.append(
+                {
+                    "role": "user",
+                    "content": f"{user_prompt}\n\nUse the following information to solve the user's question. {context}",
+                }
+            )
 
         iterations = 0
         while iterations <= settings.AGENT_MAX_ITERATIONS:
@@ -158,7 +166,8 @@ class ReActAgent:
                 self.reasoning.append({"Tool": action})
                 if "RAG" in action:
                     logging.info("AI agent tool: %s", action)
-                    context = str(self.tools["RAG"].similarity_search(text=user_prompt))
+                    docs_result = self.tools["RAG"].similarity_search(text=user_prompt)
+                    context = "\n\n".join([doc for doc, _ in docs_result])
                     observation = context
                     self.reasoning.append({"Tool response": context})
                     logging.info("Additional information from vector store: %s", context)

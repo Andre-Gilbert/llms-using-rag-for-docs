@@ -20,10 +20,12 @@ class CoALA:
     def similarity_search(self, text: str) -> str:
         """Returns the similarity search results for both the docs storage and the code storage."""
         docs_result = self.docs_vector_store.similarity_search(text=text)
-        result = f"Use the additional information to solve the user's question.\nRelevant documentation, sorted by relevancy:\n{docs_result}"
+        context = "\n\n".join([doc for doc, _ in docs_result])
+        result = f"\n\npandas documentation, sorted by relevancy:\n{context}"
         if self.code_vector_store.index is not None:
             code_result = self.code_vector_store.similarity_search(text=text)
-            result += f"\n\nRelevant question & code answers, sorted by relevancy:\n{code_result}"
+            context = "\n\n".join([doc for doc, _ in code_result])
+            result += f"\n\nQuestion & code answers, sorted by relevancy:\n{context}"
         return result
 
     def add_answer_to_code_storage(self, text: str) -> None:
