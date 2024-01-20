@@ -23,7 +23,7 @@ In order to use the tools, just name them in the Action like so 'RAG'.
 
 _CoALA_TOOL_INSTRUCTION = """
 Available tools:
-CoALA: use this tool to access question & correct answer (in form of code) pairs and additional information from the pandas documentation.
+CoALA: use this tool to access additional information from the pandas documentation and to access question & code answers.
 
 In order to use the tools, just name them in the Action like so 'CoALA'.
 """
@@ -110,8 +110,7 @@ class ReActAgent:
             thought = None
             action = None
             answer = None
-            observation = f"Your response format was incorrect. Please correct as specified in the first message. \
-            The error was: {e}"
+            observation = f"Your response format was incorrect. Please correct as specified in the first message. The error was: {e}"
         return thought, action, answer, parsed, observation
 
     def run(self, user_prompt: str) -> str:
