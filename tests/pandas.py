@@ -71,7 +71,7 @@ TEST_CASES = [
         correct_function="""import pandas as pd\ndef correct_function(data):\n    result = data.to_dict(orient='tight')\n    return result""",
     ),
     CodeTestCase(
-        prompt="""Please take following dataframe (your argument) and group it for column A. Make sure to exclude the last value of each group. This is your argument data = pd.DataFrame(["g", "g0"], ["g", "g1"], ["g", "g2"], ["g", "g3"],["h", "h0"], ["h", "h1"]], columns=["A", "B"]).""",
+        prompt="""Please take following dataframe (your argument) as your Input data = pd.DataFrame(["g", "g0"], ["g", "g1"], ["g", "g2"], ["g", "g3"],["h", "h0"], ["h", "h1"]], columns=["A", "B"]). This is the desired Output:{'A': ['g', 'g', 'g', 'h'],'B': ['g0', 'g1', 'g2', 'h0']}. Please write some code to go from Input to Output.""",
         data="""data = pd.DataFrame([["g", "g0"], ["g", "g1"], ["g", "g2"], ["g", "g3"], ["h", "h0"], ["h", "h1"]],columns=["A", "B"])""",
         correct_function="""import pandas as pd\ndef correct_function(data):\n    result = data.groupby("A").head(-1)\n    return result""",
     ),
@@ -91,12 +91,12 @@ TEST_CASES = [
         correct_function="""import pandas as pd\ndef correct_function(*args):\n    data_1, data_2, data_3 = args\n    result = data_3.reset_index(names=['classes', 'names'])\n    return result""",
     ),
     CodeTestCase(
-        prompt="""What are the value counts of this function pd.Series(['quetzal', 'quetzal', 'elk'], name='animal')? Please take the Series as your argument""",
+        prompt="""Please take this as your Input: pd.Series(['quetzal', 'quetzal', 'elk'], name='animal')? Please also take the Series as your argument. Write some Code to get the Input to this Output:data = ['quetzal', 'quetzal', 'elk'] series = pd.Series(data, name='animal').""",
         data="""data = pd.Series(['quetzal', 'quetzal', 'elk'], name='animal')""",
         correct_function="""import pandas as pd\ndef correct_function(data):\n    result = data.value_counts()\n    return data""",
     ),
     CodeTestCase(
-        prompt="""Please compute the difference between these consecutive values as an index object: pd.Index([10, 20, 30, 40, 50]). Let this object be ypur argument""",
+        prompt="""Please take these consecutive values as your Input as well as your argument: pd.Index([10, 20, 30, 40, 50]). Please write some code to transform this Input into the Output i will provide. Index([nan, 10.0, 10.0, 10.0, 10.0], dtype='float64')""",
         data="""data = pd.Index([10, 20, 30, 40, 50])""",
         correct_function="""import pandas as pd\ndef correct_function(data):\n    sum = data.diff()\n    return sum""",
     ),
