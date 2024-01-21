@@ -204,6 +204,7 @@ class ReActAgent:
 
             # Handle environment observation
             logging.info("Appending observation to the conversation history. Observation: %s", observation)
+            self.reasoning.append({"Observation": observation})
             self.conversation.append({"role": "assistant", "content": f"Observation: {observation}"})
 
     def _code_is_valid(self, code: str) -> tuple:
