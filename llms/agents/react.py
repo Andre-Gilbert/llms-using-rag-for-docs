@@ -52,7 +52,7 @@ When you are confident that you found the final answer and the observation conta
 }
 
 Do not write any text or code outside the given JSON framework. Also do not write any observations by yourself.
-Always escape special characters to enable parsing with json.loads().
+Always escape special characters to enable parsing with json.loads(<your_response>, strict=False).
 """
 
 
