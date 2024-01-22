@@ -123,8 +123,8 @@ class ReActAgent:
             The AI agent' proposed answer to the question.
         """
         logging.info("User prompt: %s", user_prompt)
-        self.reasoning = [{"User prompt": user_prompt}]
         if self.rag is None:
+            self.reasoning = [{"User prompt": user_prompt}]
             self.conversation.append({"role": "user", "content": user_prompt})
         else:
             context = self.rag.similarity_search(text=user_prompt)
@@ -132,6 +132,11 @@ class ReActAgent:
                 context = "\n\n".join([doc for doc, _ in context])
                 context = "\n\npandas documentation, sorted by relevancy:\n" + context
             logging.info("Additional information from docs vector store: %s", context)
+            self.reasoning = [
+                {
+                    "User prompt": f"{user_prompt}\n\nUse the following information to solve the user's question. {context}"
+                }
+            ]
             self.conversation.append(
                 {
                     "role": "user",
