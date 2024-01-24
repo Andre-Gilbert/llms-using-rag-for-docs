@@ -6,7 +6,7 @@
 
 ## Get Started
 
-To install the packages run:
+Please make sure you use 3.9 < Python version < 3.12. To install the packages run:
 
 ```
 pip install -r requirements.txt
