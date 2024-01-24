@@ -45,7 +45,7 @@ Always use the following JSON response format:
 The users system that is interacting with you will then add an observation to the conversation by executing the action.
 {"Observation": the result of the action}
 ... (this Thought/Action/Observation can repeat N times)
-When you are confident that you found the final answer and the observation contains positive feedback, answer:
+When the response format was correct and the code does not have any syntax errors, answer:
 {
     "Thought": I now know the final answer
     "Answer": the final Python code to the original input question
