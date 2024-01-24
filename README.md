@@ -32,7 +32,7 @@ Please check out:
 - [Demo](demo.ipynb) for a showcase on how to use an AI agent.
 - [Evaluation](evaluation.ipynb) for a glimpse on the automated code generation evaluation.
 - [Slides](docs/NLP%20Project%20Slides.pdf) to find the presentation on this topic.
-- [Paper]() to find the project report with the details of the experiments and results.
+- [Paper](docs/NLP%20Project%20Report.pdf) to find the project report with the details of the experiments and results.
 
 As everything has been implemented from scratch the code includes the following:
 
